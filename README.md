@@ -4,7 +4,7 @@
 COMP4913 Capstone Project, Department of Computing, The Hong Kong Polytechnic University (2026)
 Leung Wai Kit (22094868D) · Supervisor: Dr HUANG Xiao
 
-📄 [Final report](docs/FYP_Final_Report_22094868D.pdf) · 🖥️ [Presentation](docs/FYP_Presentation.pdf) · 📝 [Summary](docs/FYP_Summary_22094868D.docx)
+📄 [Final report](docs/FYP_Final_Report_22094868D.pdf) · 🖥️ [Presentation](docs/FYP_Presentation.pdf) · 📝 [Summary](docs/FYP_Summary_22094868D.docx) · 🧭 [Project history: problems found and how they were fixed](project-history/README.md)
 
 ---
 
@@ -116,8 +116,8 @@ There is no web search and no multi-step agent loop, so the first words appear i
 full answer usually takes a few seconds.
 
 ```bash
-python src/download_data.py          # once: the 20 textbooks (kept local, not in git)
-python src/build_web_index.py        # once: ~5-10 min, free (local embeddings)
+# the 20 textbooks (data/textbooks/) and the web index (data/web_index/) are included in the repo;
+# to rebuild them: python src/download_data.py && python src/build_web_index.py
 python web/server.py --demo          # try the UI without any API key
 python web/server.py                 # real answers: set CHAT_PRIMARY_API_KEY in .env
 ```
@@ -177,7 +177,8 @@ python -m unittest discover tests
 ├── web/                   FastAPI server + chat page (HTML/CSS/JS)
 ├── raptor/                RAPTOR library (vendored, MIT, unmodified)
 ├── tests/
-├── data/graphrag_bench.jsonl   the 1,018 questions (+ book_titles.json)
+├── data/                  questions, book titles, 20 textbooks, web index
+├── project-history/       how the project developed: every problem, its severity, the fix
 ├── results/               v2 outputs; results/v1/ = submitted version
 └── docs/                  report, presentation, summary
 ```
@@ -194,15 +195,16 @@ These need money, a long-running server or more time, so they are not done yet:
 3. **Always-on hosting:** move from a Mac + Cloudflare Tunnel to a small VPS (about US$4–6/month)
    or to Cloudflare Workers + Vectorize (about US$5/month; the index is larger than the free tier).
    A server outside Hong Kong (e.g. Singapore or Japan) can also use Groq's fast free tier.
-4. **Textbook licensing:** the 20 textbooks stay local and are never committed. A public service
-   should check the licences, or switch to openly licensed textbooks, before serving passages.
+4. **Textbook licensing:** the 20 textbooks come from the public GraphRAG-Bench release and are
+   copyrighted by their publishers. A public service should check the licences, or switch to openly
+   licensed textbooks, before serving passages.
 5. **Measured web accuracy:** compare the tutor with a plain LLM on a sample of benchmark questions
    (100 questions fit in one day of the Groq free tier), and publish the numbers on the page.
 
 ## Acknowledgements
 
 - **RAPTOR:** P. Sarthi et al., *RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval*, ICLR 2024. Code from [parthsarthi03/raptor](https://github.com/parthsarthi03/raptor) (MIT, see `raptor/LICENSE`).
-- **GraphRAG-Bench:** Y. Xiao et al., *GraphRAG-Bench: Challenging Domain-Specific Reasoning for Evaluating Graph Retrieval-Augmented Generation*, arXiv:2506.02404, 2025. The questions and textbooks belong to their authors. The questions are included here for reproducibility only, and the textbooks are downloaded from [Hugging Face](https://huggingface.co/datasets/Awesome-GraphRAG/GraphRAG-Bench).
+- **GraphRAG-Bench:** Y. Xiao et al., *GraphRAG-Bench: Challenging Domain-Specific Reasoning for Evaluating Graph Retrieval-Augmented Generation*, arXiv:2506.02404, 2025. The questions and the 20 textbooks are copied from their [Hugging Face release](https://huggingface.co/datasets/Awesome-GraphRAG/GraphRAG-Bench) for reproducibility. They belong to their authors and publishers and are not covered by this repository's license.
 
 ## License
 

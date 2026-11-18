@@ -10,7 +10,6 @@ __pycache__/
 venv/
 
 # Large / downloadable / rebuildable data
-data/textbooks/
 data/trees/
 data/index/
 
@@ -22,5 +21,3 @@ results/logs/
 .vscode/
 .idea/
 
-# Web index (rebuildable, built from local textbooks)
-data/web_index/
