@@ -124,6 +124,10 @@ def build_messages(question, sources, history):
 
 
 # ── LLM providers ────────────────────────────────────────────────────────────
+TRUNCATED = object()          # sentinel: the provider stopped because of max_tokens
+TRUNCATED_NOTE = ("\n\n---\n*The answer reached the length limit and was cut off here. "
+                  "Ask a follow-up about the remaining part (e.g. \"continue\" or one sub-question).*")
+
 class Provider:
     def __init__(self, name, base_url, api_key, model, reasoning_effort=None, client=None, extra_body=None):
         self.name, self.model, self.reasoning_effort = name, model, reasoning_effort
@@ -135,13 +139,21 @@ class Provider:
             client = OpenAI(api_key=api_key, base_url=base_url, max_retries=0, timeout=60)
         self.client = client
 
-    def stream(self, messages, max_tokens=1200):
+    def stream(self, messages, max_tokens=None):
+        """Yield answer text; yields TRUNCATED last if the model stopped at the length limit."""
         kwargs = {"extra_body": self.extra_body} if self.extra_body else {}
         resp = self.client.chat.completions.create(model=self.model, messages=messages, temperature=0.2,
-                                                   max_tokens=max_tokens, stream=True, **kwargs)
+                                                   max_tokens=max_tokens or int(os.getenv("CHAT_MAX_TOKENS") or 4096), stream=True, **kwargs)
+        finish = None
         for chunk in resp:
-            if chunk.choices and chunk.choices[0].delta and chunk.choices[0].delta.content:
-                yield chunk.choices[0].delta.content
+            if not chunk.choices:
+                continue
+            choice = chunk.choices[0]
+            finish = getattr(choice, "finish_reason", None) or finish
+            if choice.delta and choice.delta.content:
+                yield choice.delta.content
+        if finish == "length":
+            yield TRUNCATED
 
 
 def provider_name(base_url):
@@ -230,7 +242,10 @@ class ChatEngine:
         for provider in self.providers:
             parts, first_token_ms = [], None
             try:
+                truncated = False
                 for piece in provider.stream(messages):
+                    if piece is TRUNCATED:
+                        truncated, piece = True, TRUNCATED_NOTE
                     if first_token_ms is None:
                         first_token_ms = round((time.perf_counter() - started) * 1000)
                     parts.append(piece)
@@ -246,8 +261,9 @@ class ChatEngine:
                 continue
             stats = {"provider": provider.name, "model": provider.model, "retrieval_ms": retrieval_ms,
                      "first_token_ms": first_token_ms,
-                     "total_ms": round((time.perf_counter() - started) * 1000), "cached": False}
-            if key:
+                     "total_ms": round((time.perf_counter() - started) * 1000), "cached": False,
+                     "truncated": truncated}
+            if key and not truncated:
                 with self._cache_lock:
                     self.cache[key] = {"sources": public_sources, "answer": "".join(parts), "stats": stats}
                     while len(self.cache) > self.cache_size:

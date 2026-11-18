@@ -287,3 +287,41 @@ class ProviderConfig(unittest.TestCase):
         self.assertNotIn("extra_body", sent)
         list(Provider("x", "u", "k", "m", reasoning_effort="low", client=Client()).stream([]))
         self.assertEqual(sent["extra_body"], {"reasoning_effort": "low"})
+
+
+class Truncation(unittest.TestCase):
+    def test_length_limit_is_shown_and_not_cached(self):
+        from chat_engine import TRUNCATED
+
+        class Cut:
+            name, model = "cut", "m"
+
+            def stream(self, messages, max_tokens=None):
+                yield "Part one "
+                yield TRUNCATED
+        engine = ChatEngine(make_index(), [Cut()])
+        ev = events(engine, "Explain TCP")
+        text = "".join(d for k, d in ev if k == "delta")
+        self.assertIn("cut off", text)
+        self.assertTrue(ev[-1][1]["truncated"])
+        self.assertEqual(engine.cache, {})
+
+    def test_provider_reports_length_finish(self):
+        from types import SimpleNamespace as NS
+
+        from chat_engine import TRUNCATED, Provider
+
+        def chunk(text, finish=None):
+            return NS(choices=[NS(delta=NS(content=text), finish_reason=finish)])
+
+        class Client:
+            class chat:
+                class completions:
+                    @staticmethod
+                    def create(**kw):
+                        Client.max_tokens = kw["max_tokens"]
+                        return iter([chunk("a"), chunk("b", "length")])
+        out = list(Provider("x", "u", "k", "m", client=Client()).stream([]))
+        self.assertEqual(out[:2], ["a", "b"])
+        self.assertIs(out[2], TRUNCATED)
+        self.assertEqual(Client.max_tokens, 4096)
