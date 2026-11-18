@@ -93,6 +93,9 @@ def main(argv=None, retriever=None):
         retriever = retriever or CollapsedTreeRetriever.from_index()
         results = retriever.retrieve_many(queries, top_k=args.top_k or TOP_K)
     CONTEXTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    (CONTEXTS_PATH.parent / "contexts_meta.json").write_text(
+        json.dumps({"index": args.index, "top_k": args.top_k or (6 if args.index == "web" else TOP_K)}),
+        encoding="utf-8")
     with open(CONTEXTS_PATH, "w", encoding="utf-8") as f:
         for idx, r in enumerate(results):
             f.write(json.dumps({"idx": idx, **r}, ensure_ascii=False) + "\n")

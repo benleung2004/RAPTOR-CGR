@@ -20,13 +20,20 @@ from collections import defaultdict
 
 import pandas as pd
 
-from common import (JUDGE_DIR, LEAKAGE_PATH, QUESTION_TYPES, RAW_DIR, SCORES_PATH, TABLE_DIR, TYPE_NAMES,
+from common import (CONTEXTS_PATH, JUDGE_DIR, LEAKAGE_PATH, QUESTION_TYPES, RAW_DIR, SCORES_PATH, TABLE_DIR, TYPE_NAMES,
                     detect_question_type, load_questions, load_run, read_jsonl)
 from scoring import mc_letter, ms_letters, split_prediction
 
 PIPELINE_ORDER = ["baseline", "pure", "cgr", "selfcritique"]
 LABELS = {"baseline": "LLM baseline (no retrieval)", "pure": "RAPTOR-RAG", "cgr": "RAPTOR-CGR",
           "selfcritique": "RAPTOR self-critique"}
+# Without RAPTOR summary trees (retrieval.py --index web) the RAG pipelines must not be called RAPTOR.
+WEB_LABELS = {"pure": "Textbook-RAG", "cgr": "Textbook-RAG + CGR", "selfcritique": "Textbook-RAG self-critique"}
+
+
+def retrieval_index():
+    meta = CONTEXTS_PATH.parent / "contexts_meta.json"
+    return json.loads(meta.read_text(encoding="utf-8")).get("index", "raptor") if meta.exists() else "raptor"
 METRICS = ["answer_score", "rationale_score", "ar_score"]
 
 
@@ -200,6 +207,8 @@ def main(argv=None):
     parser.add_argument("--judge", help="judge model whose scores are the main tables (default: first)")
     args = parser.parse_args(argv)
 
+    if retrieval_index() == "web":
+        LABELS.update(WEB_LABELS)
     data = load_judgments()
     if not data:
         raise SystemExit("No judgments yet - run src/evaluate.py first.")
@@ -252,7 +261,9 @@ def main(argv=None):
             df.to_csv(TABLE_DIR / f"{name}.csv", index=False)
             df.to_excel(xl, sheet_name=name[:31], index=False)
 
-    md = [f"Judge model: `{judge}`", "", "### Overall", "", to_markdown(overall), ""]
+    index_note = ("Retrieval: textbook chunks only (no RAPTOR summary trees)" if retrieval_index() == "web"
+                  else "Retrieval: RAPTOR trees (collapsed tree, top-10 nodes)")
+    md = [f"Judge model: `{judge}` · {index_note}", "", "### Overall", "", to_markdown(overall), ""]
     if not signif.empty:
         md += ["### Paired bootstrap (10,000 resamples): is the difference real?", "", to_markdown(signif), ""]
     md += [

@@ -94,7 +94,12 @@ Every step can be resumed: rerunning a command skips finished work and retries f
 
 This is a smaller version of the experiment for a limited budget. It answers a stratified random
 sample of **300 questions** (same type mix as the full 1,018) and retrieves from the free textbook-chunk
-index instead of paid RAPTOR summaries.
+index instead of paid RAPTOR summaries. The report therefore names the pipelines **Baseline,
+Textbook-RAG and Textbook-RAG + CGR**. Rerun the same sample with `retrieval.py --index raptor` after
+`build_tree.py` (about US$2–4) to get the true RAPTOR / RAPTOR-CGR numbers.
+
+To reduce self-grading bias, the answers can be judged by a stronger model: set
+`JUDGE_MODEL=deepseek-v4-pro` in `.env` (about US$0.4–0.8 extra for 300 questions).
 
 ```bash
 python src/make_sample.py --n 300 --seed 42                      # data/samples/sample_300_seed42.json
