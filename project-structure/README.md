@@ -32,6 +32,7 @@ RAPTOR-CGR/
 │   ├── run_pipeline.py           answer questions: baseline | pure | cgr | selfcritique (+ --sample, --shuffle-seed)
 │   ├── evaluate.py               LLM-judge every answer -> results/judgments/
 │   ├── make_report.py            scores, tables, significance, guessing checks, cost -> results/
+│   ├── make_figures.py           report figures (PNG) -> evaluation-report/figures/
 │   └── chat_engine.py            web tutor engine: search, grounded prompt, streaming, fallback, deep mode
 │
 ├── web/                          the CS Textbook Tutor website
@@ -55,14 +56,17 @@ RAPTOR-CGR/
 ├── results/
 │   ├── contexts.jsonl            retrieved context per question (current run)
 │   ├── leakage.json              leakage audit
-│   ├── raw/, judgments/, tables/, scores.json   outputs of a v2 run (written by the commands)
+│   ├── contexts_meta.json        which index produced contexts.jsonl (web or raptor)
+│   ├── raw/                      answers of the 300-question run (thinking off; *-think = thinking on)
+│   ├── judgments/                per-question scores from the deepseek-v4-pro judge
+│   ├── tables/, scores.json      all result tables (CSV, Excel, summary.md)
 │   └── v1/                       everything from the submitted version (tag v1-submitted)
 │       ├── raw/                  model outputs of the 4 v1 pipelines
 │       ├── eval_inputs/          evaluator-format questions and predictions
 │       ├── scores.json, tables/  the numbers in the final report
 │       └── question_tree.pkl     v1 RAPTOR tree (built from benchmark items: the leakage)
 │
-├── tests/                        75 offline tests (no API key needed)
+├── tests/                        76 offline tests (no API key needed)
 │   ├── test_scoring.py           parsing, normalisation, MS partial credit, shuffles, AR
 │   ├── test_cleaning.py          cleaning keeps every textbook; chunking keeps text; PDF artifacts
 │   ├── test_retrieval.py         fast retriever == RAPTOR's own retriever
@@ -75,6 +79,7 @@ RAPTOR-CGR/
 │   ├── shortest-paths/           vs Perplexity (Claude Sonnet 5.5 reasoning), with verify.py
 │   └── deepseek-web/             10 questions to ask DeepSeek's free web chat by hand
 │
+├── evaluation-report/            leak-free 300-question evaluation: academic write-up + figures
 ├── project-history/              every stage, problem, severity and fix (proposal -> v2)
 ├── project-structure/            this page
 └── docs/                         final report, presentation, summary

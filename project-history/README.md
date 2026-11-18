@@ -140,16 +140,24 @@ question/prediction pairs.
 | W8 | Long answers were silently cut at 1,200 tokens (a complex question stopped mid-answer). | 🟠 | 4,096-token limit (configurable); an answer that still reaches it is clearly marked. |
 | W9 | **RAPTOR's `split_text` deletes every `.`, `!`, `?` and line break it splits on**, so sentences lost their full stops, "6.5" became "6 5", and multi-line textbook pseudocode became one line. This also affected v1. | 🟠 | A text-preserving chunker (paragraphs, then sentences, then lines; original separators kept), used by the web index and the v2 trees, with tests. |
 | W11 | One textbook (CLRS) was extracted with the 'fi'/'fl' ligatures as 'û'/'ü' and the apostrophe as '9' ("ûrst", "üow", "Dijkstra9s"), about 5,000 broken words. | 🟡 | A per-book fix, applied only when the pattern is systematic, so genuine characters (e.g. Müller) stay. |
+| W12 | **Provider options never reached the API in the research code** (`llm.py` checked `client is None` after creating the client). DeepSeek's default thinking mode stayed on: answers were long and costly, and 35 of 300 judge replies came back empty. | 🟠 | Fixed, with a regression test that uses a real client object; the thinking-on answers were kept as a separate condition and the empty judgments were discarded. |
 | W10 | A comparison with Perplexity (Claude Sonnet 5.5, reasoning) showed fast mode leaving an abandoned counterexample and a too-easy trace in a hard multi-part answer. A prompt-only fix made things worse (an accidental negative cycle). | 🟡 | **Deep reasoning mode** (DeepSeek thinking, 16k-token budget, about 45 s), which produced a fully verified answer; see [comparisons](../comparisons/shortest-paths/README.md). |
 
 ---
+
+## Stage 9 – Leak-free evaluation (19 Nov 2026)
+
+300 stratified questions, three pipelines (Baseline, Textbook-RAG, Textbook-RAG + CGR), judged by
+`deepseek-v4-pro`, US$1.18 in total. **No statistically significant difference** between the pipelines
+(answer accuracy 0.857 / 0.867 / 0.863). The v1 gain of +12.5 points disappears once the answers cannot
+be retrieved. Full write-up: [evaluation report](../evaluation-report/README.md).
 
 ## Where the project stands
 
 | Part | Status |
 |---|---|
 | v1 (submitted) | Code and results reproducible (`results/v1/`, tag `v1-submitted`). The RAPTOR numbers are inflated by C1 and should not be read as a measure of reasoning ability. |
-| v2 experiment | Code complete; 59 offline tests, including an end-to-end run with a fake LLM. **Not run yet** (≈ 24,500 API calls, about US$4–8): see *Future work* in the main README. |
+| v2 experiment | Code complete and tested. Leak-free 300-question evaluation done (no significant gain from retrieval or CGR with `deepseek-flash`); RAPTOR-tree version not run yet (about US$2–4). |
 | Web tutor | Works locally with DeepSeek over the 20 textbooks: Chinese/English questions, fast mode (first words in about 0.7–1.8 s, typical answers in 3–11 s) and deep mode (about 45 s), with citations, maths, pseudocode and "open in textbook" links. |
 
 ## Lessons

@@ -15,7 +15,6 @@ Writes results/scores.json and results/tables/ (CSV, Excel, summary.md).
 
 import argparse
 import json
-import os
 from collections import defaultdict
 
 import pandas as pd
@@ -134,12 +133,16 @@ def judge_agreement(data):
     return rows
 
 
-# USD per 1M tokens (input cache miss, output); DeepSeek deepseek-flash, Nov 2026. Override in .env.
-PRICES = {"off-peak": (float(os.getenv("PRICE_IN_OFFPEAK", 0.15)), float(os.getenv("PRICE_OUT_OFFPEAK", 0.6))),
-          "peak": (float(os.getenv("PRICE_IN_PEAK", 0.3)), float(os.getenv("PRICE_OUT_PEAK", 1.2)))}
+# USD per 1M tokens (input cache miss, output), DeepSeek price list Nov 2026: {model: {period: (in, out)}}.
+PRICES = {"deepseek-flash": {"off-peak": (0.15, 0.6), "peak": (0.3, 1.2)},
+          "deepseek-v4-pro": {"off-peak": (0.66, 1.98), "peak": (1.32, 3.96)}}
 
 
-def token_usage(runs, judged):
+def price(model, period):
+    return PRICES.get(model, PRICES["deepseek-flash"])[period]
+
+
+def token_usage(runs, judged, judge_model):
     """Answering + judging tokens per run, with an upper-bound cost estimate (no cache-hit discount)."""
     rows = []
     for run in runs:
@@ -150,13 +153,33 @@ def token_usage(runs, judged):
         j_out = sum((r.get("judge_tokens") or {}).get("completion_tokens", 0) for r in judged.get(run, []))
         row = {"Run": run, "Questions": len(recs), "Answer tokens in": a_in, "Answer tokens out": a_out,
                "Judge tokens in": j_in, "Judge tokens out": j_out}
-        for label, (p_in, p_out) in PRICES.items():
-            row[f"Est. USD ({label})"] = round(((a_in + j_in) * p_in + (a_out + j_out) * p_out) / 1e6, 4)
+        answer_model = next(iter(recs), {}).get("model", "deepseek-flash")
+        for period in ("off-peak", "peak"):
+            (ai, ao), (ji, jo) = price(answer_model, period), price(judge_model, period)
+            row[f"Est. USD ({period})"] = round((a_in * ai + a_out * ao + j_in * ji + j_out * jo) / 1e6, 4)
         rows.append(row)
     return rows
 
 
 COMPARISONS = [("pure", "baseline"), ("cgr", "baseline"), ("cgr", "pure"), ("selfcritique", "pure")]
+CONDITIONS = {"": "", "-think": " · thinking on"}     # run-name suffix -> label suffix
+
+
+def run_label(run):
+    """'cgr-think' -> 'Textbook-RAG + CGR · thinking on' (shuffle runs keep their name)."""
+    if "-shuffle" in run:
+        return run
+    for suffix, text in CONDITIONS.items():
+        if suffix and run.endswith(suffix):
+            base = run[: -len(suffix)]
+            return LABELS.get(base, base) + text
+    return LABELS.get(run, run)
+
+
+def all_comparisons(judged):
+    pairs = [(x + c, y + c) for c in CONDITIONS for x, y in COMPARISONS]
+    pairs += [(p + "-think", p) for p in PIPELINE_ORDER]             # effect of thinking mode itself
+    return [(x, y) for x, y in pairs if x in judged and y in judged]
 
 
 def paired_bootstrap(a, b, n_boot=10_000, seed=0):
@@ -172,9 +195,7 @@ def paired_bootstrap(a, b, n_boot=10_000, seed=0):
 def significance(judged):
     """Is pipeline X really better than Y? Paired over the same questions, so question difficulty cancels."""
     rows = []
-    for x, y in COMPARISONS:
-        if x not in judged or y not in judged:
-            continue
+    for x, y in all_comparisons(judged):
         a = {r["idx"]: r for r in judged[x]}
         b = {r["idx"]: r for r in judged[y]}
         for metric in METRICS:
@@ -183,7 +204,7 @@ def significance(judged):
             if not idx:
                 continue
             d, lo, hi, p = paired_bootstrap([a[i][metric] for i in idx], [b[i][metric] for i in idx])
-            rows.append({"Comparison": f"{LABELS.get(x, x)} − {LABELS.get(y, y)}", "Metric": metric,
+            rows.append({"Comparison": f"{run_label(x)} − {run_label(y)}", "Metric": metric,
                          "Questions": len(idx), "Difference": d, "95% CI low": lo, "95% CI high": hi,
                          "p-value": p, "Significant (p<0.05)": "yes" if p < 0.05 else "no"})
     return rows
@@ -214,8 +235,10 @@ def main(argv=None):
         raise SystemExit("No judgments yet - run src/evaluate.py first.")
     judge = args.judge or sorted(data)[0]
     judged = data[judge]
-    runs = sorted(judged, key=lambda r: (PIPELINE_ORDER.index(r.split("-shuffle")[0])
-                                         if r.split("-shuffle")[0] in PIPELINE_ORDER else 99, r))
+    def order(r):
+        base = r.split("-shuffle")[0].removesuffix("-think")
+        return ("-think" in r, PIPELINE_ORDER.index(base) if base in PIPELINE_ORDER else 99, r)
+    runs = sorted(judged, key=order)
     main_runs = [r for r in runs if "-shuffle" not in r]
     questions = load_questions()
 
@@ -228,7 +251,7 @@ def main(argv=None):
                                     for t in sorted({r["topic"] for r in rows})}}
     SCORES_PATH.write_text(json.dumps({"judge": judge, "runs": scores}, indent=2), encoding="utf-8")
 
-    label = lambda r: LABELS.get(r, r)
+    label = run_label
     overall = pd.DataFrame([{"Pipeline": label(r), "n": scores[r]["total"]["count"],
                              "Answer accuracy": scores[r]["total"]["answer_score"],
                              "Rationale score": scores[r]["total"]["rationale_score"],
@@ -248,7 +271,7 @@ def main(argv=None):
     signif = pd.DataFrame(significance(judged))
     consistency = pd.DataFrame(shuffle_consistency(runs, judged))
     agreement = pd.DataFrame(judge_agreement(data))
-    usage = pd.DataFrame(token_usage(runs, judged))
+    usage = pd.DataFrame(token_usage(runs, judged, judge))
     quality = pd.DataFrame([{"Run": r, "No ANSWER tag": scores[r]["total"]["no_answer_tag"],
                              "Judge replies unreadable": scores[r]["total"]["judge_failed"]} for r in runs])
 

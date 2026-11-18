@@ -1,0 +1,1481 @@
+{
+  "judge": "deepseek-v4-pro",
+  "runs": {
+    "baseline": {
+      "total": {
+        "answer_score": 0.8566666666666667,
+        "rationale_score": 0.8627118644067797,
+        "ar_score": 0.8288135593220339,
+        "count": 300,
+        "count_with_rationale": 295,
+        "unsupported_correct": 0.010169491525423728,
+        "no_answer_tag": 0,
+        "judge_failed": 0
+      },
+      "by_type": {
+        "FB": {
+          "answer_score": 0.9032258064516129,
+          "rationale_score": 0.9193548387096774,
+          "ar_score": 0.8709677419354839,
+          "count": 31,
+          "count_with_rationale": 31,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "MC": {
+          "answer_score": 0.875,
+          "rationale_score": 0.8828125,
+          "ar_score": 0.86328125,
+          "count": 64,
+          "count_with_rationale": 64,
+          "unsupported_correct": 0.015625,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "MS": {
+          "answer_score": 0.6818181818181818,
+          "rationale_score": 0.8333333333333334,
+          "ar_score": 0.7045454545454546,
+          "count": 33,
+          "count_with_rationale": 33,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "OE": {
+          "answer_score": 0.9050632911392406,
+          "rationale_score": 0.8636363636363636,
+          "ar_score": 0.827922077922078,
+          "count": 79,
+          "count_with_rationale": 77,
+          "unsupported_correct": 0.012987012987012988,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "TF": {
+          "answer_score": 0.8494623655913979,
+          "rationale_score": 0.8388888888888889,
+          "ar_score": 0.8361111111111111,
+          "count": 93,
+          "count_with_rationale": 90,
+          "unsupported_correct": 0.011111111111111112,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        }
+      },
+      "by_topic": {
+        "Artificial intelligence introduction": {
+          "answer_score": 0.782608695652174,
+          "rationale_score": 0.782608695652174,
+          "ar_score": 0.782608695652174,
+          "count": 23,
+          "count_with_rationale": 23,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer architecture": {
+          "answer_score": 0.825,
+          "rationale_score": 0.8,
+          "ar_score": 0.775,
+          "count": 20,
+          "count_with_rationale": 20,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer networks": {
+          "answer_score": 0.9722222222222222,
+          "rationale_score": 0.9242424242424242,
+          "ar_score": 0.9242424242424242,
+          "count": 36,
+          "count_with_rationale": 33,
+          "unsupported_correct": 0.030303030303030304,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer vision": {
+          "answer_score": 0.8888888888888888,
+          "rationale_score": 0.8888888888888888,
+          "ar_score": 0.875,
+          "count": 18,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Cybersecurity": {
+          "answer_score": 0.8448275862068966,
+          "rationale_score": 0.8793103448275862,
+          "ar_score": 0.8275862068965517,
+          "count": 29,
+          "count_with_rationale": 29,
+          "unsupported_correct": 0.034482758620689655,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Data science and big data": {
+          "answer_score": 0.8157894736842105,
+          "rationale_score": 0.8333333333333334,
+          "ar_score": 0.7777777777777778,
+          "count": 19,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Data structures and algorithms": {
+          "answer_score": 0.7162162162162162,
+          "rationale_score": 0.7972972972972973,
+          "ar_score": 0.7297297297297297,
+          "count": 37,
+          "count_with_rationale": 37,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Database systems": {
+          "answer_score": 0.9,
+          "rationale_score": 0.75,
+          "ar_score": 0.75,
+          "count": 5,
+          "count_with_rationale": 4,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Ethics (of computer science and AI)": {
+          "answer_score": 0.0,
+          "rationale_score": 0.0,
+          "ar_score": 0.0,
+          "count": 2,
+          "count_with_rationale": 2,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Human-computer interaction": {
+          "answer_score": 0.75,
+          "rationale_score": 0.875,
+          "ar_score": 0.65625,
+          "count": 8,
+          "count_with_rationale": 8,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Information retrieval": {
+          "answer_score": 0.84375,
+          "rationale_score": 0.890625,
+          "ar_score": 0.828125,
+          "count": 32,
+          "count_with_rationale": 32,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Machine learning": {
+          "answer_score": 0.9772727272727273,
+          "rationale_score": 0.9772727272727273,
+          "ar_score": 0.9545454545454546,
+          "count": 22,
+          "count_with_rationale": 22,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Mathematics": {
+          "answer_score": 1.0,
+          "rationale_score": 0.9444444444444444,
+          "ar_score": 0.9444444444444444,
+          "count": 18,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.05555555555555555,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Mathematics (for computer science and AI)": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 7,
+          "count_with_rationale": 7,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "NLP": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 11,
+          "count_with_rationale": 11,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Operating systems": {
+          "answer_score": 0.6,
+          "rationale_score": 0.5,
+          "ar_score": 0.5,
+          "count": 5,
+          "count_with_rationale": 5,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Programming fundamentals": {
+          "answer_score": 0.8333333333333334,
+          "rationale_score": 0.75,
+          "ar_score": 0.75,
+          "count": 6,
+          "count_with_rationale": 6,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Programming languages and compilers": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 2,
+          "count_with_rationale": 2,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        }
+      }
+    },
+    "pure": {
+      "total": {
+        "answer_score": 0.8666666666666667,
+        "rationale_score": 0.8627118644067797,
+        "ar_score": 0.8135593220338984,
+        "count": 300,
+        "count_with_rationale": 295,
+        "unsupported_correct": 0.006779661016949152,
+        "no_answer_tag": 1,
+        "judge_failed": 0
+      },
+      "by_type": {
+        "FB": {
+          "answer_score": 0.8870967741935484,
+          "rationale_score": 0.9032258064516129,
+          "ar_score": 0.8709677419354839,
+          "count": 31,
+          "count_with_rationale": 31,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "MC": {
+          "answer_score": 0.84375,
+          "rationale_score": 0.8671875,
+          "ar_score": 0.84375,
+          "count": 64,
+          "count_with_rationale": 64,
+          "unsupported_correct": 0.015625,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "MS": {
+          "answer_score": 0.7424242424242424,
+          "rationale_score": 0.7727272727272727,
+          "ar_score": 0.6363636363636364,
+          "count": 33,
+          "count_with_rationale": 33,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "OE": {
+          "answer_score": 0.8987341772151899,
+          "rationale_score": 0.8701298701298701,
+          "ar_score": 0.7727272727272727,
+          "count": 79,
+          "count_with_rationale": 77,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "TF": {
+          "answer_score": 0.8924731182795699,
+          "rationale_score": 0.8722222222222222,
+          "ar_score": 0.8722222222222222,
+          "count": 93,
+          "count_with_rationale": 90,
+          "unsupported_correct": 0.011111111111111112,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        }
+      },
+      "by_topic": {
+        "Artificial intelligence introduction": {
+          "answer_score": 0.8695652173913043,
+          "rationale_score": 0.9130434782608695,
+          "ar_score": 0.8913043478260869,
+          "count": 23,
+          "count_with_rationale": 23,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer architecture": {
+          "answer_score": 0.95,
+          "rationale_score": 0.95,
+          "ar_score": 0.95,
+          "count": 20,
+          "count_with_rationale": 20,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer networks": {
+          "answer_score": 0.9583333333333334,
+          "rationale_score": 0.9242424242424242,
+          "ar_score": 0.8939393939393939,
+          "count": 36,
+          "count_with_rationale": 33,
+          "unsupported_correct": 0.030303030303030304,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer vision": {
+          "answer_score": 0.8055555555555556,
+          "rationale_score": 0.8055555555555556,
+          "ar_score": 0.6944444444444444,
+          "count": 18,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Cybersecurity": {
+          "answer_score": 0.8620689655172413,
+          "rationale_score": 0.8448275862068966,
+          "ar_score": 0.8275862068965517,
+          "count": 29,
+          "count_with_rationale": 29,
+          "unsupported_correct": 0.034482758620689655,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Data science and big data": {
+          "answer_score": 0.868421052631579,
+          "rationale_score": 0.8611111111111112,
+          "ar_score": 0.7777777777777778,
+          "count": 19,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Data structures and algorithms": {
+          "answer_score": 0.7027027027027027,
+          "rationale_score": 0.7702702702702703,
+          "ar_score": 0.7027027027027027,
+          "count": 37,
+          "count_with_rationale": 37,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Database systems": {
+          "answer_score": 0.9,
+          "rationale_score": 0.875,
+          "ar_score": 0.75,
+          "count": 5,
+          "count_with_rationale": 4,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Ethics (of computer science and AI)": {
+          "answer_score": 0.5,
+          "rationale_score": 0.5,
+          "ar_score": 0.5,
+          "count": 2,
+          "count_with_rationale": 2,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Human-computer interaction": {
+          "answer_score": 0.875,
+          "rationale_score": 0.8125,
+          "ar_score": 0.6875,
+          "count": 8,
+          "count_with_rationale": 8,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Information retrieval": {
+          "answer_score": 0.84375,
+          "rationale_score": 0.828125,
+          "ar_score": 0.734375,
+          "count": 32,
+          "count_with_rationale": 32,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Machine learning": {
+          "answer_score": 0.9772727272727273,
+          "rationale_score": 0.9772727272727273,
+          "ar_score": 0.9545454545454546,
+          "count": 22,
+          "count_with_rationale": 22,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Mathematics": {
+          "answer_score": 0.9722222222222222,
+          "rationale_score": 0.9722222222222222,
+          "ar_score": 0.9444444444444444,
+          "count": 18,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Mathematics (for computer science and AI)": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 7,
+          "count_with_rationale": 7,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "NLP": {
+          "answer_score": 0.9090909090909091,
+          "rationale_score": 0.8636363636363636,
+          "ar_score": 0.7727272727272727,
+          "count": 11,
+          "count_with_rationale": 11,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Operating systems": {
+          "answer_score": 0.2,
+          "rationale_score": 0.1,
+          "ar_score": 0.1,
+          "count": 5,
+          "count_with_rationale": 5,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Programming fundamentals": {
+          "answer_score": 1.0,
+          "rationale_score": 0.9166666666666666,
+          "ar_score": 0.9166666666666666,
+          "count": 6,
+          "count_with_rationale": 6,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Programming languages and compilers": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 2,
+          "count_with_rationale": 2,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        }
+      }
+    },
+    "cgr": {
+      "total": {
+        "answer_score": 0.8633333333333333,
+        "rationale_score": 0.8389830508474576,
+        "ar_score": 0.8144067796610169,
+        "count": 300,
+        "count_with_rationale": 295,
+        "unsupported_correct": 0.013559322033898305,
+        "no_answer_tag": 1,
+        "judge_failed": 0
+      },
+      "by_type": {
+        "FB": {
+          "answer_score": 0.8870967741935484,
+          "rationale_score": 0.9032258064516129,
+          "ar_score": 0.8709677419354839,
+          "count": 31,
+          "count_with_rationale": 31,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "MC": {
+          "answer_score": 0.84375,
+          "rationale_score": 0.828125,
+          "ar_score": 0.8203125,
+          "count": 64,
+          "count_with_rationale": 64,
+          "unsupported_correct": 0.03125,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "MS": {
+          "answer_score": 0.6818181818181818,
+          "rationale_score": 0.7121212121212122,
+          "ar_score": 0.6287878787878788,
+          "count": 33,
+          "count_with_rationale": 33,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "OE": {
+          "answer_score": 0.9240506329113924,
+          "rationale_score": 0.8506493506493507,
+          "ar_score": 0.8116883116883117,
+          "count": 79,
+          "count_with_rationale": 77,
+          "unsupported_correct": 0.012987012987012988,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "TF": {
+          "answer_score": 0.8817204301075269,
+          "rationale_score": 0.8611111111111112,
+          "ar_score": 0.8611111111111112,
+          "count": 93,
+          "count_with_rationale": 90,
+          "unsupported_correct": 0.011111111111111112,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        }
+      },
+      "by_topic": {
+        "Artificial intelligence introduction": {
+          "answer_score": 0.8260869565217391,
+          "rationale_score": 0.8043478260869565,
+          "ar_score": 0.8043478260869565,
+          "count": 23,
+          "count_with_rationale": 23,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer architecture": {
+          "answer_score": 0.95,
+          "rationale_score": 0.95,
+          "ar_score": 0.95,
+          "count": 20,
+          "count_with_rationale": 20,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer networks": {
+          "answer_score": 0.9722222222222222,
+          "rationale_score": 0.9393939393939394,
+          "ar_score": 0.9393939393939394,
+          "count": 36,
+          "count_with_rationale": 33,
+          "unsupported_correct": 0.030303030303030304,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer vision": {
+          "answer_score": 0.8333333333333334,
+          "rationale_score": 0.7777777777777778,
+          "ar_score": 0.7222222222222222,
+          "count": 18,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Cybersecurity": {
+          "answer_score": 0.8275862068965517,
+          "rationale_score": 0.8448275862068966,
+          "ar_score": 0.8103448275862069,
+          "count": 29,
+          "count_with_rationale": 29,
+          "unsupported_correct": 0.034482758620689655,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Data science and big data": {
+          "answer_score": 0.868421052631579,
+          "rationale_score": 0.8611111111111112,
+          "ar_score": 0.8055555555555556,
+          "count": 19,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Data structures and algorithms": {
+          "answer_score": 0.7162162162162162,
+          "rationale_score": 0.7027027027027027,
+          "ar_score": 0.6891891891891891,
+          "count": 37,
+          "count_with_rationale": 37,
+          "unsupported_correct": 0.02702702702702703,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Database systems": {
+          "answer_score": 1.0,
+          "rationale_score": 0.75,
+          "ar_score": 0.75,
+          "count": 5,
+          "count_with_rationale": 4,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Ethics (of computer science and AI)": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 2,
+          "count_with_rationale": 2,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Human-computer interaction": {
+          "answer_score": 0.6875,
+          "rationale_score": 0.6875,
+          "ar_score": 0.59375,
+          "count": 8,
+          "count_with_rationale": 8,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Information retrieval": {
+          "answer_score": 0.828125,
+          "rationale_score": 0.828125,
+          "ar_score": 0.75,
+          "count": 32,
+          "count_with_rationale": 32,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Machine learning": {
+          "answer_score": 0.9090909090909091,
+          "rationale_score": 0.8863636363636364,
+          "ar_score": 0.8636363636363636,
+          "count": 22,
+          "count_with_rationale": 22,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Mathematics": {
+          "answer_score": 1.0,
+          "rationale_score": 0.9722222222222222,
+          "ar_score": 0.9722222222222222,
+          "count": 18,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Mathematics (for computer science and AI)": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 7,
+          "count_with_rationale": 7,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "NLP": {
+          "answer_score": 1.0,
+          "rationale_score": 0.9090909090909091,
+          "ar_score": 0.9090909090909091,
+          "count": 11,
+          "count_with_rationale": 11,
+          "unsupported_correct": 0.09090909090909091,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Operating systems": {
+          "answer_score": 0.2,
+          "rationale_score": 0.1,
+          "ar_score": 0.1,
+          "count": 5,
+          "count_with_rationale": 5,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Programming fundamentals": {
+          "answer_score": 1.0,
+          "rationale_score": 0.9166666666666666,
+          "ar_score": 0.9166666666666666,
+          "count": 6,
+          "count_with_rationale": 6,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Programming languages and compilers": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 2,
+          "count_with_rationale": 2,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        }
+      }
+    },
+    "baseline-think": {
+      "total": {
+        "answer_score": 0.8466666666666667,
+        "rationale_score": 0.823728813559322,
+        "ar_score": 0.7745762711864407,
+        "count": 300,
+        "count_with_rationale": 295,
+        "unsupported_correct": 0.0576271186440678,
+        "no_answer_tag": 3,
+        "judge_failed": 0
+      },
+      "by_type": {
+        "FB": {
+          "answer_score": 0.8870967741935484,
+          "rationale_score": 0.6129032258064516,
+          "ar_score": 0.5806451612903226,
+          "count": 31,
+          "count_with_rationale": 31,
+          "unsupported_correct": 0.25806451612903225,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "MC": {
+          "answer_score": 0.859375,
+          "rationale_score": 0.859375,
+          "ar_score": 0.828125,
+          "count": 64,
+          "count_with_rationale": 64,
+          "unsupported_correct": 0.0625,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "MS": {
+          "answer_score": 0.6515151515151515,
+          "rationale_score": 0.7575757575757576,
+          "ar_score": 0.6287878787878788,
+          "count": 33,
+          "count_with_rationale": 33,
+          "unsupported_correct": 0.06060606060606061,
+          "no_answer_tag": 2,
+          "judge_failed": 0
+        },
+        "OE": {
+          "answer_score": 0.9240506329113924,
+          "rationale_score": 0.8831168831168831,
+          "ar_score": 0.814935064935065,
+          "count": 79,
+          "count_with_rationale": 77,
+          "unsupported_correct": 0.012987012987012988,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "TF": {
+          "answer_score": 0.8279569892473119,
+          "rationale_score": 0.8444444444444444,
+          "ar_score": 0.8222222222222222,
+          "count": 93,
+          "count_with_rationale": 90,
+          "unsupported_correct": 0.022222222222222223,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        }
+      },
+      "by_topic": {
+        "Artificial intelligence introduction": {
+          "answer_score": 0.782608695652174,
+          "rationale_score": 0.7608695652173914,
+          "ar_score": 0.7391304347826086,
+          "count": 23,
+          "count_with_rationale": 23,
+          "unsupported_correct": 0.043478260869565216,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer architecture": {
+          "answer_score": 0.85,
+          "rationale_score": 0.875,
+          "ar_score": 0.7875,
+          "count": 20,
+          "count_with_rationale": 20,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer networks": {
+          "answer_score": 0.8888888888888888,
+          "rationale_score": 0.9090909090909091,
+          "ar_score": 0.8787878787878788,
+          "count": 36,
+          "count_with_rationale": 33,
+          "unsupported_correct": 0.030303030303030304,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Computer vision": {
+          "answer_score": 0.8888888888888888,
+          "rationale_score": 0.8333333333333334,
+          "ar_score": 0.8194444444444444,
+          "count": 18,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.05555555555555555,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Cybersecurity": {
+          "answer_score": 0.8620689655172413,
+          "rationale_score": 0.8448275862068966,
+          "ar_score": 0.8017241379310345,
+          "count": 29,
+          "count_with_rationale": 29,
+          "unsupported_correct": 0.06896551724137931,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Data science and big data": {
+          "answer_score": 0.8157894736842105,
+          "rationale_score": 0.6944444444444444,
+          "ar_score": 0.6666666666666666,
+          "count": 19,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.1111111111111111,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Data structures and algorithms": {
+          "answer_score": 0.7567567567567568,
+          "rationale_score": 0.7972972972972973,
+          "ar_score": 0.6959459459459459,
+          "count": 37,
+          "count_with_rationale": 37,
+          "unsupported_correct": 0.08108108108108109,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Database systems": {
+          "answer_score": 0.9,
+          "rationale_score": 0.75,
+          "ar_score": 0.75,
+          "count": 5,
+          "count_with_rationale": 4,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Ethics (of computer science and AI)": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 2,
+          "count_with_rationale": 2,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Human-computer interaction": {
+          "answer_score": 0.75,
+          "rationale_score": 0.625,
+          "ar_score": 0.625,
+          "count": 8,
+          "count_with_rationale": 8,
+          "unsupported_correct": 0.125,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Information retrieval": {
+          "answer_score": 0.796875,
+          "rationale_score": 0.8125,
+          "ar_score": 0.703125,
+          "count": 32,
+          "count_with_rationale": 32,
+          "unsupported_correct": 0.0625,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Machine learning": {
+          "answer_score": 0.8863636363636364,
+          "rationale_score": 0.8636363636363636,
+          "ar_score": 0.7954545454545454,
+          "count": 22,
+          "count_with_rationale": 22,
+          "unsupported_correct": 0.09090909090909091,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Mathematics": {
+          "answer_score": 1.0,
+          "rationale_score": 0.9722222222222222,
+          "ar_score": 0.9722222222222222,
+          "count": 18,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Mathematics (for computer science and AI)": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 7,
+          "count_with_rationale": 7,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "NLP": {
+          "answer_score": 1.0,
+          "rationale_score": 0.9090909090909091,
+          "ar_score": 0.9090909090909091,
+          "count": 11,
+          "count_with_rationale": 11,
+          "unsupported_correct": 0.09090909090909091,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Operating systems": {
+          "answer_score": 0.3,
+          "rationale_score": 0.3,
+          "ar_score": 0.2,
+          "count": 5,
+          "count_with_rationale": 5,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Programming fundamentals": {
+          "answer_score": 0.9166666666666666,
+          "rationale_score": 0.5833333333333334,
+          "ar_score": 0.5833333333333334,
+          "count": 6,
+          "count_with_rationale": 6,
+          "unsupported_correct": 0.16666666666666666,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Programming languages and compilers": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 2,
+          "count_with_rationale": 2,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        }
+      }
+    },
+    "pure-think": {
+      "total": {
+        "answer_score": 0.865,
+        "rationale_score": 0.8762711864406779,
+        "ar_score": 0.809322033898305,
+        "count": 300,
+        "count_with_rationale": 295,
+        "unsupported_correct": 0.03389830508474576,
+        "no_answer_tag": 13,
+        "judge_failed": 0
+      },
+      "by_type": {
+        "FB": {
+          "answer_score": 0.9032258064516129,
+          "rationale_score": 0.8387096774193549,
+          "ar_score": 0.7741935483870968,
+          "count": 31,
+          "count_with_rationale": 31,
+          "unsupported_correct": 0.0967741935483871,
+          "no_answer_tag": 2,
+          "judge_failed": 0
+        },
+        "MC": {
+          "answer_score": 0.875,
+          "rationale_score": 0.8984375,
+          "ar_score": 0.8515625,
+          "count": 64,
+          "count_with_rationale": 64,
+          "unsupported_correct": 0.0625,
+          "no_answer_tag": 2,
+          "judge_failed": 0
+        },
+        "MS": {
+          "answer_score": 0.7575757575757576,
+          "rationale_score": 0.8181818181818182,
+          "ar_score": 0.696969696969697,
+          "count": 33,
+          "count_with_rationale": 33,
+          "unsupported_correct": 0.030303030303030304,
+          "no_answer_tag": 2,
+          "judge_failed": 0
+        },
+        "OE": {
+          "answer_score": 0.9050632911392406,
+          "rationale_score": 0.8831168831168831,
+          "ar_score": 0.7857142857142857,
+          "count": 79,
+          "count_with_rationale": 77,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "TF": {
+          "answer_score": 0.8494623655913979,
+          "rationale_score": 0.8888888888888888,
+          "ar_score": 0.8527777777777777,
+          "count": 93,
+          "count_with_rationale": 90,
+          "unsupported_correct": 0.022222222222222223,
+          "no_answer_tag": 7,
+          "judge_failed": 0
+        }
+      },
+      "by_topic": {
+        "Artificial intelligence introduction": {
+          "answer_score": 0.8260869565217391,
+          "rationale_score": 0.9130434782608695,
+          "ar_score": 0.8695652173913043,
+          "count": 23,
+          "count_with_rationale": 23,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Computer architecture": {
+          "answer_score": 0.95,
+          "rationale_score": 0.975,
+          "ar_score": 0.9625,
+          "count": 20,
+          "count_with_rationale": 20,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer networks": {
+          "answer_score": 0.9444444444444444,
+          "rationale_score": 0.9393939393939394,
+          "ar_score": 0.9242424242424242,
+          "count": 36,
+          "count_with_rationale": 33,
+          "unsupported_correct": 0.030303030303030304,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Computer vision": {
+          "answer_score": 0.8333333333333334,
+          "rationale_score": 0.75,
+          "ar_score": 0.6944444444444444,
+          "count": 18,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Cybersecurity": {
+          "answer_score": 0.8275862068965517,
+          "rationale_score": 0.8448275862068966,
+          "ar_score": 0.7758620689655172,
+          "count": 29,
+          "count_with_rationale": 29,
+          "unsupported_correct": 0.034482758620689655,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Data science and big data": {
+          "answer_score": 0.9473684210526315,
+          "rationale_score": 0.8888888888888888,
+          "ar_score": 0.8333333333333334,
+          "count": 19,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.05555555555555555,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Data structures and algorithms": {
+          "answer_score": 0.7162162162162162,
+          "rationale_score": 0.8108108108108109,
+          "ar_score": 0.6756756756756757,
+          "count": 37,
+          "count_with_rationale": 37,
+          "unsupported_correct": 0.05405405405405406,
+          "no_answer_tag": 5,
+          "judge_failed": 0
+        },
+        "Database systems": {
+          "answer_score": 0.9,
+          "rationale_score": 0.875,
+          "ar_score": 0.75,
+          "count": 5,
+          "count_with_rationale": 4,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Ethics (of computer science and AI)": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 2,
+          "count_with_rationale": 2,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Human-computer interaction": {
+          "answer_score": 0.6875,
+          "rationale_score": 0.8125,
+          "ar_score": 0.6875,
+          "count": 8,
+          "count_with_rationale": 8,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Information retrieval": {
+          "answer_score": 0.828125,
+          "rationale_score": 0.875,
+          "ar_score": 0.734375,
+          "count": 32,
+          "count_with_rationale": 32,
+          "unsupported_correct": 0.03125,
+          "no_answer_tag": 2,
+          "judge_failed": 0
+        },
+        "Machine learning": {
+          "answer_score": 0.9318181818181818,
+          "rationale_score": 0.9090909090909091,
+          "ar_score": 0.8636363636363636,
+          "count": 22,
+          "count_with_rationale": 22,
+          "unsupported_correct": 0.045454545454545456,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Mathematics": {
+          "answer_score": 1.0,
+          "rationale_score": 0.8611111111111112,
+          "ar_score": 0.8611111111111112,
+          "count": 18,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.1111111111111111,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Mathematics (for computer science and AI)": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 7,
+          "count_with_rationale": 7,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "NLP": {
+          "answer_score": 0.9090909090909091,
+          "rationale_score": 0.9545454545454546,
+          "ar_score": 0.8181818181818182,
+          "count": 11,
+          "count_with_rationale": 11,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Operating systems": {
+          "answer_score": 0.4,
+          "rationale_score": 0.6,
+          "ar_score": 0.5,
+          "count": 5,
+          "count_with_rationale": 5,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Programming fundamentals": {
+          "answer_score": 1.0,
+          "rationale_score": 0.8333333333333334,
+          "ar_score": 0.8333333333333334,
+          "count": 6,
+          "count_with_rationale": 6,
+          "unsupported_correct": 0.16666666666666666,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Programming languages and compilers": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 2,
+          "count_with_rationale": 2,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        }
+      }
+    },
+    "cgr-think": {
+      "total": {
+        "answer_score": 0.875,
+        "rationale_score": 0.8457627118644068,
+        "ar_score": 0.8084745762711865,
+        "count": 300,
+        "count_with_rationale": 295,
+        "unsupported_correct": 0.03728813559322034,
+        "no_answer_tag": 5,
+        "judge_failed": 0
+      },
+      "by_type": {
+        "FB": {
+          "answer_score": 0.8387096774193549,
+          "rationale_score": 0.6935483870967742,
+          "ar_score": 0.6290322580645161,
+          "count": 31,
+          "count_with_rationale": 31,
+          "unsupported_correct": 0.16129032258064516,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "MC": {
+          "answer_score": 0.890625,
+          "rationale_score": 0.875,
+          "ar_score": 0.8515625,
+          "count": 64,
+          "count_with_rationale": 64,
+          "unsupported_correct": 0.0625,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "MS": {
+          "answer_score": 0.6818181818181818,
+          "rationale_score": 0.7575757575757576,
+          "ar_score": 0.6287878787878788,
+          "count": 33,
+          "count_with_rationale": 33,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "OE": {
+          "answer_score": 0.9367088607594937,
+          "rationale_score": 0.8701298701298701,
+          "ar_score": 0.8311688311688312,
+          "count": 79,
+          "count_with_rationale": 77,
+          "unsupported_correct": 0.012987012987012988,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "TF": {
+          "answer_score": 0.8924731182795699,
+          "rationale_score": 0.8888888888888888,
+          "ar_score": 0.8861111111111111,
+          "count": 93,
+          "count_with_rationale": 90,
+          "unsupported_correct": 0.011111111111111112,
+          "no_answer_tag": 2,
+          "judge_failed": 0
+        }
+      },
+      "by_topic": {
+        "Artificial intelligence introduction": {
+          "answer_score": 0.8695652173913043,
+          "rationale_score": 0.8695652173913043,
+          "ar_score": 0.8695652173913043,
+          "count": 23,
+          "count_with_rationale": 23,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Computer architecture": {
+          "answer_score": 0.95,
+          "rationale_score": 0.95,
+          "ar_score": 0.95,
+          "count": 20,
+          "count_with_rationale": 20,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Computer networks": {
+          "answer_score": 0.9444444444444444,
+          "rationale_score": 0.9393939393939394,
+          "ar_score": 0.9393939393939394,
+          "count": 36,
+          "count_with_rationale": 33,
+          "unsupported_correct": 0.030303030303030304,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Computer vision": {
+          "answer_score": 0.8055555555555556,
+          "rationale_score": 0.8055555555555556,
+          "ar_score": 0.7222222222222222,
+          "count": 18,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Cybersecurity": {
+          "answer_score": 0.8620689655172413,
+          "rationale_score": 0.8275862068965517,
+          "ar_score": 0.8103448275862069,
+          "count": 29,
+          "count_with_rationale": 29,
+          "unsupported_correct": 0.034482758620689655,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Data science and big data": {
+          "answer_score": 0.8947368421052632,
+          "rationale_score": 0.9166666666666666,
+          "ar_score": 0.8333333333333334,
+          "count": 19,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.05555555555555555,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Data structures and algorithms": {
+          "answer_score": 0.7972972972972973,
+          "rationale_score": 0.7972972972972973,
+          "ar_score": 0.7432432432432432,
+          "count": 37,
+          "count_with_rationale": 37,
+          "unsupported_correct": 0.05405405405405406,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Database systems": {
+          "answer_score": 1.0,
+          "rationale_score": 0.875,
+          "ar_score": 0.875,
+          "count": 5,
+          "count_with_rationale": 4,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Ethics (of computer science and AI)": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 2,
+          "count_with_rationale": 2,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Human-computer interaction": {
+          "answer_score": 0.8125,
+          "rationale_score": 0.75,
+          "ar_score": 0.6875,
+          "count": 8,
+          "count_with_rationale": 8,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Information retrieval": {
+          "answer_score": 0.796875,
+          "rationale_score": 0.6875,
+          "ar_score": 0.6015625,
+          "count": 32,
+          "count_with_rationale": 32,
+          "unsupported_correct": 0.0625,
+          "no_answer_tag": 1,
+          "judge_failed": 0
+        },
+        "Machine learning": {
+          "answer_score": 0.8863636363636364,
+          "rationale_score": 0.8409090909090909,
+          "ar_score": 0.8295454545454546,
+          "count": 22,
+          "count_with_rationale": 22,
+          "unsupported_correct": 0.045454545454545456,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Mathematics": {
+          "answer_score": 1.0,
+          "rationale_score": 0.8611111111111112,
+          "ar_score": 0.8611111111111112,
+          "count": 18,
+          "count_with_rationale": 18,
+          "unsupported_correct": 0.1111111111111111,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Mathematics (for computer science and AI)": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 7,
+          "count_with_rationale": 7,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "NLP": {
+          "answer_score": 0.9090909090909091,
+          "rationale_score": 0.9545454545454546,
+          "ar_score": 0.8181818181818182,
+          "count": 11,
+          "count_with_rationale": 11,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Operating systems": {
+          "answer_score": 0.4,
+          "rationale_score": 0.6,
+          "ar_score": 0.5,
+          "count": 5,
+          "count_with_rationale": 5,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Programming fundamentals": {
+          "answer_score": 1.0,
+          "rationale_score": 0.8333333333333334,
+          "ar_score": 0.8333333333333334,
+          "count": 6,
+          "count_with_rationale": 6,
+          "unsupported_correct": 0.16666666666666666,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        },
+        "Programming languages and compilers": {
+          "answer_score": 1.0,
+          "rationale_score": 1.0,
+          "ar_score": 1.0,
+          "count": 2,
+          "count_with_rationale": 2,
+          "unsupported_correct": 0.0,
+          "no_answer_tag": 0,
+          "judge_failed": 0
+        }
+      }
+    }
+  }
+}

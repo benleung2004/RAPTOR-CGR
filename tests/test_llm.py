@@ -54,3 +54,27 @@ class ExtraBody(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RealClientOptions(unittest.TestCase):
+    """Regression: a real (non-injected) client must carry the provider options from .env."""
+
+    def test_real_client_gets_deepseek_thinking_off(self):
+        import common
+        saved = {k: os.environ.get(k) for k in ("LLM_API_KEY", "LLM_BASE_URL", "JUDGE_MODEL")}
+        old_load = common.load_env
+        common.load_env = lambda: None
+        try:
+            os.environ.update(LLM_API_KEY="test-key", LLM_BASE_URL="https://api.deepseek.com",
+                              JUDGE_MODEL="deepseek-v4-pro")
+            for role in ("answer", "judge"):
+                llm = LLM(role)                                   # builds a real OpenAI client, no network
+                self.assertEqual(llm.extra_body, {"thinking": {"type": "disabled"}}, role)
+            self.assertEqual(LLM("judge").model, "deepseek-v4-pro")
+        finally:
+            common.load_env = old_load
+            for k, v in saved.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v

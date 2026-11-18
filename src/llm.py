@@ -10,7 +10,8 @@ from common import model_config
 class LLM:
     def __init__(self, role="answer", client=None, model=None, extra_body=None):
         cfg = model_config(role)
-        if client is None:
+        injected = client is not None          # tests inject a fake client: no provider options then
+        if not injected:
             if not cfg["api_key"]:
                 raise SystemExit("No API key: copy .env.example to .env and set LLM_API_KEY "
                                  "(and optionally JUDGE_*).")
@@ -18,7 +19,9 @@ class LLM:
             client = OpenAI(api_key=cfg["api_key"], base_url=cfg["base_url"], max_retries=0, timeout=120)
         self.client = client
         self.model = model or cfg["model"]
-        self.extra_body = extra_body if extra_body is not None else (cfg["extra_body"] if client is None else None)
+        # (bug fixed: this used to test `client is None` after client had been created, so the
+        # provider options - e.g. DeepSeek thinking off - were never sent)
+        self.extra_body = extra_body if extra_body is not None else (None if injected else cfg["extra_body"])
         self.prompt_tokens = 0
         self.completion_tokens = 0
         self.calls = 0
