@@ -139,7 +139,7 @@ Then open http://127.0.0.1:8000.
 
 No accounts, and questions are not stored.
 
-**Demo it publicly from a Mac (free):** with the server running, run
+**Demo it publicly from a Mac (free):** install the tool once with `brew install cloudflared`, then, with the server running, run
 `cloudflared tunnel --url http://127.0.0.1:8000` ([Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/)).
 It prints a public `https://….trycloudflare.com` link, which stays up while the Mac and the command keep running.
 

@@ -14,11 +14,9 @@ import argparse
 import json
 import re
 import time
-from collections import Counter
-
 import numpy as np
 
-from common import DATA_DIR, TEXTBOOK_DIR
+from common import DATA_DIR, TEXTBOOK_DIR, clean_markdown
 
 WEB_INDEX_DIR = DATA_DIR / "web_index"
 BOOK_TITLES = DATA_DIR / "book_titles.json"
@@ -27,15 +25,20 @@ CHUNK_TOKENS = 220
 MIN_CHUNK_TOKENS = 25
 
 
-def clean_markdown(text):
-    text = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", text)            # images
-    text = re.sub(r"<[^>]+>", " ", text)                         # html tags
-    # drop boilerplate lines repeated all over a book (running headers, licence footers)
-    counts = Counter(l.strip() for l in text.splitlines() if l.strip())
-    text = "\n".join(l for l in text.splitlines() if not (l.strip() and counts[l.strip()] > 15
-                                                         and not l.lstrip().startswith("#")))
-    text = re.sub(r"[ \t]+", " ", text)
-    return re.sub(r"\n{3,}", "\n\n", text).strip()
+_CODE_HINT = re.compile(r"//|\(\);|[{};]\s*$|\bdef |\bpublic |\breturn\b|>>>", re.M)
+
+
+def is_garbled(text):
+    """True for PDF-extraction garbage such as 'vMe ianchiNnewleYaronrik...' (LaTeX and code are fine)."""
+    s = re.sub(r"\$\$.*?\$\$|\$[^$]*\$", " ", text, flags=re.S)
+    s = re.sub(r"\\[A-Za-z]+", " ", s)
+    words = re.findall(r"[A-Za-z]{2,}", s)
+    if len(words) < 20 or _CODE_HINT.search(text):
+        return False
+    mixed = sum(1 for w in words if re.search(r"[a-z][A-Z]", w)
+                and not re.fullmatch(r"[a-z]+(?:[A-Z][a-z]+)+", w)) / len(words)      # camelCase is fine
+    very_long = sum(1 for w in words if len(w) > 18) / len(words)
+    return mixed > 0.12 or very_long > 0.08
 
 
 def sections(text):
@@ -91,7 +94,10 @@ def main(argv=None, embed_fn=None, textbook_dir=None, out_dir=None):
 
     start = time.time()
     chunks = [c for b in books for c in chunk_book(b, tokenizer, titles)]
-    print(f"{len(chunks)} chunks from {len(books)} textbooks ({time.time() - start:.0f}s)")
+    dropped = sum(is_garbled(c["text"]) for c in chunks)
+    chunks = [c for c in chunks if not is_garbled(c["text"])]
+    print(f"{len(chunks)} chunks from {len(books)} textbooks, {dropped} garbled chunks dropped "
+          f"({time.time() - start:.0f}s)")
 
     if embed_fn is None:
         from sentence_transformers import SentenceTransformer
@@ -107,6 +113,7 @@ def main(argv=None, embed_fn=None, textbook_dir=None, out_dir=None):
             f.write(json.dumps({"id": i, **c}, ensure_ascii=False) + "\n")
     (out_dir / "meta.json").write_text(json.dumps({
         "embedding_model": WEB_EMBEDDING_MODEL, "chunk_tokens": CHUNK_TOKENS, "chunks": len(chunks),
+        "garbled_dropped": dropped,
         "books": [b.stem for b in books], "built": time.strftime("%Y-%m-%d %H:%M")}, indent=2), encoding="utf-8")
     print(f"Index written to {out_dir} in {time.time() - start:.0f}s")
 

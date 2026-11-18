@@ -235,8 +235,8 @@ async function ask(question) {
     note.textContent = err.name === "AbortError" ? "Stopped." : err.message || "Network error - please try again.";
     view.answer.append(note);
   } finally {
-    setBusy(false);
     controller = null;
+    setBusy(false);
   }
 }
 

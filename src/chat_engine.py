@@ -62,13 +62,47 @@ class TextbookIndex:
         return cls(np.load(index_dir / "embeddings.npy"), chunks,
                    lambda text: model.encode([f"query: {text}"], normalize_embeddings=True)[0])
 
-    def search(self, query, top_k=6):
+    def search(self, query, top_k=6, candidates=50):
+        """Semantic search, then a small lexical re-rank on the query's English technical terms.
+
+        Cross-lingual similarity (Chinese question vs English textbook) is weaker, so passages that
+        contain the exact terms the student typed (TCP, ACID, backpropagation...) get a bonus.
+        Exercise-only sections get a small penalty, since explanations are more useful.
+        """
         with self._lock:                                   # the embedding model is not thread-safe
             q = np.asarray(self.embed_query(query), dtype=np.float32)
         scores = self.vectors @ q
-        best = np.argpartition(-scores, min(top_k, len(scores) - 1))[:top_k]
-        best = best[np.argsort(-scores[best])]
-        return [{**self.chunks[i], "score": round(float(scores[i]), 4)} for i in best]
+        n = min(candidates, len(scores))
+        pool = np.argpartition(-scores, n - 1)[:n]
+        terms = key_terms(query)
+        ranked = []
+        for i in pool:
+            chunk = self.chunks[i]
+            score = float(scores[i])
+            if terms:
+                text = chunk["text"].lower()
+                score += TERM_BONUS * sum(1 for t in terms
+                                          if re.search(rf"(?<![a-z0-9]){re.escape(t)}(?![a-z0-9])", text)) / len(terms)
+            if EXERCISE_SECTION.match(chunk.get("section") or ""):
+                score -= EXERCISE_PENALTY
+            ranked.append((score, int(i)))
+        ranked.sort(reverse=True)
+        return [{**self.chunks[i], "score": round(sc, 4)} for sc, i in ranked[:top_k]]
+
+
+TERM_BONUS = 0.03
+EXERCISE_PENALTY = 0.01
+EXERCISE_SECTION = re.compile(r"^(\d+(\.\d+)*-\d+|exercises?|problems?)\b", re.I)
+STOPWORDS = set("""a an the and or of to in on for with by is are was were be been how what why when which who
+whom does do did can could should would will explain describe difference between using use step steps
+example examples give show me please about it its this that these those from into than then vs
+work works mean means used find get make tell""".split())
+
+
+def key_terms(query):
+    """English technical terms in a question (works for Chinese questions that mention English terms)."""
+    words = re.findall(r"[A-Za-z][A-Za-z0-9+#.\-]*[A-Za-z0-9+#]|[A-Za-z]", query)
+    return sorted({w.lower() for w in words if len(w) >= 2 and w.lower() not in STOPWORDS})
 
 
 def retrieval_query(question, history):

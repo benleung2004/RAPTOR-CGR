@@ -6,6 +6,7 @@ import random
 import re
 import sys
 import threading
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -171,3 +172,23 @@ class JsonlAppender:
 
     def close(self):
         self._f.close()
+
+# ── Textbook cleaning (shared by build_tree.py and build_web_index.py) ──────
+BOILERPLATE = [r"Author: Kevin P\. Murphy\. \(C\) MIT Press\. CC-BY-NC-ND license"]
+_HTML_TAG = re.compile(r"</?[A-Za-z][A-Za-z0-9]*(?:\s[^<>\n]*)?/?>")   # real tags only, never "a < b > c"
+
+
+def clean_markdown(text):
+    """Remove images, HTML markup and running headers/footers while keeping all real content."""
+    text = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", text)                       # images
+    text = re.sub(r"</t[dh]>", " | ", text)                                  # keep table cells apart
+    text = re.sub(r"</tr>", "\n", text)
+    text = _HTML_TAG.sub(" ", text)
+    for pattern in BOILERPLATE:
+        text = re.sub(pattern, " ", text)
+    # long lines repeated all over a book are running headers/footers (short ones may be code)
+    counts = Counter(l.strip() for l in text.splitlines() if len(l.strip()) >= 25)
+    text = "\n".join(l for l in text.splitlines()
+                     if not (counts.get(l.strip(), 0) > 15 and not l.lstrip().startswith("#")))
+    text = re.sub(r"[ \t]+", " ", text)
+    return re.sub(r"\n{3,}", "\n\n", text).strip()

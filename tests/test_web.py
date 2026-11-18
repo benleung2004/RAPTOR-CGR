@@ -180,3 +180,44 @@ class Api(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Ranking(unittest.TestCase):
+    def test_key_terms(self):
+        from chat_engine import key_terms
+        self.assertEqual(key_terms("資料庫交易的 ACID 特性是什麼？"), ["acid"])
+        self.assertEqual(key_terms("How does a B+ tree index work?"), ["b+", "index", "tree"])
+        self.assertEqual(key_terms("C++ templates vs C# generics"), ["c#", "c++", "generics", "templates"])
+
+    def test_exact_term_beats_slightly_closer_vector(self):
+        chunks = [{"id": 0, "book": "b", "title": "T", "section": "s", "text": "Transactions are units of work."},
+                  {"id": 1, "book": "b", "title": "T", "section": "s", "text": "The ACID properties: atomicity..."}]
+        vecs = np.asarray([[1.0, 0.0], [0.99, 0.141]], dtype=np.float32)
+        index = TextbookIndex(vecs, chunks, lambda q: np.asarray([1.0, 0.0], dtype=np.float32))
+        self.assertEqual(index.search("交易的 ACID 特性", top_k=1)[0]["id"], 1)
+        self.assertEqual(index.search("交易的特性", top_k=1)[0]["id"], 0)
+
+    def test_exercise_sections_rank_below_equal_explanations(self):
+        chunks = [{"id": 0, "book": "b", "title": "T", "section": "22.3-1", "text": "Run Dijkstra on the graph."},
+                  {"id": 1, "book": "b", "title": "T", "section": "22.3 Dijkstra", "text": "Run Dijkstra on the graph."}]
+        index = TextbookIndex(np.asarray([[1.0], [1.0]], dtype=np.float32), chunks,
+                              lambda q: np.asarray([1.0], dtype=np.float32))
+        self.assertEqual(index.search("Dijkstra", top_k=1)[0]["id"], 1)
+
+    def test_garbled_detector(self):
+        from build_web_index import is_garbled
+        junk = " ".join(["vMe ianchiNnewleYaronrikngoarlSgaornitFhrmasnacriesucsou allnydcaytoe"] * 8)   # 24 words (needs >= 20)
+        self.assertTrue(is_garbled(junk))
+        prose = "Dijkstra's algorithm maintains a set of vertices whose final shortest-path weights " * 3
+        self.assertFalse(is_garbled(prose))
+        code = "public void insert(int key) { // add a node\n  theGraph.addVertex('A'); return; }\n" * 5
+        self.assertFalse(is_garbled(code))
+        latex = "We have $T ( n ) = 2 T ( n / 2 ) + \\Theta ( n )$ and therefore the recurrence solves to " * 3
+        self.assertFalse(is_garbled(latex))
+
+
+class StaticCaching(unittest.TestCase):
+    def test_pages_are_revalidated(self):
+        c = TestClient(create_app(ChatEngine(make_index(), [FakeProvider("groq")]), RateLimiter(100, 100)))
+        self.assertEqual(c.get("/").headers["cache-control"], "no-cache")
+        self.assertEqual(c.get("/static/app.js").headers["cache-control"], "no-cache")

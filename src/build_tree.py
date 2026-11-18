@@ -15,14 +15,13 @@ import argparse
 import json
 import logging
 import pickle
-import re
 import sys
 import threading
 
 import numpy as np
 
 from common import (CHUNK_TOKENS, CLUSTER_THRESHOLD, EMBEDDING_MODEL, INDEX_DIR, LOG_DIR,
-                    SUMMARY_TOKENS, TEXTBOOK_DIR, TREE_DIR, TREE_LAYERS)
+                    SUMMARY_TOKENS, TEXTBOOK_DIR, TREE_DIR, TREE_LAYERS, clean_markdown)
 
 log = logging.getLogger("build_tree")
 EMB_KEY = "EMB"
@@ -75,14 +74,6 @@ def make_embedder(model):
             return model.create_embedding(text)
 
     return Embedder()
-
-
-def clean_markdown(text):
-    text = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", text)       # images
-    text = re.sub(r"<[^>]+>", " ", text)                    # html tags
-    text = re.sub(r"[ \t]+", " ", text)
-    text = re.sub(r"\n{3,}", "\n\n", text)
-    return text.strip()
 
 
 def build_book_tree(book_path, embedder, summarizer, max_chunks=None):

@@ -39,6 +39,15 @@ class Message(BaseModel):
         return v
 
 
+class RevalidatedStatic(StaticFiles):
+    """Static files that browsers re-check on every load (ETag), so updates show up immediately."""
+
+    async def get_response(self, path, scope):
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = "no-cache"
+        return response
+
+
 class ChatRequest(BaseModel):
     question: str = Field(min_length=1, max_length=MAX_QUESTION_CHARS)
     history: list[Message] = Field(default_factory=list, max_length=8)
@@ -70,7 +79,7 @@ def create_app(engine, limiter=None, mode="live"):
 
     @app.get("/")
     def index():
-        return FileResponse(STATIC / "index.html")
+        return FileResponse(STATIC / "index.html", headers={"Cache-Control": "no-cache"})
 
     @app.get("/api/health")
     def health():
@@ -97,7 +106,7 @@ def create_app(engine, limiter=None, mode="live"):
         return StreamingResponse(events(), media_type="text/event-stream",
                                  headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
-    app.mount("/static", StaticFiles(directory=STATIC), name="static")
+    app.mount("/static", RevalidatedStatic(directory=STATIC), name="static")
     return app
 
 
