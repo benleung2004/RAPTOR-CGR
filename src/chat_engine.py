@@ -141,17 +141,32 @@ class Provider:
                 yield chunk.choices[0].delta.content
 
 
+def provider_name(base_url):
+    """Short label from the endpoint host, e.g. https://api.deepseek.com -> deepseek."""
+    host = re.sub(r"^https?://", "", base_url).split("/")[0].split(":")[0]
+    parts = [p for p in host.split(".") if p not in ("api", "www", "com", "ai", "cn", "io", "net", "org")]
+    return parts[0] if parts else host
+
+
 def providers_from_env():
+    """Primary (default DeepSeek, which works from Hong Kong) and an optional fallback.
+
+    CHAT_*_REASONING_EFFORT is only sent when set; it is meant for reasoning models such as
+    gpt-oss on Groq and is rejected by some other endpoints.
+    """
     load_env()
     found = []
-    for slot, defaults in (("PRIMARY", ("groq", "https://api.groq.com/openai/v1", "openai/gpt-oss-120b", "low")),
-                           ("FALLBACK", ("deepseek", "https://api.deepseek.com", "deepseek-flash", ""))):
+    for slot, (base_default, model_default) in (("PRIMARY", ("https://api.deepseek.com", "deepseek-flash")),
+                                                ("FALLBACK", ("https://openrouter.ai/api/v1", ""))):
         key = os.getenv(f"CHAT_{slot}_API_KEY")
-        if key:
-            found.append(Provider(os.getenv(f"CHAT_{slot}_NAME", defaults[0]),
-                                  os.getenv(f"CHAT_{slot}_BASE_URL", defaults[1]), key,
-                                  os.getenv(f"CHAT_{slot}_MODEL", defaults[2]),
-                                  os.getenv(f"CHAT_{slot}_REASONING_EFFORT", defaults[3]) or None))
+        if not key:
+            continue
+        base_url = os.getenv(f"CHAT_{slot}_BASE_URL") or base_default
+        model = os.getenv(f"CHAT_{slot}_MODEL") or model_default
+        if not model:
+            raise SystemExit(f"CHAT_{slot}_MODEL is not set in .env")
+        found.append(Provider(os.getenv(f"CHAT_{slot}_NAME") or provider_name(base_url), base_url, key, model,
+                              os.getenv(f"CHAT_{slot}_REASONING_EFFORT") or None))
     return found
 
 

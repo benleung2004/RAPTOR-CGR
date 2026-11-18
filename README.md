@@ -113,7 +113,7 @@ gives algorithms or pseudocode when needed. Maths is rendered with KaTeX.
 3. One streamed LLM call answers from those passages, citing them as [1]–[6].
 
 There is no web search and no multi-step agent loop, so the first words appear in about 1 s and a
-full answer usually takes 2–6 s with Groq.
+full answer usually takes a few seconds.
 
 ```bash
 python src/download_data.py          # once: the 20 textbooks (kept local, not in git)
@@ -124,9 +124,11 @@ python web/server.py                 # real answers: set CHAT_PRIMARY_API_KEY in
 
 Then open http://127.0.0.1:8000.
 
-**Models:** the primary is Groq `openai/gpt-oss-120b` on the free tier (about 1,000 requests a day,
-8K tokens a minute, so roughly 2–3 questions a minute). An optional fallback such as DeepSeek
-`deepseek-flash` (about US$0.0005 per answer) takes over automatically when the primary is rate-limited.
+**Models:** any OpenAI-compatible API, set in `.env`.
+
+- **Primary (default):** DeepSeek `deepseek-flash`, about US$0.0005 per answer, so US$1 covers about 2,000 answers. It works from Hong Kong.
+- **Optional fallback:** for example an OpenRouter `:free` model. It takes over automatically when the primary fails.
+- **Not reachable from Hong Kong:** Groq, OpenAI and Google Gemini block Hong Kong IPs. Groq's free `gpt-oss-120b` is very fast, but you can only use it once the server runs outside Hong Kong (see *Future work*).
 
 **Built in:**
 - streamed answers
@@ -191,6 +193,7 @@ These need money, a long-running server or more time, so they are not done yet:
    broad questions can use chapter-level summaries (≈ US$2 of summarisation, or about two weeks on free quotas).
 3. **Always-on hosting:** move from a Mac + Cloudflare Tunnel to a small VPS (about US$4–6/month)
    or to Cloudflare Workers + Vectorize (about US$5/month; the index is larger than the free tier).
+   A server outside Hong Kong (e.g. Singapore or Japan) can also use Groq's fast free tier.
 4. **Textbook licensing:** the 20 textbooks stay local and are never committed. A public service
    should check the licences, or switch to openly licensed textbooks, before serving passages.
 5. **Measured web accuracy:** compare the tutor with a plain LLM on a sample of benchmark questions

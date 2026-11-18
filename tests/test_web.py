@@ -221,3 +221,52 @@ class StaticCaching(unittest.TestCase):
         c = TestClient(create_app(ChatEngine(make_index(), [FakeProvider("groq")]), RateLimiter(100, 100)))
         self.assertEqual(c.get("/").headers["cache-control"], "no-cache")
         self.assertEqual(c.get("/static/app.js").headers["cache-control"], "no-cache")
+
+
+class ProviderConfig(unittest.TestCase):
+    def setUp(self):
+        import os
+        self.saved = {k: v for k, v in os.environ.items() if k.startswith("CHAT_")}
+        for k in self.saved:
+            del os.environ[k]
+
+    def tearDown(self):
+        import os
+        for k in [k for k in os.environ if k.startswith("CHAT_")]:
+            del os.environ[k]
+        os.environ.update(self.saved)
+
+    def test_defaults_to_deepseek_without_reasoning_parameter(self):
+        import os
+        import chat_engine
+        chat_engine.load_env = lambda: None                    # ignore the developer's real .env
+        os.environ["CHAT_PRIMARY_API_KEY"] = "test-key"
+        (p,) = chat_engine.providers_from_env()
+        self.assertEqual((p.name, p.model, p.reasoning_effort), ("deepseek", "deepseek-flash", None))
+
+    def test_fallback_needs_a_model(self):
+        import os
+        import chat_engine
+        chat_engine.load_env = lambda: None
+        os.environ.update(CHAT_PRIMARY_API_KEY="k", CHAT_FALLBACK_API_KEY="k2")
+        with self.assertRaises(SystemExit):
+            chat_engine.providers_from_env()
+        os.environ["CHAT_FALLBACK_MODEL"] = "some/model:free"
+        names = [p.name for p in chat_engine.providers_from_env()]
+        self.assertEqual(names, ["deepseek", "openrouter"])
+
+    def test_reasoning_effort_only_when_set(self):
+        from chat_engine import Provider
+        sent = {}
+
+        class Client:
+            class chat:
+                class completions:
+                    @staticmethod
+                    def create(**kw):
+                        sent.update(kw)
+                        return iter([])
+        list(Provider("x", "u", "k", "m", client=Client()).stream([]))
+        self.assertNotIn("extra_body", sent)
+        list(Provider("x", "u", "k", "m", reasoning_effort="low", client=Client()).stream([]))
+        self.assertEqual(sent["extra_body"], {"reasoning_effort": "low"})
