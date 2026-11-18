@@ -9,122 +9,135 @@ Leung Wai Kit (22094868D) · Supervisor: Dr HUANG Xiao
 ---
 
 LLMs often give fluent answers to university-level computer science questions without sound reasoning. **RAPTOR-CGR** combines
-[RAPTOR](https://arxiv.org/abs/2401.18059) hierarchical retrieval with **Chain-of-Thought prompting** and **context grounding**.
-It is evaluated on all **1,018 questions** of [GraphRAG-Bench](https://arxiv.org/abs/2506.02404), which covers 16 CS topics and 5 question types.
+[RAPTOR](https://arxiv.org/abs/2401.18059) hierarchical retrieval over CS textbooks with **chain-of-thought prompting** and
+**context grounding**. It is evaluated on all **1,018 questions** of [GraphRAG-Bench](https://arxiv.org/abs/2506.02404), which covers 16 CS topics and 5 question types.
 
-## Results
+## Versions
 
-| Pipeline | Answer Accuracy | Rationale Score | AR Score |
-|---|---|---|---|
-| DeepSeek-Baseline (no retrieval) | 0.7652 | 0.6282 | 0.4794 |
-| RAPTOR-Pure (standard RAPTOR-RAG) | 0.7985 | 0.6920 | 0.5707 |
-| RAPTOR-SelfCritique *(extra ablation)* | 0.7706 | 0.6228 | 0.5145 |
-| **RAPTOR-CGR (proposed)** | **0.8899** | **0.7323** | **0.6390** |
+| | v1: submitted report (tag [`v1-submitted`](../../tree/v1-submitted)) | **v2: this branch** |
+|---|---|---|
+| Retrieval corpus | Built from the benchmark items (question, rationale, answer) | **The 20 official GraphRAG-Bench textbooks.** No benchmark question, answer or rationale is indexed, and this is checked by `check_leakage.py`. |
+| Prompts | A different prompt and temperature for each pipeline | One shared format and temperature 0. Each pipeline adds exactly one ingredient. |
+| Answer checking | Exact string match (`TRUE` ≠ `True`). An empty multi-select answer earned 0.5. Only the first line of an answer was read. | Normalised matching, letters mapped back after option shuffles, empty answers scored 0, full answers read |
+| Judge | The answering model, grading without the question | Configurable model (a different family is recommended). It sees the question and replies in JSON. Every judgment is saved. |
+| Guessing checks | – | Chance levels, unsupported-correct rate, option-shuffle consistency, judge agreement |
+| Results | `results/v1/` | `results/` (written by the commands below) |
 
-Compared with the baseline, RAPTOR-CGR improves answer accuracy by **+12.5 pts**, rationale score by **+10.4 pts** and AR score by **+16.0 pts**.
+## How an answer is checked
 
-**AR score by question type**
+Every benchmark question comes with a **reference answer** and an **expert rationale**. The model must reply as `RATIONALE: … ANSWER: …`.
 
-| Type | n | Baseline | RAPTOR-Pure | RAPTOR-SelfCritique | RAPTOR-CGR |
-|---|---|---|---|---|---|
-| FB (Fill-in-blank) | 105 | 0.5167 | 0.7071 | 0.6643 | **0.8119** |
-| MC (Multiple choice) | 217 | 0.6613 | 0.7051 | 0.7247 | **0.7638** |
-| MS (Multi-select) | 111 | 0.4707 | 0.5901 | 0.6104 | **0.6959** |
-| OE (Open-ended) | 269 | 0.1701 | 0.3309 | 0.1636 | **0.4071** |
-| TF (True/False) | 316 | 0.6084 | 0.6305 | 0.5854 | **0.6733** |
+| Score | Multiple choice / True-False | Multi-select | Fill-in-blank | Open-ended |
+|---|---|---|---|---|
+| **Answer** | exact match (normalised) | 1 = all letters, 0.5 = a correct non-empty subset, else 0 | exact match = 1, otherwise LLM judge | LLM judge: 0 / 0.5 / 1 |
+| **Rationale** | LLM judge compares the reasoning with the expert rationale: 0 / 0.5 / 1 (all types) | | | |
+| **AR** | GraphRAG-Bench combination: correct answer + correct reasoning = 1, correct answer + partial reasoning = 0.5, wrong answer + correct/partial reasoning = 0.5/0.25, otherwise 0 | | | |
 
-Per-topic tables and an Excel workbook are in [`results/tables/`](results/tables/). The raw scores are in [`results/scores.json`](results/scores.json).
+18 benchmark items have no expert rationale. They count for answer accuracy only.
+
+### Real understanding or a lucky guess?
+
+A correct letter alone does not prove understanding, so `make_report.py` also reports:
+
+- **Chance level:** random guessing scores about 25% on multiple choice and 50% on true/false.
+- **AR score and unsupported-correct rate:** a correct answer only scores fully when the reasoning matches the expert rationale. The report also gives the share of answers that are correct but whose rationale was judged wrong.
+- **Option-shuffle consistency:** multiple-choice and multi-select questions are asked again with the options in a different order (`--shuffle-seed`). A model that understands picks the same option wherever it is placed; a positional guess does not survive the shuffle.
+- **Judge reliability:** run `evaluate.py` with two different judge models. The report shows their agreement and Cohen's κ. Using a judge from a different model family avoids self-preference bias.
 
 ## Method
 
 ```mermaid
 flowchart LR
-    Q[Question] --> B[DeepSeek<br/>baseline prompt] --> A1[Answer]
-    Q --> E[all-MiniLM-L6-v2<br/>query embedding] --> T[(RAPTOR tree<br/>GMM clusters +<br/>DeepSeek summaries)]
-    T --> C[Retrieved context]
-    C --> P[Standard RAG prompt] --> A2[RAPTOR-Pure]
-    C --> G[CoT + context-grounding prompt] --> A3[RAPTOR-CGR]
+    T[20 CS textbooks] --> C[100-token chunks] --> E[all-MiniLM-L6-v2] --> G[UMAP + GMM clustering<br/>LLM summaries, 2 layers]
+    G --> I[(RAPTOR index<br/>chunks + summaries)]
+    Q[Question] --> R[collapsed-tree retrieval<br/>top-10 nodes] --> I
+    R --> X[context]
+    Q --> B[Baseline]
+    X --> P[RAPTOR-RAG]
+    X --> CGR[RAPTOR-CGR<br/>+ CoT + grounding]
 ```
 
-| | Baseline | RAPTOR-Pure | RAPTOR-CGR |
+| Pipeline | Context | Chain of thought | Context grounding |
 |---|---|---|---|
-| Retrieved context | – | ✓ | ✓ |
-| Step-by-step (CoT) instruction | – | – | ✓ |
-| "Answer strictly from the context" constraint | – | – | ✓ |
-| Format rules for all 5 question types | partial | partial | ✓ |
-| Temperature | 0.2 | 0 | 0.2 |
+| `baseline` | – | – | – |
+| `pure` (RAPTOR-RAG) | ✓ | – | – |
+| `cgr` (**RAPTOR-CGR**) | ✓ | ✓ | ✓ (cite evidence, say when the context is insufficient) |
+| `selfcritique` (extra ablation) | ✓ | – | – (a second call reviews the answer) |
 
-- **RAPTOR tree:** passages are embedded with `sentence-transformers/all-MiniLM-L6-v2` and clustered recursively with Gaussian Mixture Models (2 layers, threshold 0.5). Each cluster is summarised by DeepSeek. All RAPTOR pipelines share the same pre-built tree (`data/raptor_tree.pkl`).
-- **RAPTOR-SelfCritique** is an extra ablation that is not part of the report. The model answers once, then a second call reviews and corrects that answer. It did not beat the single-pass prompts.
-- The exact prompts are in [`src/run_baseline.py`](src/run_baseline.py) and [`src/run_raptor.py`](src/run_raptor.py).
+All prompts are in [`src/prompts.py`](src/prompts.py). All pipelines use temperature 0. Retrieval is computed once (`results/contexts.jsonl`), so every RAPTOR pipeline sees exactly the same evidence.
 
-### Evaluation metrics
+## Run it
 
-The metrics follow the GraphRAG-Bench evaluator ([`src/evaluate.py`](src/evaluate.py)), with DeepSeek as the judge:
+```bash
+python3.11 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env              # add an API key (any OpenAI-compatible endpoint)
+```
 
-- **Answer score:** exact match for MC and TF. For MS, a correct subset of the answers gets 0.5. For FB and OE, an LLM judge gives 0, 0.5 or 1.
-- **Rationale score:** an LLM judge compares the predicted rationale with the expert rationale and gives 0, 0.5 or 1.
-- **AR score:** answer and rationale combined. A correct answer with a correct rationale scores 1, a correct answer with a partial rationale 0.5, and a wrong answer with a correct or partial rationale 0.5 or 0.25.
+```bash
+python src/download_data.py                        # 20 textbooks (~36 MB); verifies the 1,018 questions
+python src/build_tree.py                           # RAPTOR trees + index (resumable)
+python src/retrieval.py                            # retrieved context for every question
+python src/check_leakage.py                        # proves no answer key is retrievable
+python src/run_pipeline.py --pipeline baseline
+python src/run_pipeline.py --pipeline pure
+python src/run_pipeline.py --pipeline cgr
+python src/run_pipeline.py --pipeline selfcritique
+python src/run_pipeline.py --pipeline cgr --shuffle-seed 1      # guessing check (MC + MS)
+python src/evaluate.py                             # judge = JUDGE_* in .env (default: answering model)
+python src/make_report.py                          # results/scores.json, results/tables/
+```
+
+Every step can be resumed: rerunning a command skips finished work and retries failures. `--limit N` gives a quick test, and `--workers N` sets how many requests run in parallel (default 8). To measure judge agreement, set a second `JUDGE_MODEL` in `.env`, run `evaluate.py` again, then run `make_report.py`.
+
+### Cost and time (estimate for one full v2 run)
+
+| Step | API calls | Tokens (in / out) | Time (8 parallel requests) |
+|---|---|---|---|
+| Build RAPTOR trees (one-off) | ≈ 13,600 summaries | ≈ 7.2 M / 1.4 M | 1–2 h |
+| Answer: 4 pipelines + shuffle check | ≈ 5,400 | ≈ 6.5 M / 1.0 M | ≈ 1 h |
+| Evaluate (one judge) | ≈ 5,500 | ≈ 2.5 M / 0.1 M | ≈ 0.5 h |
+| **Total** | **≈ 24,500** | **≈ 16 M / 2.5 M** | **≈ 3–4 h** |
+
+At DeepSeek `deepseek-flash` prices (November 2026) this costs about **US$4–8** in total. Free tiers allow roughly 1,000 requests a day, so a full run would take weeks. Use one model for all answering runs, so that the pipelines stay comparable.
+
+## Tests (offline, no API key needed)
+
+```bash
+python -m unittest discover tests
+```
+
+- `test_scoring.py` covers answer parsing, normalisation, multi-select partial credit, option-shuffle mapping, judge parsing and the AR table.
+- `test_retrieval.py` checks that the fast numpy retriever returns exactly the same context as RAPTOR's own `TreeRetriever`.
+- `test_end_to_end.py` runs the whole workflow with a fake LLM on two textbooks: tree, retrieval, leakage audit, all pipelines (with injected API failures and retry), the shuffle run, evaluation and the report.
 
 ## Repository structure
 
 ```
 ├── src/
-│   ├── common.py              # paths, LLM client, dataset helpers
-│   ├── run_baseline.py        # Pipeline 1: DeepSeek, no retrieval
-│   ├── run_raptor.py          # Pipelines 2-4: --pipeline pure | cgr | selfcritique
-│   ├── build_eval_inputs.py   # split questions/predictions by type for the evaluator
-│   ├── evaluate.py            # GraphRAG-Bench metrics (LLM-as-judge)
-│   └── make_report.py         # CSV / Excel / Markdown tables from scores.json
-├── raptor/                    # RAPTOR library (vendored, MIT, unmodified)
-├── data/
-│   ├── graphrag_bench.jsonl   # 1,018 GraphRAG-Bench questions
-│   └── raptor_tree.pkl        # pre-built RAPTOR tree used in all experiments
-├── results/
-│   ├── raw/                   # model outputs of each pipeline (1,018 each)
-│   ├── eval_inputs/           # evaluator-format questions and predictions
-│   ├── scores.json            # overall / per-type / per-topic scores
-│   └── tables/                # overall, by question type, by topic (+ .xlsx)
-└── docs/                      # final report, presentation, summary
+│   ├── common.py          paths, settings, dataset helpers, option shuffling
+│   ├── llm.py             OpenAI-compatible client: retries, token accounting
+│   ├── prompts.py         every prompt (answering, critique, judge)
+│   ├── scoring.py         parsing + deterministic scoring + AR
+│   ├── download_data.py   textbooks from Hugging Face (pinned revision)
+│   ├── build_tree.py      RAPTOR tree per textbook -> flat index
+│   ├── retrieval.py       collapsed-tree retrieval for all questions
+│   ├── check_leakage.py   answer-key leakage audit
+│   ├── run_pipeline.py    baseline / pure / cgr / selfcritique (+ --shuffle-seed)
+│   ├── evaluate.py        per-question judgments
+│   └── make_report.py     scores, tables, guessing checks, judge agreement
+├── raptor/                RAPTOR library (vendored, MIT, unmodified)
+├── tests/
+├── data/graphrag_bench.jsonl   the 1,018 questions
+├── results/               v2 outputs; results/v1/ = submitted version
+└── docs/                  report, presentation, summary
 ```
-
-## Reproduce
-
-```bash
-python3.11 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env        # then put your DeepSeek API key in .env
-```
-
-The tables can be regenerated from the stored scores without an API key:
-
-```bash
-python src/make_report.py
-```
-
-To run the experiments again, run each pipeline and then the evaluator. Every script is resumable, and `--limit N` gives a quick test run:
-
-```bash
-python src/run_baseline.py
-python src/run_raptor.py --pipeline pure
-python src/run_raptor.py --pipeline cgr
-python src/run_raptor.py --pipeline selfcritique
-python src/build_eval_inputs.py
-python src/evaluate.py --force
-python src/make_report.py
-```
-
-Notes:
-- The scripts resume from existing files in `results/raw/`. Move or delete those files to start a fresh run.
-- Re-running gives slightly different numbers because of LLM sampling and DeepSeek model updates.
-- If `data/raptor_tree.pkl` is deleted, `run_raptor.py` rebuilds the tree. This takes many summarisation calls.
 
 ## Acknowledgements
 
 - **RAPTOR:** P. Sarthi et al., *RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval*, ICLR 2024. Code from [parthsarthi03/raptor](https://github.com/parthsarthi03/raptor) (MIT, see `raptor/LICENSE`).
-- **GraphRAG-Bench:** Y. Xiao et al., *GraphRAG-Bench: Challenging Domain-Specific Reasoning for Evaluating Graph Retrieval-Augmented Generation*, arXiv:2506.02404, 2025. The dataset belongs to its authors and is included here for reproducibility only.
-- **DeepSeek** (`deepseek-chat`) is used for answering, summarisation and evaluation.
+- **GraphRAG-Bench:** Y. Xiao et al., *GraphRAG-Bench: Challenging Domain-Specific Reasoning for Evaluating Graph Retrieval-Augmented Generation*, arXiv:2506.02404, 2025. The questions and textbooks belong to their authors. The questions are included here for reproducibility only, and the textbooks are downloaded from [Hugging Face](https://huggingface.co/datasets/Awesome-GraphRAG/GraphRAG-Bench).
 
 ## License
 
-The code in this repository is MIT licensed (see [LICENSE](LICENSE)). The GraphRAG-Bench data and the report documents are not covered by this license.
+The code is MIT licensed (see [LICENSE](LICENSE)). The GraphRAG-Bench data and the report documents are not covered by this license.

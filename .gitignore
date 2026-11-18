@@ -9,6 +9,11 @@ __pycache__/
 .venv/
 venv/
 
+# Large / downloadable / rebuildable data
+data/textbooks/
+data/trees/
+data/index/
+
 # Run logs
 results/logs/
 
