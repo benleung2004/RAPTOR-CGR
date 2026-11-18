@@ -195,8 +195,24 @@ BOILERPLATE = [r"Author: Kevin P\. Murphy\. \(C\) MIT Press\. CC-BY-NC-ND licens
 _HTML_TAG = re.compile(r"</?[A-Za-z][A-Za-z0-9]*(?:\s[^<>\n]*)?/?>")   # real tags only, never "a < b > c"
 
 
+def fix_pdf_artifacts(text):
+    """Undo systematic PDF-extraction errors, only in books where they are clearly systematic.
+
+    One textbook (CLRS) encodes the 'fi'/'fl' ligatures as 'û'/'ü' (ûrst, üow) and the apostrophe as
+    '9' (Dijkstra9s). A few genuine 'ü' (e.g. Müller) elsewhere must stay, so the fix is only applied
+    when the artifact is frequent in that book.
+    """
+    if text.count("û") > 200:
+        text = re.sub(r"(?<=\w)û|û(?=\w)", "fi", text)
+        text = re.sub(r"(?<=\w)ü|ü(?=\w)", "fl", text)
+    if len(re.findall(r"[a-z]9s\b", text)) > 50:
+        text = re.sub(r"(?<=[A-Za-z])9s\b", "'s", text)
+    return text
+
+
 def clean_markdown(text):
     """Remove images, HTML markup and running headers/footers while keeping all real content."""
+    text = fix_pdf_artifacts(text)
     text = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", text)                       # images
     text = re.sub(r"</t[dh]>", " | ", text)                                  # keep table cells apart
     text = re.sub(r"</tr>", "\n", text)
@@ -209,3 +225,44 @@ def clean_markdown(text):
                      if not (counts.get(l.strip(), 0) > 15 and not l.lstrip().startswith("#")))
     text = re.sub(r"[ \t]+", " ", text)
     return re.sub(r"\n{3,}", "\n\n", text).strip()
+
+
+def split_chunks(text, tokenizer, max_tokens):
+    """Split text into chunks of at most max_tokens WITHOUT altering it.
+
+    RAPTOR's split_text deletes every '.', '!', '?' and newline it splits on, which breaks
+    sentences, section numbers (6.5 -> "6 5") and multi-line pseudocode/tables. Here paragraphs
+    (blank-line separated) are packed whole; an over-long paragraph is cut at sentence ends,
+    then at line breaks, then by tokens. Pieces are re-joined with the separator they had, so
+    the original text is kept (only the whitespace at a chunk boundary is dropped).
+    """
+    def n(t):
+        return len(tokenizer.encode(t, disallowed_special=()))
+
+    def units(par, sep):
+        """[(separator before the unit, unit text)] for one paragraph."""
+        if n(par) <= max_tokens:
+            return [(sep, par)]
+        for pattern, joiner in ((r"(?<=[.!?])\s+(?=[A-Z0-9$\\(\[])", " "), (r"\n", "\n")):
+            parts = [p for p in re.split(pattern, par) if p.strip()]
+            if len(parts) > 1:
+                return [u for i, p in enumerate(parts) for u in units(p, sep if i == 0 else joiner)]
+        toks = tokenizer.encode(par, disallowed_special=())
+        return [(sep if i == 0 else "", tokenizer.decode(toks[i:i + max_tokens]))
+                for i in range(0, len(toks), max_tokens)]
+
+    chunks, current, size = [], "", 0
+    for par in re.split(r"\n\s*\n", text):
+        if not par.strip():
+            continue
+        for sep, unit in units(par.strip("\n"), "\n\n"):
+            cost = n(unit) + (n(sep) if current and sep else 0)
+            if current and size + cost > max_tokens:
+                chunks.append(current)
+                current, size = unit, n(unit)
+            else:
+                current = current + sep + unit if current else unit
+                size += cost
+    if current:
+        chunks.append(current)
+    return chunks

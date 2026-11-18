@@ -9,11 +9,13 @@ POST /api/chat streams Server-Sent Events: sources -> delta* -> done | error.
 import argparse
 import json
 import os
+import re
 import sys
 import threading
 import time
 from collections import defaultdict, deque
 from pathlib import Path
+from typing import Literal
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -24,6 +26,8 @@ from fastapi.staticfiles import StaticFiles  # noqa: E402
 from pydantic import BaseModel, Field, field_validator  # noqa: E402
 
 STATIC = Path(__file__).parent / "static"
+TEXTBOOKS = ROOT / "data" / "textbooks"
+GITHUB_BOOK_URL = "https://github.com/benleung2004/RAPTOR-CGR/blob/main/data/textbooks/{book}.md"
 MAX_QUESTION_CHARS = 2000
 
 
@@ -51,6 +55,7 @@ class RevalidatedStatic(StaticFiles):
 class ChatRequest(BaseModel):
     question: str = Field(min_length=1, max_length=MAX_QUESTION_CHARS)
     history: list[Message] = Field(default_factory=list, max_length=8)
+    mode: Literal["fast", "deep"] = "fast"
 
 
 class RateLimiter:
@@ -81,6 +86,37 @@ def create_app(engine, limiter=None, mode="live"):
     def index():
         return FileResponse(STATIC / "index.html", headers={"Cache-Control": "no-cache"})
 
+    @app.get("/read")
+    def reader():
+        return FileResponse(STATIC / "read.html", headers={"Cache-Control": "no-cache"})
+
+    @app.get("/api/context/{chunk_id}")
+    def context(chunk_id: int, before: int = 3, after: int = 3):
+        """A passage with its neighbouring chunks from the same textbook (chunk ids follow book order)."""
+        chunks = engine.index.chunks
+        if not 0 <= chunk_id < len(chunks):
+            raise HTTPException(404, "Passage not found.")
+        before, after = max(0, min(before, 20)), max(0, min(after, 20))
+        book = chunks[chunk_id]["book"]
+        lo = chunk_id
+        while lo > 0 and chunk_id - lo < before and chunks[lo - 1]["book"] == book:
+            lo -= 1
+        hi = chunk_id
+        while hi + 1 < len(chunks) and hi - chunk_id < after and chunks[hi + 1]["book"] == book:
+            hi += 1
+        return {"book": book, "title": chunks[chunk_id]["title"], "focus": chunk_id,
+                "has_before": lo > 0 and chunks[lo - 1]["book"] == book,
+                "has_after": hi + 1 < len(chunks) and chunks[hi + 1]["book"] == book,
+                "full_text_url": f"/books/{book}.md", "github_url": GITHUB_BOOK_URL.format(book=book),
+                "chunks": [{"id": i, "section": chunks[i]["section"], "text": chunks[i]["text"]}
+                           for i in range(lo, hi + 1)]}
+
+    @app.get("/books/{name}")
+    def book_file(name: str):
+        if not re.fullmatch(r"textbook\d{1,2}\.md", name) or not (TEXTBOOKS / name).exists():
+            raise HTTPException(404, "Textbook not found.")
+        return FileResponse(TEXTBOOKS / name, media_type="text/plain; charset=utf-8")
+
     @app.get("/api/health")
     def health():
         return {"status": "ok", "mode": mode, "chunks": len(engine.index.chunks),
@@ -97,7 +133,8 @@ def create_app(engine, limiter=None, mode="live"):
 
         def events():
             try:
-                for kind, data in engine.answer(question, [m.model_dump() for m in req.history]):
+                for kind, data in engine.answer(question, [m.model_dump() for m in req.history],
+                                                deep=req.mode == "deep"):
                     yield f"event: {kind}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
             except Exception as e:  # never leak internals to the browser
                 print("chat error:", type(e).__name__, e)

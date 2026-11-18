@@ -48,6 +48,11 @@
       <textarea id="input" rows="1" maxlength="2000" placeholder="Ask a CS question…  (Enter to send, Shift+Enter for a new line)" aria-label="Your question"></textarea>
       <button id="send" type="submit" class="send" aria-label="Send">Send</button>
     </form>
+    <div class="composer-options">
+      <label class="deep-toggle" title="The model works through the problem privately before answering: slower (about 30–60 s) but more reliable for derivations, traces and worked examples.">
+        <input type="checkbox" id="deep"> Deep reasoning <span class="hint">slower, checks its worked examples</span>
+      </label>
+    </div>
     <p class="disclaimer">AI-generated answers can be wrong — check the cited textbook passages. Questions are not stored.</p>
   </footer>
 
@@ -55,6 +60,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+  <script src="/static/render.js"></script>
   <script src="/static/app.js"></script>
 </body>
 </html>

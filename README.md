@@ -4,7 +4,7 @@
 COMP4913 Capstone Project, Department of Computing, The Hong Kong Polytechnic University (2026)
 Leung Wai Kit (22094868D) · Supervisor: Dr HUANG Xiao
 
-📄 [Final report](docs/FYP_Final_Report_22094868D.pdf) · 🖥️ [Presentation](docs/FYP_Presentation.pdf) · 📝 [Summary](docs/FYP_Summary_22094868D.docx) · 🧭 [Project history: problems found and how they were fixed](project-history/README.md)
+📄 [Final report](docs/FYP_Final_Report_22094868D.pdf) · 🖥️ [Presentation](docs/FYP_Presentation.pdf) · 📝 [Summary](docs/FYP_Summary_22094868D.docx) · 🧭 [Project history: problems found and how they were fixed](project-history/README.md) · ⚖️ [Comparison with Perplexity](comparisons/README.md)
 
 ---
 
@@ -109,7 +109,7 @@ gives algorithms or pseudocode when needed. Maths is rendered with KaTeX.
 
 **How it answers (one request):**
 1. The question is embedded locally with `multilingual-e5-small`, so Chinese questions find English passages (~20 ms).
-2. The 6 most relevant passages are found among about 38,000 textbook chunks (~20 ms).
+2. The 6 most relevant passages are found among about 55,500 textbook chunks (~20 ms).
 3. One streamed LLM call answers from those passages, citing them as [1]–[6].
 
 There is no web search and no multi-step agent loop, so the first words appear in about 1 s and a
@@ -129,6 +129,15 @@ Then open http://127.0.0.1:8000.
 - **Primary (default):** DeepSeek `deepseek-flash`, about US$0.0005 per answer, so US$1 covers about 2,000 answers. It works from Hong Kong.
 - **Optional fallback:** for example an OpenRouter `:free` model. It takes over automatically when the primary fails.
 - **Not reachable from Hong Kong:** Groq, OpenAI and Google Gemini block Hong Kong IPs. Groq's free `gpt-oss-120b` is very fast, but you can only use it once the server runs outside Hong Kong (see *Future work*).
+
+**Two answer modes:**
+- **Fast** (default): direct answer, usually 3–15 s.
+- **Deep reasoning** (checkbox): the model works through the problem privately first, so it is slower
+  (about 30–60 s) but checks worked examples, traces and counterexamples before writing them. See the
+  [comparison with Perplexity](comparisons/shortest-paths/README.md) for why this matters.
+
+**Open in textbook:** every source card links to the cited passage inside the book, with the
+surrounding text and a link to the full textbook.
 
 **Built in:**
 - streamed answers
@@ -179,6 +188,7 @@ python -m unittest discover tests
 ├── tests/
 ├── data/                  questions, book titles, 20 textbooks, web index
 ├── project-history/       how the project developed: every problem, its severity, the fix
+├── comparisons/           tutor vs other AI assistants, with executable checks
 ├── results/               v2 outputs; results/v1/ = submitted version
 └── docs/                  report, presentation, summary
 ```

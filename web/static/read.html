@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Textbook passage · CS Textbook Tutor</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232f6fed'/><path d='M9 9h9a5 5 0 0 1 5 5v9H14a5 5 0 0 1-5-5z' fill='white'/></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" style="text-decoration:none;color:inherit">
+      <span class="logo" aria-hidden="true"></span>
+      <div><h1>CS Textbook Tutor</h1><p class="tagline">Textbook passage</p></div>
+    </a>
+  </header>
+  <main class="reader">
+    <section class="reader-head">
+      <h2 id="book-title">Loading…</h2>
+      <div class="reader-links">
+        <a id="full-text" href="#" target="_blank" rel="noopener">Full textbook (plain text) ↗</a>
+        <a id="github" href="#" target="_blank" rel="noopener">View on GitHub ↗</a>
+      </div>
+      <p class="reader-note">The highlighted passage is the one cited in the answer; neighbouring passages are shown for context.
+        Text is extracted from the book PDF, so formulas and figures may look rough.</p>
+    </section>
+    <button id="earlier" class="ghost load-more" type="button" hidden>Show earlier text</button>
+    <div id="passages"></div>
+    <button id="later" class="ghost load-more" type="button" hidden>Show later text</button>
+    <p id="error" class="error" hidden></p>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+  <script src="/static/render.js"></script>
+  <script src="/static/read.js"></script>
+</body>
+</html>

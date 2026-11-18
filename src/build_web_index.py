@@ -16,7 +16,7 @@ import re
 import time
 import numpy as np
 
-from common import DATA_DIR, TEXTBOOK_DIR, clean_markdown
+from common import DATA_DIR, TEXTBOOK_DIR, clean_markdown, split_chunks
 
 WEB_INDEX_DIR = DATA_DIR / "web_index"
 BOOK_TITLES = DATA_DIR / "book_titles.json"
@@ -57,8 +57,6 @@ def sections(text):
 
 
 def chunk_book(path, tokenizer, titles):
-    from raptor.utils import split_text
-
     book = path.stem
     title = titles.get(book, book)
     chunks = []
@@ -70,7 +68,7 @@ def chunk_book(path, tokenizer, titles):
             carry, pending_heading = text, heading
             continue
         carry, pending_heading = "", ""
-        for piece in split_text(text, tokenizer, CHUNK_TOKENS):
+        for piece in split_chunks(text, tokenizer, CHUNK_TOKENS):
             if len(tokenizer.encode(piece)) >= MIN_CHUNK_TOKENS:
                 chunks.append({"book": book, "title": title, "section": heading, "text": piece.strip()})
     return chunks

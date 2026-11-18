@@ -137,6 +137,10 @@ question/prediction pairs.
 | W5 | Groq (and OpenAI and Gemini) block Hong Kong IPs, so the planned free provider was unusable. | 🟠 | DeepSeek is the default; any OpenAI-compatible fallback can be added. |
 | W6 | PDF-extraction garbage chunks ranked highly, and Chinese questions matched English text less reliably. | 🟡 | Garbled chunks are filtered; English technical terms in the question (e.g. "ACID", "TCP") get a ranking bonus; exercise sections rank below explanations. |
 | W7 | The browser kept a stale `app.js` after updates, and the Send button state was wrong after an answer. | 🟢 | Static files are revalidated on every load; state order fixed. |
+| W8 | Long answers were silently cut at 1,200 tokens (a complex question stopped mid-answer). | 🟠 | 4,096-token limit (configurable); an answer that still reaches it is clearly marked. |
+| W9 | **RAPTOR's `split_text` deletes every `.`, `!`, `?` and line break it splits on**, so sentences lost their full stops, "6.5" became "6 5", and multi-line textbook pseudocode became one line. This also affected v1. | 🟠 | A text-preserving chunker (paragraphs, then sentences, then lines; original separators kept), used by the web index and the v2 trees, with tests. |
+| W11 | One textbook (CLRS) was extracted with the 'fi'/'fl' ligatures as 'û'/'ü' and the apostrophe as '9' ("ûrst", "üow", "Dijkstra9s"), about 5,000 broken words. | 🟡 | A per-book fix, applied only when the pattern is systematic, so genuine characters (e.g. Müller) stay. |
+| W10 | A comparison with Perplexity (Claude Sonnet 5.5, reasoning) showed fast mode leaving an abandoned counterexample and a too-easy trace in a hard multi-part answer. A prompt-only fix made things worse (an accidental negative cycle). | 🟡 | **Deep reasoning mode** (DeepSeek thinking, 16k-token budget, about 45 s), which produced a fully verified answer; see [comparisons](../comparisons/shortest-paths/README.md). |
 
 ---
 
@@ -146,7 +150,7 @@ question/prediction pairs.
 |---|---|
 | v1 (submitted) | Code and results reproducible (`results/v1/`, tag `v1-submitted`). The RAPTOR numbers are inflated by C1 and should not be read as a measure of reasoning ability. |
 | v2 experiment | Code complete; 59 offline tests, including an end-to-end run with a fake LLM. **Not run yet** (≈ 24,500 API calls, about US$4–8): see *Future work* in the main README. |
-| Web tutor | Works locally with DeepSeek: 49,383 textbook chunks, Chinese/English questions, first words in about 0.7–1.5 s and full answers in 2.8–5.7 s (measured on 7 questions), with citations, maths and pseudocode. |
+| Web tutor | Works locally with DeepSeek over the 20 textbooks: Chinese/English questions, fast mode (first words in about 0.7–1.8 s, typical answers in 3–11 s) and deep mode (about 45 s), with citations, maths, pseudocode and "open in textbook" links. |
 
 ## Lessons
 

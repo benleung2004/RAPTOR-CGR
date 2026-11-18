@@ -6,6 +6,9 @@ const welcomeEl = $("#welcome");
 const input = $("#input");
 const sendBtn = $("#send");
 const form = $("#composer");
+const deepBox = $("#deep");
+try { deepBox.checked = localStorage.getItem("deep") === "1"; } catch { /* private mode */ }
+deepBox.addEventListener("change", () => { try { localStorage.setItem("deep", deepBox.checked ? "1" : "0"); } catch { /* ignore */ } });
 
 const history = [];            // [{role, content}] kept in memory only
 let controller = null;         // AbortController of the running request
@@ -26,28 +29,6 @@ $("#theme").addEventListener("click", () => {
   try { localStorage.setItem("theme", next); } catch { /* private mode */ }
   applyTheme(next);
 });
-
-// ── Markdown + maths rendering ─────────────────────────────────────────────
-marked.setOptions({ gfm: true, breaks: false });
-const MATH_RE = /(```[\s\S]*?(?:```|$)|`[^`\n]*`)|(\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|\$(?=\S)[^$\n]+?(?<=\S)\$)/g;
-
-function renderMarkdown(md) {
-  const maths = [];
-  const protectedMd = md.replace(MATH_RE, (whole, code, math) => {
-    if (code) return code;
-    maths.push(math);
-    return `MATHPH${maths.length - 1}END`;
-  });
-  let html = marked.parse(protectedMd);
-  html = html.replace(/MATHPH(\d+)END/g, (_, i) => {
-    const m = maths[+i];
-    const display = m.startsWith("$$") || m.startsWith("\\[");
-    const tex = display ? m.slice(2, -2) : m.startsWith("\\(") ? m.slice(2, -2) : m.slice(1, -1);
-    try { return katex.renderToString(tex, { displayMode: display, throwOnError: false, output: "html" }); }
-    catch { return m; }
-  });
-  return DOMPurify.sanitize(html);
-}
 
 function linkCitations(root, sourceCount, onCite) {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
@@ -135,7 +116,19 @@ function renderSources(view, sources) {
       card.classList.toggle("expanded");
       more.textContent = card.classList.contains("expanded") ? "Show less" : "Show full passage";
     });
-    card.append(head, section, text, more);
+    const actions = document.createElement("div");
+    actions.className = "src-actions";
+    actions.append(more);
+    if (Number.isInteger(s.id)) {
+      const open = document.createElement("a");
+      open.className = "open-book";
+      open.href = `/read?chunk=${s.id}`;
+      open.target = "_blank";
+      open.rel = "noopener";
+      open.textContent = "Open in textbook ↗";
+      actions.append(open);
+    }
+    card.append(head, section, text, actions);
     details.append(card);
   });
   view.body.append(details);
@@ -165,6 +158,18 @@ async function ask(question) {
   addUserMessage(question);
   const view = addAssistantMessage();
   view.id = `m${++viewCounter}`;
+  const deep = deepBox.checked;
+  const waitStart = Date.now();
+  view.answer.dataset.wait = "Searching the textbooks…";
+  const waitTimer = setInterval(() => {
+    if (!view.answer.classList.contains("waiting")) return clearInterval(waitTimer);
+    const secs = Math.round((Date.now() - waitStart) / 1000);
+    if (view.answer.classList.contains("has-sources")) {
+      view.answer.dataset.wait = deep
+        ? `Deep reasoning: working through the problem before writing… ${secs} s (usually 30–60 s)`
+        : `Writing the answer… ${secs} s`;
+    }
+  }, 500);
   window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
 
   let text = "", sources = [], frame = null;
@@ -183,7 +188,7 @@ async function ask(question) {
     const resp = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question, history: priorHistory }),
+      body: JSON.stringify({ question, history: priorHistory, mode: deep ? "deep" : "fast" }),
       signal: controller.signal,
     });
     if (!resp.ok) {
@@ -235,6 +240,7 @@ async function ask(question) {
     note.textContent = err.name === "AbortError" ? "Stopped." : err.message || "Network error - please try again.";
     view.answer.append(note);
   } finally {
+    clearInterval(waitTimer);
     controller = null;
     setBusy(false);
   }
@@ -246,6 +252,11 @@ function showMeta(view, stats, text) {
   if (stats.cached) parts.push("cached");
   else if (stats.model) parts.push(stats.model);
   view.meta.textContent = parts.join(" · ");
+  if (stats.mode === "deep") {
+    const badge = document.createElement("span");
+    badge.className = "mode-badge"; badge.textContent = "deep reasoning";
+    view.meta.prepend(badge);
+  }
   const copy = document.createElement("button");
   copy.type = "button"; copy.textContent = "Copy answer";
   copy.addEventListener("click", () => copyText(text, copy));

@@ -1,8 +1,8 @@
 {
   "embedding_model": "intfloat/multilingual-e5-small",
   "chunk_tokens": 220,
-  "chunks": 49383,
-  "garbled_dropped": 76,
+  "chunks": 55539,
+  "garbled_dropped": 85,
   "books": [
     "textbook1",
     "textbook2",
@@ -25,5 +25,5 @@
     "textbook19",
     "textbook20"
   ],
-  "built": "2026-11-18 22:12"
+  "built": "2026-11-18 23:55"
 }

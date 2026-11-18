@@ -21,7 +21,8 @@ import threading
 import numpy as np
 
 from common import (CHUNK_TOKENS, CLUSTER_THRESHOLD, EMBEDDING_MODEL, INDEX_DIR, LOG_DIR,
-                    SUMMARY_TOKENS, TEXTBOOK_DIR, TREE_DIR, TREE_LAYERS, clean_markdown)
+                    SUMMARY_TOKENS, TEXTBOOK_DIR, TREE_DIR, TREE_LAYERS, clean_markdown,
+                    split_chunks)
 
 log = logging.getLogger("build_tree")
 EMB_KEY = "EMB"
@@ -81,7 +82,6 @@ def build_book_tree(book_path, embedder, summarizer, max_chunks=None):
     import tiktoken
     from raptor.cluster_tree_builder import ClusterTreeBuilder, ClusterTreeConfig
     from raptor.tree_structures import Node, Tree
-    from raptor.utils import split_text
 
     config = ClusterTreeConfig(
         tokenizer=tiktoken.get_encoding("cl100k_base"), max_tokens=CHUNK_TOKENS,
@@ -90,7 +90,7 @@ def build_book_tree(book_path, embedder, summarizer, max_chunks=None):
         cluster_embedding_model=EMB_KEY)
     builder = ClusterTreeBuilder(config)
 
-    chunks = split_text(clean_markdown(book_path.read_text(encoding="utf-8")), config.tokenizer, CHUNK_TOKENS)
+    chunks = split_chunks(clean_markdown(book_path.read_text(encoding="utf-8")), config.tokenizer, CHUNK_TOKENS)
     chunks = [c for c in chunks if c.strip()][:max_chunks]
     log.info(f"{book_path.stem}: {len(chunks)} chunks, embedding...")
     vectors = embedder.encode_batch(chunks)

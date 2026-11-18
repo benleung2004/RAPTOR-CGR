@@ -31,9 +31,13 @@ How to answer:
 3. Algorithms, computations and maths: give numbered steps, then pseudocode in a ```text code block
    (or Python in a ```python block when code is clearer), and work through a small example when it helps.
    Write maths in LaTeX: $...$ inline and $$...$$ for display.
-4. If the excerpts do not cover the question, say so in one sentence, then answer from general
+4. Examples, traces and counterexamples: work them out completely before writing, check every number,
+   and make them consistent with the pseudocode you gave (e.g. a counterexample must fail under that
+   exact pseudocode). Never show an attempt that does not work. Prefer examples that exercise the key
+   behaviour (a trace that needs more than one pass, an error that propagates to later vertices).
+5. If the excerpts do not cover the question, say so in one sentence, then answer from general
    computer science knowledge without citations. Never invent citations or facts about the excerpts.
-5. Be concise and precise. Use Markdown headings and lists only when they help.
+6. Be concise and precise. Use Markdown headings and lists only when they help.
 
 Language: reply in the language of the question. For Chinese questions use Traditional Chinese and
 keep technical terms in English in brackets the first time, e.g. 二元搜尋樹 (binary search tree).
@@ -129,21 +133,32 @@ TRUNCATED_NOTE = ("\n\n---\n*The answer reached the length limit and was cut off
                   "Ask a follow-up about the remaining part (e.g. \"continue\" or one sub-question).*")
 
 class Provider:
-    def __init__(self, name, base_url, api_key, model, reasoning_effort=None, client=None, extra_body=None):
+    """An OpenAI-compatible chat endpoint.
+
+    Fast mode (default) answers directly. Deep mode lets the model reason privately first (DeepSeek
+    thinking mode), which is slower (~30-60 s) but checks worked examples before writing them.
+    """
+
+    def __init__(self, name, base_url, api_key, model, reasoning_effort=None, client=None, extra_body=None,
+                 deep_extra_body=None):
         self.name, self.model, self.reasoning_effort = name, model, reasoning_effort
         self.extra_body = dict(extra_body or {})
         if reasoning_effort:
             self.extra_body["reasoning_effort"] = reasoning_effort
+        self.deep_extra_body = dict(deep_extra_body) if deep_extra_body is not None else dict(self.extra_body)
         if client is None:
             from openai import OpenAI
-            client = OpenAI(api_key=api_key, base_url=base_url, max_retries=0, timeout=60)
+            client = OpenAI(api_key=api_key, base_url=base_url, max_retries=0, timeout=180)
         self.client = client
 
-    def stream(self, messages, max_tokens=None):
+    def stream(self, messages, max_tokens=None, deep=False):
         """Yield answer text; yields TRUNCATED last if the model stopped at the length limit."""
-        kwargs = {"extra_body": self.extra_body} if self.extra_body else {}
+        extra = self.deep_extra_body if deep else self.extra_body
+        kwargs = {"extra_body": extra} if extra else {}
+        if not max_tokens:
+            max_tokens = int(os.getenv("CHAT_DEEP_MAX_TOKENS") or 16000) if deep else int(os.getenv("CHAT_MAX_TOKENS") or 4096)
         resp = self.client.chat.completions.create(model=self.model, messages=messages, temperature=0.2,
-                                                   max_tokens=max_tokens or int(os.getenv("CHAT_MAX_TOKENS") or 4096), stream=True, **kwargs)
+                                                   max_tokens=max_tokens, stream=True, **kwargs)
         finish = None
         for chunk in resp:
             if not chunk.choices:
@@ -154,6 +169,16 @@ class Provider:
                 yield choice.delta.content
         if finish == "length":
             yield TRUNCATED
+
+
+def deep_extra_body_for(prefix, base_url):
+    """Request options for deep mode: <prefix>_DEEP_EXTRA_BODY (JSON), default DeepSeek thinking on."""
+    raw = os.getenv(f"{prefix}_DEEP_EXTRA_BODY")
+    if raw:
+        return json.loads(raw)
+    if "deepseek.com" in base_url:
+        return {"thinking": {"type": "enabled"}, "reasoning_effort": "high"}
+    return None                                   # other providers: same options as fast mode
 
 
 def provider_name(base_url):
@@ -184,7 +209,8 @@ def providers_from_env():
             raise SystemExit(f"CHAT_{slot}_MODEL is not set in .env")
         found.append(Provider(os.getenv(f"CHAT_{slot}_NAME") or provider_name(base_url), base_url, key, model,
                               os.getenv(f"CHAT_{slot}_REASONING_EFFORT") or None,
-                              extra_body=extra_body_for(f"CHAT_{slot}", base_url)))
+                              extra_body=extra_body_for(f"CHAT_{slot}", base_url),
+                              deep_extra_body=deep_extra_body_for(f"CHAT_{slot}", base_url)))
     return found
 
 
@@ -195,7 +221,7 @@ class DemoProvider:
     def __init__(self):
         self.last_sources = []
 
-    def stream(self, messages, max_tokens=None):
+    def stream(self, messages, max_tokens=None, deep=False):
         text = ("**Demo mode** – no LLM is configured, so this shows what the tutor would read before answering.\n\n"
                 "Most relevant textbook excerpts: " + " ".join(f"[{i}]" for i in range(1, 4)) +
                 "\n\nExample of the maths and code rendering:\n\n$$T(n) = 2T(n/2) + O(n) = O(n \\log n)$$\n\n"
@@ -217,11 +243,11 @@ class ChatEngine:
         self.cache_size = cache_size
         self._cache_lock = threading.Lock()
 
-    def answer(self, question, history=()):
+    def answer(self, question, history=(), deep=False):
         """Yield events: ('sources', [...]), ('delta', str)*, ('done', stats) or ('error', message)."""
         history = list(history)
         started = time.perf_counter()
-        key = re.sub(r"\s+", " ", question.strip().lower()) if not history else None
+        key = (("deep:" if deep else "") + re.sub(r"\s+", " ", question.strip().lower())) if not history else None
         with self._cache_lock:
             cached = self.cache.get(key) if key else None
             if cached:
@@ -234,7 +260,7 @@ class ChatEngine:
 
         sources = self.index.search(retrieval_query(question, history), self.top_k)
         retrieval_ms = round((time.perf_counter() - started) * 1000)
-        public_sources = [{k: s[k] for k in ("title", "section", "text", "score", "book")} for s in sources]
+        public_sources = [{k: s.get(k) for k in ("id", "title", "section", "text", "score", "book")} for s in sources]
         yield "sources", public_sources
         messages = build_messages(question, sources, history)
 
@@ -243,7 +269,7 @@ class ChatEngine:
             parts, first_token_ms = [], None
             try:
                 truncated = False
-                for piece in provider.stream(messages):
+                for piece in provider.stream(messages, **({"deep": True} if deep else {})):
                     if piece is TRUNCATED:
                         truncated, piece = True, TRUNCATED_NOTE
                     if first_token_ms is None:
@@ -262,7 +288,7 @@ class ChatEngine:
             stats = {"provider": provider.name, "model": provider.model, "retrieval_ms": retrieval_ms,
                      "first_token_ms": first_token_ms,
                      "total_ms": round((time.perf_counter() - started) * 1000), "cached": False,
-                     "truncated": truncated}
+                     "truncated": truncated, "mode": "deep" if deep else "fast"}
             if key and not truncated:
                 with self._cache_lock:
                     self.cache[key] = {"sources": public_sources, "answer": "".join(parts), "stats": stats}

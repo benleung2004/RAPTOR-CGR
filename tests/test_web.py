@@ -52,8 +52,8 @@ class FakeProvider:
             yield word + " "
 
 
-def events(engine, question, history=()):
-    return list(engine.answer(question, history))
+def events(engine, question, history=(), deep=False):
+    return list(engine.answer(question, history, deep=deep))
 
 
 class Engine(unittest.TestCase):
@@ -325,3 +325,90 @@ class Truncation(unittest.TestCase):
         self.assertEqual(out[:2], ["a", "b"])
         self.assertIs(out[2], TRUNCATED)
         self.assertEqual(Client.max_tokens, 4096)
+
+
+class Reader(unittest.TestCase):
+    def setUp(self):
+        chunks = [{"id": i, "book": "textbook7" if i < 4 else "textbook15", "title": "T", "section": f"s{i}",
+                   "text": f"chunk {i}"} for i in range(8)]
+        index = TextbookIndex(np.eye(8, dtype=np.float32), chunks, lambda q: np.ones(8, dtype=np.float32))
+        self.c = TestClient(create_app(ChatEngine(index, [FakeProvider("groq")]), RateLimiter(100, 100)))
+
+    def test_sources_carry_chunk_ids(self):
+        ev = parse_sse(self.c.post("/api/chat", json={"question": "q"}).text)
+        self.assertTrue(all(isinstance(s["id"], int) for s in ev[0][1]))
+
+    def test_context_stays_inside_one_book(self):
+        d = self.c.get("/api/context/2?before=5&after=5").json()
+        self.assertEqual([x["id"] for x in d["chunks"]], [0, 1, 2, 3])        # textbook15 starts at id 4
+        self.assertEqual((d["has_before"], d["has_after"]), (False, False))
+        self.assertEqual(d["full_text_url"], "/books/textbook7.md")
+        self.assertIn("RAPTOR-CGR/blob/main/data/textbooks/textbook7.md", d["github_url"])
+        d = self.c.get("/api/context/5?before=1&after=1").json()
+        self.assertEqual([x["id"] for x in d["chunks"]], [4, 5, 6])
+        self.assertEqual((d["has_before"], d["has_after"]), (False, True))
+
+    def test_context_errors_and_limits(self):
+        self.assertEqual(self.c.get("/api/context/99").status_code, 404)
+        self.assertEqual(self.c.get("/api/context/-1").status_code, 404)
+        self.assertEqual(self.c.get("/api/context/abc").status_code, 422)
+        self.assertEqual(len(self.c.get("/api/context/5?before=999&after=999").json()["chunks"]), 4)
+
+    def test_book_file_and_path_traversal(self):
+        from common import TEXTBOOK_DIR
+        for bad in ["..%2F.env", "textbook1.txt", "textbook999.md", "server.py"]:
+            self.assertEqual(self.c.get(f"/books/{bad}").status_code, 404, bad)
+        if (TEXTBOOK_DIR / "textbook1.md").exists():
+            r = self.c.get("/books/textbook1.md")
+            self.assertEqual(r.status_code, 200)
+            self.assertTrue(r.headers["content-type"].startswith("text/plain"))
+
+    def test_reader_page(self):
+        r = self.c.get("/read?chunk=1")
+        self.assertEqual(r.status_code, 200)
+        self.assertIn("read.js", r.text)
+
+
+class DeepMode(unittest.TestCase):
+    def test_deep_mode_is_passed_to_provider_and_cached_separately(self):
+        seen = []
+
+        class P:
+            name, model = "p", "m"
+
+            def stream(self, messages, max_tokens=None, deep=False):
+                seen.append(deep)
+                yield "deep answer" if deep else "fast answer"
+        engine = ChatEngine(make_index(), [P()])
+        fast = events(engine, "Explain TCP")
+        deep = events(engine, "Explain TCP", deep=True)
+        self.assertEqual(seen, [False, True])
+        self.assertEqual(deep[-1][1]["mode"], "deep")
+        self.assertEqual(fast[-1][1]["mode"], "fast")
+        self.assertIn("deep answer", "".join(d for k, d in events(engine, "Explain TCP", deep=True) if k == "delta"))
+
+    def test_api_accepts_mode(self):
+        c = TestClient(create_app(ChatEngine(make_index(), [FakeProvider("groq")]), RateLimiter(100, 100)))
+        self.assertEqual(c.post("/api/chat", json={"question": "q", "mode": "deep"}).status_code, 200)
+        self.assertEqual(c.post("/api/chat", json={"question": "q", "mode": "turbo"}).status_code, 422)
+
+    def test_provider_deep_options(self):
+        from types import SimpleNamespace as NS
+
+        from chat_engine import Provider, deep_extra_body_for
+        sent = []
+
+        class Client:
+            class chat:
+                class completions:
+                    @staticmethod
+                    def create(**kw):
+                        sent.append(kw)
+                        return iter([NS(choices=[NS(delta=NS(content="x"), finish_reason="stop")])])
+        p = Provider("d", "u", "k", "m", client=Client(), extra_body={"thinking": {"type": "disabled"}},
+                     deep_extra_body=deep_extra_body_for("CHAT_PRIMARY", "https://api.deepseek.com"))
+        list(p.stream([])); list(p.stream([], deep=True))
+        self.assertEqual(sent[0]["extra_body"], {"thinking": {"type": "disabled"}})
+        self.assertEqual(sent[0]["max_tokens"], 4096)
+        self.assertEqual(sent[1]["extra_body"]["thinking"], {"type": "enabled"})
+        self.assertEqual(sent[1]["max_tokens"], 16000)
