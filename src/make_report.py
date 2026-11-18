@@ -6,6 +6,7 @@ Besides answer / rationale / AR scores it reports what tells real understanding 
   - option-shuffle consistency: a pipeline run again with MC/MS options in a different order;
     an answer that is correct in both orders cannot come from a positional guess
   - judge agreement: the same run graded by two judge models (exact agreement and Cohen's kappa)
+  - significance: paired bootstrap 95% confidence interval and p-value for each pipeline comparison
 
     python src/make_report.py [--judge <model>]
 
@@ -135,6 +136,39 @@ def token_usage(runs):
     return rows
 
 
+COMPARISONS = [("pure", "baseline"), ("cgr", "baseline"), ("cgr", "pure"), ("selfcritique", "pure")]
+
+
+def paired_bootstrap(a, b, n_boot=10_000, seed=0):
+    """Mean difference a-b over paired questions with a 95% bootstrap CI and two-sided p-value."""
+    import numpy as np
+    diff = np.asarray(a, dtype=float) - np.asarray(b, dtype=float)
+    rng = np.random.default_rng(seed)
+    boots = diff[rng.integers(0, len(diff), size=(n_boot, len(diff)))].mean(axis=1)
+    p = 2 * min((boots <= 0).mean(), (boots >= 0).mean())
+    return float(diff.mean()), float(np.percentile(boots, 2.5)), float(np.percentile(boots, 97.5)), min(1.0, float(p))
+
+
+def significance(judged):
+    """Is pipeline X really better than Y? Paired over the same questions, so question difficulty cancels."""
+    rows = []
+    for x, y in COMPARISONS:
+        if x not in judged or y not in judged:
+            continue
+        a = {r["idx"]: r for r in judged[x]}
+        b = {r["idx"]: r for r in judged[y]}
+        for metric in METRICS:
+            idx = [i for i in sorted(set(a) & set(b))
+                   if a[i].get(metric) is not None and b[i].get(metric) is not None]
+            if not idx:
+                continue
+            d, lo, hi, p = paired_bootstrap([a[i][metric] for i in idx], [b[i][metric] for i in idx])
+            rows.append({"Comparison": f"{LABELS.get(x, x)} − {LABELS.get(y, y)}", "Metric": metric,
+                         "Questions": len(idx), "Difference": d, "95% CI low": lo, "95% CI high": hi,
+                         "p-value": p, "Significant (p<0.05)": "yes" if p < 0.05 else "no"})
+    return rows
+
+
 def fmt(v):
     if isinstance(v, float):
         return "–" if v != v else f"{v:.4f}"
@@ -189,6 +223,7 @@ def main(argv=None):
     by_topic = pd.DataFrame([{"Topic": t, "n": scores[main_runs[0]]["by_topic"][t]["count"],
                               **{f"{label(r)} AR": scores[r]["by_topic"].get(t, {}).get("ar_score", float("nan"))
                                  for r in main_runs}} for t in topics])
+    signif = pd.DataFrame(significance(judged))
     consistency = pd.DataFrame(shuffle_consistency(runs, judged))
     agreement = pd.DataFrame(judge_agreement(data))
     usage = pd.DataFrame(token_usage(runs))
@@ -196,7 +231,7 @@ def main(argv=None):
                              "Judge replies unreadable": scores[r]["total"]["judge_failed"]} for r in runs])
 
     TABLE_DIR.mkdir(parents=True, exist_ok=True)
-    tables = {"overall": overall, "by_question_type": by_type, "by_topic": by_topic,
+    tables = {"overall": overall, "significance": signif, "by_question_type": by_type, "by_topic": by_topic,
               "shuffle_consistency": consistency, "judge_agreement": agreement,
               "token_usage": usage, "output_quality": quality}
     with pd.ExcelWriter(TABLE_DIR / "results.xlsx", engine="openpyxl") as xl:
@@ -204,7 +239,10 @@ def main(argv=None):
             df.to_csv(TABLE_DIR / f"{name}.csv", index=False)
             df.to_excel(xl, sheet_name=name[:31], index=False)
 
-    md = [f"Judge model: `{judge}`", "", "### Overall", "", to_markdown(overall), "",
+    md = [f"Judge model: `{judge}`", "", "### Overall", "", to_markdown(overall), ""]
+    if not signif.empty:
+        md += ["### Paired bootstrap (10,000 resamples): is the difference real?", "", to_markdown(signif), ""]
+    md += [
           "### By question type", "", to_markdown(by_type), "", "### AR score by topic", "", to_markdown(by_topic)]
     if not consistency.empty:
         md += ["", "### Option-shuffle consistency (MC + MS)", "", to_markdown(consistency)]

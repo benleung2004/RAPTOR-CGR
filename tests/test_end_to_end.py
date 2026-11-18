@@ -144,6 +144,7 @@ class EndToEnd(unittest.TestCase):
         self.assertEqual(scores["cgr-shuffle1"]["total"]["answer_score"], 1.0)
         summary = (self.tmp / "tables" / "summary.md").read_text()
         self.assertIn("Option-shuffle consistency", summary)
+        self.assertIn("Paired bootstrap", summary)
         self.assertIn("| RAPTOR-CGR | cgr-shuffle1 | 328 | 1.0000 | 1.0000 | 1.0000 | 1.0000 |", summary)
         # the textbook corpus never contains a benchmark rationale (answer key)
         self.assertEqual(json.loads((self.tmp / "leakage.json").read_text())["rationale_in_context"], 0)
