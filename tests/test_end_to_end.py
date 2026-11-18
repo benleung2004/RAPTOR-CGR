@@ -150,5 +150,12 @@ class EndToEnd(unittest.TestCase):
         self.assertEqual(json.loads((self.tmp / "leakage.json").read_text())["rationale_in_context"], 0)
 
 
+    def test_sample_run_answers_only_sampled_questions(self):
+        sample = self.tmp / "sample.json"
+        sample.write_text(json.dumps({"idx": [3, 150, 700]}))
+        run_pipeline.main(["--pipeline", "baseline", "--sample", str(sample), "--workers", "2"], llm=FakeLLM())
+        self.assertEqual(sorted(common.load_run(self.tmp / "raw" / "baseline.jsonl")), [3, 150, 700])
+
+
 if __name__ == "__main__":
     unittest.main()

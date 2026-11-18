@@ -60,15 +60,38 @@ class CollapsedTreeRetriever:
         return results
 
 
+def web_index_contexts(queries, top_k=6, index=None):
+    """Retrieve from the free web-tutor index (textbook chunks only, no RAPTOR summaries).
+
+    Used for the budget evaluation: building the RAPTOR summary trees costs ~US$2 of API calls,
+    while this index is built locally for free from the same 20 textbooks.
+    """
+    from chat_engine import TextbookIndex
+    index = index or TextbookIndex.load()
+    results = []
+    for q in queries:
+        hits = index.search(q, top_k)
+        context = "\n\n".join(f"{h['title']} — {h['section'] or 'excerpt'}\n{h['text']}" for h in hits)
+        results.append({"context": context,
+                        "nodes": [{"book": h["book"], "node": h["id"], "layer": 0, "score": h["score"]} for h in hits]})
+    return results
+
+
 def main(argv=None, retriever=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--top-k", type=int, default=TOP_K)
+    parser.add_argument("--index", choices=["raptor", "web"], default="raptor",
+                        help="raptor: RAPTOR trees (build_tree.py); web: free textbook-chunk index (build_web_index.py)")
+    parser.add_argument("--top-k", type=int, help="default: 10 for raptor, 6 for web")
     args = parser.parse_args(argv)
 
     questions = load_questions()
-    retriever = retriever or CollapsedTreeRetriever.from_index()
     # Query = question text + options in the original order (independent of any option shuffle).
-    results = retriever.retrieve_many([format_question(q) for q in questions], top_k=args.top_k)
+    queries = [format_question(q) for q in questions]
+    if args.index == "web":
+        results = web_index_contexts(queries, top_k=args.top_k or 6)
+    else:
+        retriever = retriever or CollapsedTreeRetriever.from_index()
+        results = retriever.retrieve_many(queries, top_k=args.top_k or TOP_K)
     CONTEXTS_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(CONTEXTS_PATH, "w", encoding="utf-8") as f:
         for idx, r in enumerate(results):

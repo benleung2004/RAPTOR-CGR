@@ -5,6 +5,7 @@ claim is checked, and the examples are executed where possible.
 
 | Topic | Systems | Result |
 |---|---|---|
+| [DeepSeek web chat, 10 questions](deepseek-web/questions.md) | DeepSeek free web chat vs tutor (same questions as the 300-question evaluation) | Waiting for the answers |
 | [Shortest paths: Dijkstra / Bellman-Ford / Floyd-Warshall](shortest-paths/README.md) | Tutor fast mode · Perplexity (Claude Sonnet 5.5, reasoning) · Tutor deep mode | Deep mode 25/25, Perplexity 18/25, fast mode 17/25. Led to the deep-reasoning mode and the textbook links. |
 
 To add a comparison, create a folder with the question, each answer as a Markdown file, a script

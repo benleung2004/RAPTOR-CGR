@@ -42,3 +42,17 @@ class Kappa(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Sampling(unittest.TestCase):
+    def test_stratified_proportional_and_deterministic(self):
+        from common import detect_question_type, load_questions
+        from make_sample import stratified_sample
+        questions = load_questions()
+        idx, counts = stratified_sample(questions, 300, 42)
+        self.assertEqual(len(idx), 300)
+        self.assertEqual(len(set(idx)), 300)
+        self.assertEqual(counts, {"FB": 31, "MC": 64, "MS": 33, "OE": 79, "TF": 93})
+        self.assertEqual({t: sum(detect_question_type(questions[i]) == t for i in idx) for t in counts}, counts)
+        self.assertEqual(stratified_sample(questions, 300, 42)[0], idx)            # reproducible
+        self.assertNotEqual(stratified_sample(questions, 300, 7)[0], idx)

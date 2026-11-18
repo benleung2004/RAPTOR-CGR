@@ -18,7 +18,7 @@ import argparse
 import json
 import re
 
-from common import CONTEXTS_PATH, INDEX_DIR, LEAKAGE_PATH, load_questions, read_jsonl
+from common import CONTEXTS_PATH, DATA_DIR, INDEX_DIR, LEAKAGE_PATH, load_questions, read_jsonl
 
 PREFIX = 50
 
@@ -33,12 +33,15 @@ def key(s):
 
 
 def main(argv=None):
-    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args(argv)
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--index", choices=["raptor", "web"], default="raptor")
+    args = parser.parse_args(argv)
     questions = load_questions()
-    if not CONTEXTS_PATH.exists() or not (INDEX_DIR / "nodes.jsonl").exists():
-        raise SystemExit("Run src/build_tree.py and src/retrieval.py first.")
+    corpus_file = (DATA_DIR / "web_index" / "chunks.jsonl") if args.index == "web" else (INDEX_DIR / "nodes.jsonl")
+    if not CONTEXTS_PATH.exists() or not corpus_file.exists():
+        raise SystemExit("Build the index and run src/retrieval.py first.")
     contexts = {r["idx"]: norm(r["context"]) for r in read_jsonl(CONTEXTS_PATH)}
-    corpus = norm(" ".join(n["text"] for n in read_jsonl(INDEX_DIR / "nodes.jsonl")))
+    corpus = norm(" ".join(n["text"] for n in read_jsonl(corpus_file)))
 
     stats = {"questions": len(questions), "checked_rationales": 0, "checked_questions": 0,
              "rationale_in_context": 0, "rationale_in_corpus": 0, "question_in_context": 0}

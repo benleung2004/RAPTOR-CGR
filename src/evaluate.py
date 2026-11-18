@@ -19,6 +19,7 @@ Output: results/judgments/<run>__<judge-model>.jsonl (resumable).
 """
 
 import argparse
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -33,15 +34,37 @@ def judge(llm, template, attempts=3, **fields):
     prompt = template.format(**fields)
     reply = ""
     for _ in range(attempts):
-        reply, _ = llm.chat([{"role": "system", "content": prompts.JUDGE_SYSTEM},
-                             {"role": "user", "content": prompt}], temperature=0, max_tokens=300)
+        reply, usage = llm.chat([{"role": "system", "content": prompts.JUDGE_SYSTEM},
+                                 {"role": "user", "content": prompt}], temperature=0, max_tokens=300)
+        TOKENS.add(usage)
         score = parse_judge_score(reply)
         if score is not None:
             return score, reply, False
     return 0.0, reply, True       # conservative: an unreadable judgment counts as 0 and is reported
 
 
+class _Tokens(threading.local):
+    """Judge tokens used for the record currently being evaluated (per worker thread)."""
+
+    def reset(self):
+        self.prompt, self.completion = 0, 0
+
+    def add(self, usage):
+        self.prompt = getattr(self, "prompt", 0) + (usage or {}).get("prompt_tokens", 0)
+        self.completion = getattr(self, "completion", 0) + (usage or {}).get("completion_tokens", 0)
+
+
+TOKENS = _Tokens()
+
+
 def evaluate_record(rec, item, llm):
+    TOKENS.reset()
+    out = _evaluate_record(rec, item, llm)
+    out["judge_tokens"] = {"prompt_tokens": TOKENS.prompt, "completion_tokens": TOKENS.completion}
+    return out
+
+
+def _evaluate_record(rec, item, llm):
     rationale, pred_answer = split_prediction(rec["prediction"])
     gold = str(item["Answer"])
     out = {"idx": rec["idx"], "type": rec["type"], "topic": canonical_topic(item["Level-1 Topic"]),

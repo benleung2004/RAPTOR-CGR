@@ -4,7 +4,7 @@
 COMP4913 Capstone Project, Department of Computing, The Hong Kong Polytechnic University (2026)
 Leung Wai Kit (22094868D) · Supervisor: Dr HUANG Xiao
 
-📄 [Final report](docs/FYP_Final_Report_22094868D.pdf) · 🖥️ [Presentation](docs/FYP_Presentation.pdf) · 📝 [Summary](docs/FYP_Summary_22094868D.docx) · 🧭 [Project history: problems found and how they were fixed](project-history/README.md) · ⚖️ [Comparison with Perplexity](comparisons/README.md)
+📄 [Final report](docs/FYP_Final_Report_22094868D.pdf) · 🖥️ [Presentation](docs/FYP_Presentation.pdf) · 📝 [Summary](docs/FYP_Summary_22094868D.docx) · 🧭 [Project history: problems found and how they were fixed](project-history/README.md) · ⚖️ [Comparison with Perplexity](comparisons/README.md) · 🗺️ [Project structure and flowcharts](project-structure/README.md)
 
 ---
 
@@ -89,6 +89,24 @@ python src/make_report.py                          # results/scores.json, result
 ```
 
 Every step can be resumed: rerunning a command skips finished work and retries failures. `--limit N` gives a quick test, and `--workers N` sets how many requests run in parallel (default 8). To measure judge agreement, set a second `JUDGE_MODEL` in `.env`, run `evaluate.py` again, then run `make_report.py`.
+
+### Budget evaluation (about US$0.3–0.7)
+
+This is a smaller version of the experiment for a limited budget. It answers a stratified random
+sample of **300 questions** (same type mix as the full 1,018) and retrieves from the free textbook-chunk
+index instead of paid RAPTOR summaries.
+
+```bash
+python src/make_sample.py --n 300 --seed 42                      # data/samples/sample_300_seed42.json
+python src/retrieval.py --index web                              # free, local
+python src/check_leakage.py --index web
+python src/run_pipeline.py --pipeline baseline --sample data/samples/sample_300_seed42.json --limit 10   # pilot
+python src/run_pipeline.py --pipeline baseline --sample data/samples/sample_300_seed42.json
+python src/run_pipeline.py --pipeline pure     --sample data/samples/sample_300_seed42.json
+python src/run_pipeline.py --pipeline cgr      --sample data/samples/sample_300_seed42.json
+python src/evaluate.py
+python src/make_report.py                                        # tables + significance + estimated cost
+```
 
 ### Cost and time (estimate for one full v2 run)
 
@@ -189,6 +207,7 @@ python -m unittest discover tests
 ├── data/                  questions, book titles, 20 textbooks, web index
 ├── project-history/       how the project developed: every problem, its severity, the fix
 ├── comparisons/           tutor vs other AI assistants, with executable checks
+├── project-structure/     every folder explained + flowcharts
 ├── results/               v2 outputs; results/v1/ = submitted version
 └── docs/                  report, presentation, summary
 ```

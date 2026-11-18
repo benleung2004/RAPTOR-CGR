@@ -15,6 +15,7 @@ Writes results/scores.json and results/tables/ (CSV, Excel, summary.md).
 
 import argparse
 import json
+import os
 from collections import defaultdict
 
 import pandas as pd
@@ -126,13 +127,25 @@ def judge_agreement(data):
     return rows
 
 
-def token_usage(runs):
+# USD per 1M tokens (input cache miss, output); DeepSeek deepseek-flash, Nov 2026. Override in .env.
+PRICES = {"off-peak": (float(os.getenv("PRICE_IN_OFFPEAK", 0.15)), float(os.getenv("PRICE_OUT_OFFPEAK", 0.6))),
+          "peak": (float(os.getenv("PRICE_IN_PEAK", 0.3)), float(os.getenv("PRICE_OUT_PEAK", 1.2)))}
+
+
+def token_usage(runs, judged):
+    """Answering + judging tokens per run, with an upper-bound cost estimate (no cache-hit discount)."""
     rows = []
     for run in runs:
         recs = load_run(RAW_DIR / f"{run}.jsonl").values()
-        rows.append({"Run": run, "Questions": len(recs),
-                     "Prompt tokens": sum((r.get("usage") or {}).get("prompt_tokens", 0) for r in recs),
-                     "Completion tokens": sum((r.get("usage") or {}).get("completion_tokens", 0) for r in recs)})
+        a_in = sum((r.get("usage") or {}).get("prompt_tokens", 0) for r in recs)
+        a_out = sum((r.get("usage") or {}).get("completion_tokens", 0) for r in recs)
+        j_in = sum((r.get("judge_tokens") or {}).get("prompt_tokens", 0) for r in judged.get(run, []))
+        j_out = sum((r.get("judge_tokens") or {}).get("completion_tokens", 0) for r in judged.get(run, []))
+        row = {"Run": run, "Questions": len(recs), "Answer tokens in": a_in, "Answer tokens out": a_out,
+               "Judge tokens in": j_in, "Judge tokens out": j_out}
+        for label, (p_in, p_out) in PRICES.items():
+            row[f"Est. USD ({label})"] = round(((a_in + j_in) * p_in + (a_out + j_out) * p_out) / 1e6, 4)
+        rows.append(row)
     return rows
 
 
@@ -226,7 +239,7 @@ def main(argv=None):
     signif = pd.DataFrame(significance(judged))
     consistency = pd.DataFrame(shuffle_consistency(runs, judged))
     agreement = pd.DataFrame(judge_agreement(data))
-    usage = pd.DataFrame(token_usage(runs))
+    usage = pd.DataFrame(token_usage(runs, judged))
     quality = pd.DataFrame([{"Run": r, "No ANSWER tag": scores[r]["total"]["no_answer_tag"],
                              "Judge replies unreadable": scores[r]["total"]["judge_failed"]} for r in runs])
 
@@ -257,7 +270,7 @@ def main(argv=None):
                f"{leak['rationale_in_corpus']}/{leak['checked_rationales']} ({leak['rationale_in_corpus_rate']:.1%})",
                f"- Question sentence found in the retrieved context (source passage): "
                f"{leak['question_in_context']}/{leak['checked_questions']} ({leak['question_in_context_rate']:.1%})"]
-    md += ["", "### Output quality", "", to_markdown(quality), "", "### Token usage (answering)", "", to_markdown(usage)]
+    md += ["", "### Output quality", "", to_markdown(quality), "", "### Token usage and estimated cost", "", to_markdown(usage)]
     (TABLE_DIR / "summary.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md))
 

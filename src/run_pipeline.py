@@ -18,6 +18,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import prompts
+from make_sample import load_sample
 from common import (CONTEXTS_PATH, RAW_DIR, TYPE_NAMES, JsonlAppender, detect_question_type,
                     format_question, load_questions, load_run, option_order, read_jsonl)
 
@@ -60,6 +61,7 @@ def main(argv=None, llm=None):
     parser.add_argument("--shuffle-seed", type=int, help="show MC/MS options in a seeded random order")
     parser.add_argument("--workers", type=int, default=8, help="parallel API requests")
     parser.add_argument("--limit", type=int, help="only the first N questions")
+    parser.add_argument("--sample", help="only the questions in a sample file (src/make_sample.py)")
     args = parser.parse_args(argv)
 
     questions = load_questions()[: args.limit]
@@ -81,7 +83,8 @@ def main(argv=None, llm=None):
         raise SystemExit(f"{out_path} already holds answers from {sorted(other_models)}; move it away "
                          f"before running with {llm.model} so that one run never mixes two models.")
     done = {r["idx"] for r in existing if not r.get("error")}
-    todo = [i for i in range(len(questions)) if i not in done
+    wanted = set(load_sample(args.sample)) if args.sample else set(range(len(questions)))
+    todo = [i for i in range(len(questions)) if i in wanted and i not in done
             and (args.shuffle_seed is None or questions[i].get("Choices"))]   # shuffle runs: MC/MS only
     print(f"[{run}] model={llm.model} | {len(done)} done, {len(todo)} to go")
 
