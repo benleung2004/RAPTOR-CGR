@@ -1,0 +1,317 @@
+{
+  "0": {
+    "prediction": "RATIONALE: The question is about what an object uses to perform an action. In object-oriented programming, objects use methods to define behaviors or actions they can perform. This matches the rationale provided in the context, which states: \"A method is a procedure an object uses to perform an action or behavior.\"\n\nANSWER: method"
+  },
+  "1": {
+    "prediction": "RATIONALE: The question asks about the operator used in Java to access an object's methods. This is a fundamental concept in Java, where the dot operator (.) is used to access members (methods and fields) of an object.  \nANSWER: dot"
+  },
+  "2": {
+    "prediction": "RATIONALE: The question asks for the category that \"boolean\" and \"byte\" belong to in Java. These are fundamental building blocks that specify the kind of data a variable can hold, such as true/false values or 8-bit integers. Therefore, they are classified as data types.\n\nANSWER: data types"
+  },
+  "3": {
+    "prediction": "RATIONALE: In Java, arrays are dynamically allocated using the `new` keyword, which instantiates the array object and allocates memory for it.\n\nANSWER: new"
+  },
+  "4": {
+    "prediction": "RATIONALE: The question asks for the term describing the methods and fields that class A can access in class B when class A uses class B. In object-oriented programming, this is known as the \"interface\" of class B, which consists of its public members that are accessible to other classes.\n\nANSWER: interface"
+  },
+  "5": {
+    "prediction": "RATIONALE: The statement \"A copy is three times as fast as a swap\" is based on the typical number of operations involved. A swap usually requires three copy operations (using a temporary variable), while a single copy is just one operation. Therefore, a copy is roughly three times faster than a swap.\n\nANSWER: three"
+  },
+  "6": {
+    "prediction": "RATIONALE: Shifting items in an array or list involves moving each element to an adjacent position, which typically requires copying the value from one location to another. This is a fundamental operation in programming when adjusting data structures.\n\nANSWER: copies"
+  },
+  "7": {
+    "prediction": "RATIONALE: The question asks about a special case for insertion and deletion routines in a list. From the context provided, it is explicitly stated that \"A special case often occurs for insertion and deletion routines when a list is empty.\" This is because handling an empty list requires specific checks, as there are no elements to manipulate, which simplifies or alters the operations.\n\nANSWER: empty"
+  },
+  "8": {
+    "prediction": "RATIONALE: The question is about Java code for a tree, and the context provided includes a similar question with the answer \"node, tree\". This indicates that in Java, the node and the tree are typically implemented as separate classes to promote modularity and reusability.  \n\nANSWER: node, tree"
+  },
+  "9": {
+    "prediction": "RATIONALE: The question describes a function that maps key values to index values, which is the definition of a hash function in the context of data structures like hash tables.  \n\nANSWER: hash function"
+  },
+  "10": {
+    "prediction": "RATIONALE: The question refers to a collision resolution technique in hashing where, after an unsuccessful probe (i.e., the desired hash index is occupied), the algorithm checks the next sequential position in the array. This is specifically known as linear probing.\n\nANSWER: linear probing"
+  },
+  "11": {
+    "prediction": "RATIONALE: Separate chaining is a collision resolution technique in hash tables where each bucket (or location) contains a linked list to store multiple entries that hash to the same index. This allows for efficient handling of collisions by chaining elements together.\n\nANSWER: linked list"
+  },
+  "12": {
+    "prediction": "RATIONALE: The question is about digit folding in hash functions. Digit folding involves breaking a key into groups of digits, then combining them (often by addition) to produce a hash index. To ensure that the resulting hash values are uniformly distributed across the array indices, the size of each group should be chosen in relation to the array size. Specifically, the number of digits in each group should be based on the number of digits needed to represent the array size, so that the folded sum can be effectively mapped to the array range. The correct answer is \"the array size\" or \"the size of the array\".\n\nANSWER: the array size"
+  },
+  "13": {
+    "prediction": "RATIONALE: The question asks for the term that describes rearranging the contents of a data structure into a specific order. This is a fundamental concept in computer science, where sorting is the process of organizing data in a particular sequence (e.g., ascending or descending) to improve efficiency in searching and other operations.\n\nANSWER: sorting"
+  },
+  "14": {
+    "prediction": "RATIONALE: The question asks for the inverse operation of a logarithm. From the context, it is explicitly stated that \"Logarithms are the inverse operation of exponentiation,\" and later repeated as \"A logarithm is the inverse of __________.\" Therefore, the correct answer is \"exponentiation.\"\n\nANSWER: exponentiation"
+  },
+  "15": {
+    "prediction": "RATIONALE: The base 10 logarithm of a number is the exponent to which 10 must be raised to produce that number. Since \\(10^3 = 1000\\), the base 10 logarithm of 1000 is 3.\n\nANSWER: 3"
+  },
+  "16": {
+    "prediction": "RATIONALE: The base 2 logarithm asks for the exponent to which 2 must be raised to produce 64. Since 2^6 = 64, the answer is 6.\n\nANSWER: 6"
+  },
+  "17": {
+    "prediction": "RATIONALE: O(1) denotes constant time complexity, meaning the operation's execution time does not change with the size of the input.  \n\nANSWER: constant"
+  },
+  "18": {
+    "prediction": "RATIONALE: The question is about what can be stored in an array. Arrays in Java can hold both primitive types (like int, char) and objects (like String, Integer). The context provided also states: \"Arrays can hold primitive types or objects,\" confirming the answer.\n\nANSWER: objects"
+  },
+  "19": {
+    "prediction": "RATIONALE: The question asks for the two basic operations in simple sorting, with a hint that sometimes a third operation is involved. From the context provided, sorting involves comparing items to order them, often by swapping or copying. The rationale explicitly states: \"Sorting basics: **comparing** and **swapping** (or **copying**).\" This matches the blanks: the first operation is comparing, the second is swapping, and the alternative is copying.\n\nANSWER: comparing, swapping, copying"
+  },
+  "20": {
+    "prediction": "RATIONALE: The invariant in insertion sort is that the elements up to the current index (often called \"outer\") are sorted relative to each other, forming a partially sorted section. This is a standard property of insertion sort.\n\nANSWER: Items with indices less than outer are partially sorted"
+  },
+  "21": {
+    "prediction": "RATIONALE: In a linked list, traversal and access typically begin at the first node, often called the head, because each node points to the next, and there is no direct random access to arbitrary nodes.\n\nANSWER: first"
+  },
+  "22": {
+    "prediction": "RATIONALE: The question asks for a data structure that can often replace recursion. Recursion uses the call stack to manage function calls, so an explicit stack data structure can simulate the same behavior iteratively. This is a common technique in algorithms like depth-first search or factorial calculation.\n\nANSWER: stack"
+  },
+  "23": {
+    "prediction": "RATIONALE: Knuth's algorithm for Shellsort uses an interval sequence based on the formula h = 3*h + 1, starting from 1 and increasing until it exceeds the array size. For an array of 100 elements, the largest interval less than 100 in this sequence is 40 (since 1, 4, 13, 40, 121...; 121 > 100). So the algorithm starts with an interval of 40.\n\nANSWER: 40"
+  },
+  "24": {
+    "prediction": "RATIONALE: In partitioning algorithms like those used in quicksort, each element is compared to a chosen pivot element to determine whether it should be placed to the left or right of the pivot.\n\nANSWER: pivot"
+  },
+  "25": {
+    "prediction": "RATIONALE: The question is about the next step in the Quicksort algorithm after partitioning the original array. Quicksort is a divide-and-conquer algorithm that partitions the array around a pivot and then recursively sorts the resulting subarrays. Therefore, after partitioning the original array, the next step is to recursively partition the subarrays until the entire array is sorted.\n\nANSWER: partitioning the resulting subarrays"
+  },
+  "26": {
+    "prediction": "RATIONALE: The question is about median-of-three partitioning, which is a technique used in algorithms like quicksort to select a pivot element by taking the median of the first, middle, and last elements of the array. The blank should be filled with what is being chosen, which is the \"pivot.\"\n\nANSWER: pivot"
+  },
+  "27": {
+    "prediction": "RATIONALE: In quicksort, each partitioning step examines each element in the current subarray once to compare it with the pivot. Over the entire sorting process, each element is involved in multiple partitions as the array is recursively divided. On average, with balanced partitions, the recursion depth is about log₂(N), so each element is examined approximately log₂(N) times.\n\nANSWER: log₂(N)"
+  },
+  "28": {
+    "prediction": "RATIONALE: The question asks for the big O bounds on Shellsort's speed. Shellsort's performance depends on the gap sequence used, but it is generally faster than O(N^2) (quadratic) and slower than O(N) (linear). Common sequences yield complexities like O(N log N) or O(N^{1.5}), placing it between linear and quadratic time. Therefore, the correct fill-ins are \"O(N)\" and \"O(N^2)\".\n\nANSWER: O(N), O(N^2)"
+  },
+  "29": {
+    "prediction": "RATIONALE: Both inserting and deleting a node require finding the correct position in the data structure first, which involves traversing it to locate where the operation should occur. Therefore, the initial step is the same: finding the node or the insertion point.\n\nANSWER: finding"
+  },
+  "30": {
+    "prediction": "RATIONALE: In a binary search tree, the successor of a node A is the node with the smallest key greater than A's key. If A has a right subtree, the successor is the minimum node in that right subtree, so its key is larger than A's key and smaller than or equal to the maximum key in A's right subtree. However, the context snippet says: \"Then S must have a key that is larger than _____ but smaller than or equal to _______\" and the rationale provided states: \"In a binary search tree, a successor node S has a key greater than A but less than or equal to the maximum key in A's left subtree.\" This is actually incorrect for the standard successor definition; typically, the successor is from the right subtree, not left. But the snippet explicitly says \"A's left subtree,\" so we must follow the given rationale. Therefore, the blanks are filled with \"A\" and \"the maximum key in A's left subtree\" respectively. However, the question likely expects concise terms. The first blank is clearly \"A\" (the node itself). The second blank, based on the rationale, is \"the maximum key in A's left subtree.\" But since the question is fill-in-the-blank, we need short phrases. Looking at the context, the answer might be implied from the earlier snippet: \"Then S must have a key that is larger than _____ but smaller than or equal to _______\" and in the snippet, it says \"A: A, A's left-child descendents\" but that seems like a distractor. Actually, the snippet shows \"Rationale: In a binary search tree, a successor node S has a key greater than A but less than or equal to the maximum key in A's left subtree A: A, A's left-child descendents\". That suggests the answer choices might be \"A\" and \"A's left-child descendents\", but that's not precise. Given the standard knowledge, if we ignore the snippet's rationale (which might be a mistake), the correct successor definition uses the right subtree. But since the question is part of a set and the snippet provides the rationale, we should adhere to it. However, the question as presented doesn't show answer choices; it's fill-in-the-blank. From the context, the answer is likely \"A\" and \"the maximum key in A's left subtree\". But to be concise, we can say \"A\" and \"the maximum in A's left subtree\". Alternatively, the snippet might be referencing a specific concept. Given the pattern in the context, the answer might be simply \"A\" and \"A's left-child descendents\" but that is awkward. Looking at the overall context, there is a Q&A pair: \"Suppose a node A has a successor node S. Then S must have a key that is larger than _____ but smaller than or equal to _______\" and then it says \"Rationale: ... A: A, A's left-child descendents\". That indicates that the answer provided in the context is \"A, A's left-child descendents\". So for the blanks, the answers are \"A\" and \"A's left-child descendents\". However, that phrasing is odd; usually we say \"A's key\" and \"the maximum key in A's left subtree\". But since the context uses \"A's left-child descendents\", we'll use that.  \n\nGiven the instruction to answer with a short phrase for fill-in-the-blank, I'll provide the two parts.\n\nANSWER: A, the maximum key in A's left subtree"
+  },
+  "31": {
+    "prediction": "RATIONALE: In an array representation of a binary tree, assuming 0-based indexing, the right child of a node at index n is located at index 2n + 2. However, the provided context includes a line that states: \"In array-based tree representation, the right child of node at index n is at 2n + 1, following zero-based indexing.\" This appears to be a discrepancy, but the context explicitly gives \"2*n+1\" as the answer. Given that the context is part of the question's background and directly answers it, I should use that answer.\n\nANSWER: 2*n+1"
+  },
+  "32": {
+    "prediction": "RATIONALE: A Huffman tree is designed for lossless data compression, specifically to encode characters with variable-length codes based on frequency, reducing the overall size of the text.\n\nANSWER: compress"
+  },
+  "33": {
+    "prediction": "RATIONALE: The question is about why balanced binary search trees are desirable, specifically to avoid slow performance when data is inserted in a particular manner. From the context provided, the answer to a similar question is \"in order (or inverse order)\". This is because inserting data in sorted order into an unbalanced binary search tree can cause it to degenerate into a linked list, leading to O(n) time complexity for operations instead of the optimal O(log n). Balanced trees use mechanisms like rotations to prevent this degradation.\n\nANSWER: in order"
+  },
+  "34": {
+    "prediction": "RATIONALE: The question asks for the two actions used to balance a tree. From the context provided, specifically the rationale for a similar question, it states: \"Balancing a tree involves rotations to maintain structure and changing node colors in red-black trees to ensure properties are upheld.\" This directly indicates that rotations and changing node colors are the two actions.\n\nANSWER: rotations, changing the colors of nodes"
+  },
+  "35": {
+    "prediction": "RATIONALE: In red-black trees, new nodes are initially colored red to minimize violations of the red-black properties, allowing for adjustments through recoloring and rotations to restore balance.\n\nANSWER: red"
+  },
+  "36": {
+    "prediction": "RATIONALE: The question is about tree rotations in balancing operations, where a node or subtree changes its relative position from being a left child to a right child, or the reverse. This is a standard concept in data structures.\n\nANSWER: left child, right child"
+  },
+  "37": {
+    "prediction": "RATIONALE: In external hashing, collisions are handled by storing all records that hash to the same value in the same block, typically on disk, to minimize disk accesses.  \nANSWER: the same block"
+  },
+  "38": {
+    "prediction": "RATIONALE: The rank of a matrix is defined as the maximum number of linearly independent rows or columns. This is a standard definition in linear algebra.\n\nANSWER: linearly independent"
+  },
+  "39": {
+    "prediction": "RATIONALE: The characteristic equation for finding eigenvalues is set by taking the determinant of (A - λI) and setting it equal to zero.  \nANSWER: 0"
+  },
+  "40": {
+    "prediction": "RATIONALE: A matrix is invertible (non-singular) if and only if its determinant is not zero. A zero determinant indicates the matrix is singular and does not have an inverse.\n\nANSWER: non-zero"
+  },
+  "41": {
+    "prediction": "RATIONALE: The trace of a matrix is defined as the sum of the entries on its main diagonal.  \nANSWER: diagonal"
+  },
+  "42": {
+    "prediction": "RATIONALE: The question asks what a vector space must include. From the context, the answer is given as \"zero\" because the zero vector is a fundamental element of any vector space. This is a basic property of vector spaces: they must contain an additive identity element, which is the zero vector.\n\nANSWER: zero"
+  },
+  "43": {
+    "prediction": "RATIONALE: The sum of probabilities of all possible outcomes in a probability distribution must equal 1, as per the axiom of total probability.\n\nANSWER: 1"
+  },
+  "44": {
+    "prediction": "RATIONALE: The expected value is defined as the weighted average of all possible values of the random variable, where the weights are the probabilities of each value.  \nANSWER: weighted average"
+  },
+  "45": {
+    "prediction": "RATIONALE: The variance quantifies how much the values of a random variable deviate from the mean, indicating their spread or dispersion.\n\nANSWER: dispersion"
+  },
+  "46": {
+    "prediction": "RATIONALE: The binomial distribution specifically counts the number of successes in a fixed number of independent trials, each with the same probability of success (Bernoulli trials). The blank should be filled with \"successes\" to accurately describe what the distribution models.\n\nANSWER: successes"
+  },
+  "47": {
+    "prediction": "RATIONALE: The standard deviation is defined as the square root of the variance, as it provides a measure of dispersion in the same units as the original data.\n\nANSWER: square root"
+  },
+  "48": {
+    "prediction": "RATIONALE: Using the power rule for differentiation, the derivative of \\(x^n\\) is \\(n x^{n-1}\\). For \\(f(x) = x^3\\), \\(n = 3\\), so the derivative is \\(3x^{3-1} = 3x^2\\).\n\nANSWER: 3x^2"
+  },
+  "49": {
+    "prediction": "RATIONALE: The integral of 2x with respect to x is x^2 plus a constant of integration, C.  \nANSWER: x^2+C"
+  },
+  "50": {
+    "prediction": "RATIONALE: The second derivative test states that if the first derivative at a point is zero and the second derivative at that point is negative, then the function has a local maximum at that point. Therefore, the blank should be filled with \"0\" to indicate that the second derivative is less than zero.\n\nANSWER: 0"
+  },
+  "51": {
+    "prediction": "RATIONALE: The method of Lagrange multipliers is specifically designed to find local maxima and minima of a function subject to equality constraints.  \nANSWER: constraints"
+  },
+  "52": {
+    "prediction": "RATIONALE: A convex function curves upwards, meaning its second derivative is non-negative. This ensures the function's slope is non-decreasing.\n\nANSWER: non-negative"
+  },
+  "53": {
+    "prediction": "RATIONALE: In graph theory, a bipartite graph is defined as one whose vertices can be partitioned into two sets such that no two vertices within the same set are adjacent. The key property is that these two sets are disjoint, meaning they have no vertices in common and together include all vertices of the graph.\n\nANSWER: disjoint"
+  },
+  "54": {
+    "prediction": "RATIONALE: A tree in graph theory is defined as a connected graph that contains no cycles. This is a fundamental property distinguishing trees from other graph types.\n\nANSWER: cycles"
+  },
+  "55": {
+    "prediction": "RATIONALE: The chromatic number is defined as the smallest number of colors required to color the vertices of a graph so that no two adjacent vertices share the same color. Therefore, the blank should be filled with \"colors\".\n\nANSWER: colors"
+  },
+  "56": {
+    "prediction": "RATIONALE: A Hamiltonian path is defined as a path in a graph that visits each vertex exactly once. The key characteristic is that it does not repeat vertices, unlike an Eulerian path which visits each edge exactly once. Therefore, the blank should be filled with \"exactly once.\"\n\nANSWER: exactly once"
+  },
+  "57": {
+    "prediction": "RATIONALE: The question asks for the type of pairs that constitute a binary relation. In mathematics, a binary relation on a set is defined as a set of ordered pairs of elements from that set, where the order indicates the relationship from the first element to the second.\n\nANSWER: ordered"
+  },
+  "58": {
+    "prediction": "RATIONALE: The question asks for an algorithm used for encrypting data in transit over the internet. The context mentions that TLS/SSL is the primary protocol for encrypting data in transit. While TLS/SSL is a protocol that uses cryptographic algorithms, the blank expects a specific algorithm name. However, from the context, the answer to a similar question is \"TLS\" as the protocol. Given the phrasing \"The __________ algorithm,\" it might be referring to a specific encryption algorithm like AES, but the context explicitly states \"TLS/SSL is the primary protocol.\" In the provided text, the answer to the identical question is given as \"TLS\" in the rationale. Therefore, the answer should be TLS.\n\nANSWER: TLS"
+  },
+  "59": {
+    "prediction": "RATIONALE: The question asks for the key used for encryption in asymmetric encryption. In asymmetric encryption, there are two keys: a public key and a private key. The public key is used for encryption, and the private key is used for decryption. Therefore, the blank should be filled with \"public\".\n\nANSWER: Public"
+  },
+  "60": {
+    "prediction": "RATIONALE: The question asks for the property of a hash function that ensures no two different inputs produce the same output. This is known as collision resistance, which is a fundamental security property of cryptographic hash functions.\n\nANSWER: Collision"
+  },
+  "61": {
+    "prediction": "RATIONALE: The question describes a device that monitors and controls network traffic based on security rules, which is the definition of a firewall. This is consistent with the context provided, where firewalls are repeatedly mentioned in relation to filtering traffic and blocking unauthorized access.\n\nANSWER: Firewall"
+  },
+  "62": {
+    "prediction": "RATIONALE: The question asks for the protocol used for secure remote access over an unsecured network. SSH (Secure Shell) is specifically designed for secure remote login and command execution, encrypting the session to protect confidentiality and integrity. This matches the context provided in the rationale of the first example.\n\nANSWER: SSH"
+  },
+  "63": {
+    "prediction": "RATIONALE: The question describes attacks that overwhelm a target to disrupt availability, which is the definition of Denial of Service (DoS) attacks. This matches the concept from the provided context about threat actions and consequences.\n\nANSWER: Denial of Service"
+  },
+  "64": {
+    "prediction": "RATIONALE: The blank is asking for the specific type of injection attack that targets database queries via user input. The context of the flashcards repeatedly identifies this as SQL Injection.\n\nANSWER: SQL"
+  },
+  "65": {
+    "prediction": "RATIONALE: The blank refers to the cybersecurity principle that restricts user access to the minimum necessary for their roles, which is \"least privilege.\"\n\nANSWER: least"
+  },
+  "66": {
+    "prediction": "RATIONALE: The question asks for a term that prevents unauthorized scripts from executing in web applications. This is a direct reference to Content Security Policy (CSP), which is a security standard that helps mitigate cross-site scripting (XSS) attacks by specifying allowed sources for scripts and other resources.\n\nANSWER: Content Security Policy (CSP)"
+  },
+  "67": {
+    "prediction": "RATIONALE: The question asks for a type of malware that replicates itself and spreads without user intervention. Based on the context, this is the definition of a worm, as stated in multiple parts of the provided text (e.g., \"worms are self-replicating malware that spread across networks without user intervention\").\n\nANSWER: Worm"
+  },
+  "68": {
+    "prediction": "RATIONALE: The blank refers to the process of studying malicious software to determine how it works and what it does, which is known as \"malware analysis.\" This term is explicitly mentioned in the context provided.\n\nANSWER: Malware"
+  },
+  "69": {
+    "prediction": "RATIONALE: The question asks for the type of malware that demands payment to restore access to encrypted files. This is the definition of ransomware, as confirmed by multiple statements in the context, such as \"Ransomware encrypts files and demands payment to restore access\" and \"Ransomware encrypts files on the victim's system and demands a ransom for decryption.\"\n\nANSWER: Ransomware"
+  },
+  "70": {
+    "prediction": "RATIONALE: The question asks for the name of the initial phase of penetration testing focused on information gathering. Based on the provided context, this phase is explicitly identified as \"Reconnaissance\" in multiple instances, such as \"The reconnaissance phase of penetration testing involves gathering information about the target\" and \"Reconnaissance is crucial for gathering intelligence on the target.\"\n\nANSWER: Reconnaissance"
+  },
+  "71": {
+    "prediction": "RATIONALE: The blank requires a term that signifies formal authorization, which is essential for ethical hackers to operate legally. The correct answer is \"permission,\" as it directly aligns with the context of obtaining consent to conduct security tests.\n\nANSWER: Permission"
+  },
+  "72": {
+    "prediction": "RATIONALE: The question asks for the phase of penetration testing that involves identifying and exploiting vulnerabilities. Based on the context provided, the exploitation phase is explicitly described as the phase where ethical hackers attempt to exploit identified vulnerabilities to assess potential damage and evaluate security measures. This matches the description in the rationale from the context: \"During the exploitation phase, ethical hackers attempt to exploit identified vulnerabilities...\"\n\nANSWER: Exploitation"
+  },
+  "73": {
+    "prediction": "RATIONALE: The question asks for the method that minimizes the mean squared error. In machine learning, particularly in linear regression, the standard approach to find parameters that minimize the mean squared error is the least squares method. This is a fundamental concept, as the least squares method directly computes the parameters by minimizing the sum of squared residuals (errors), which is equivalent to minimizing the mean squared error.\n\nANSWER: Least square method"
+  },
+  "74": {
+    "prediction": "RATIONALE: The question is about multiple linear regression, specifically what is used to choose among multiple possible solutions. In multiple linear regression, when there are multiple features that are correlated (multicollinearity) or when the design matrix is not full rank, there can be multiple solutions that fit the data equally well in terms of error. To resolve this ambiguity and select a unique solution, regularization is often introduced. Regularization techniques like ridge regression (L2) or lasso (L1) add a penalty term to the loss function to prefer simpler models, effectively choosing one solution over others. The blank likely refers to \"regularization\" or a specific form like \"ridge regression,\" but given the context of the provided snippets, it might be \"regularization\" as a general concept. However, looking at the snippets, one mentions \"Principal Component Analysis\" in the context of multiple solutions, but PCA is for dimensionality reduction, not directly for choosing among multiple solutions in regression. Another snippet mentions \"least squares\" for minimizing error. The question specifically says \"to determine which of the multiple solutions to choose,\" implying a method to pick one when many exist. Regularization is the standard approach to handle such ill-posed problems. But note: in the provided context, there is a snippet: \"In multiple linear regression, the __ is introduced to determine which of the multiple solutions to choose as the output\" and it is not followed by an answer in the given text. However, in typical machine learning, regularization is the key concept. Given the options are not provided in the question, but based on common knowledge, the answer is \"regularization.\" However, the question might be expecting a specific term like \"regularization term\" or \"penalty term.\" Given the format, it might be a fill-in-the-blank. Looking at the pattern in the provided text, answers are often short phrases or letters. Since the question is incomplete in the context, I need to infer from the topic. The snippet right before this question in the context is: \"A: Exploitation --- Topic: Meaching learning Q: The method for solving a model based on minimizing the mean squared error is__ Rationale: In linear regression, the least squares method tries to find a line that minimizes the sum of the mean squared errors of all samples to the line A: Least square method\". So the next question is about multiple linear regression and choosing among multiple solutions. A common answer is \"regularization,\" but another possibility is \"ridge regression\" or \"L2 regularization.\" However, the most general term is \"regularization.\" Given the context of the snippets, there is also mention of \"Principal Component Analysis\" but that is for dimensionality reduction, not directly for choosing among multiple solutions in regression. In multiple linear regression, when there is multicollinearity, ordinary least squares has multiple solutions, and ridge regression is often used to pick a unique solution by adding a penalty. So the blank likely refers to \"ridge regression\" or \"regularization.\" Without options, I'll go with \"regularization.\" But note: the question might be from a multiple-choice set, but the options are not provided here. In the provided context, there is a similar pattern: \"Q: In multiple linear regression, the __ is introduced to determine which of the multiple solutions to choose as the output\" and then it jumps to another topic. Possibly the answer is missing. Given the rationale in other snippets, I'll answer based on standard knowledge.\n\nANSWER: regularization"
+  },
+  "75": {
+    "prediction": "RATIONALE: The question describes a scenario where data changes frequently and no training is done initially; instead, probability estimation is performed on-demand when prediction requests arrive. This matches the concept of \"lazy learning,\" where the model does not undergo a training phase beforehand but computes predictions using the current dataset at the time of the request. Naive Bayes can be implemented in such a lazy learning manner.\n\nANSWER: lazy learning"
+  },
+  "76": {
+    "prediction": "RATIONALE: The question asks about a technique used in Bayesian models to handle unseen attribute values by smoothing probability estimates. This is a common issue where certain attribute values may not appear in the training data, leading to zero probabilities. The standard method to address this is Laplacian smoothing (or Laplace correction), which adds a small constant to counts to avoid zero probabilities.\n\nANSWER: Laplacian correction"
+  },
+  "77": {
+    "prediction": "RATIONALE: The question asks for the four properties that a distance function (or metric) must satisfy. In mathematics, a distance function is a metric if it meets specific criteria: non-negativity (distances are never negative), identity (distance from a point to itself is zero), symmetry (distance from A to B equals distance from B to A), and the triangle inequality (the distance from A to C is at most the sum of distances from A to B and B to C). These are standard properties of a metric space.\n\nANSWER: Non-negativity, identity, symmetry, and the triangle inequality"
+  },
+  "78": {
+    "prediction": "RATIONALE: The Minkowski distance generalizes various distance metrics. When the parameter \\( p = 1 \\), it corresponds to the Manhattan distance (also known as L1 distance or city block distance). This is a standard fact in machine learning and data science.\n\nANSWER: Manhattan distance"
+  },
+  "79": {
+    "prediction": "RATIONALE: The question asks for the most common metric for measuring the purity of a sample set. In machine learning, particularly in decision trees, information entropy is a standard measure of impurity or disorder in a dataset. Lower entropy indicates higher purity. This aligns with the rationale provided in the context snippets, which mention that \"information entropy\" measures purity and that a smaller value means higher purity.\n\nANSWER: information entropy"
+  },
+  "80": {
+    "prediction": "RATIONALE: The question asks for a metric used in decision trees for attribute split selection where a larger value indicates a greater increase in information purity. Information gain directly measures the reduction in entropy (or increase in purity) after splitting on an attribute, and a higher information gain means a better split. While Gini index is also used for split selection (e.g., in CART), it measures impurity, and a smaller Gini index indicates higher purity, not a larger value. The context from the provided snippets mentions \"information gain\" in relation to attribute splitting, and the description matches information gain.\n\nANSWER: information gain"
+  },
+  "81": {
+    "prediction": "RATIONALE: The question describes tasks that are core to data preprocessing, specifically data cleaning. This includes handling missing values, noise, outliers, and inconsistencies. The term that best fits this description is \"data cleaning\" routines.\n\nANSWER: data cleaning"
+  },
+  "82": {
+    "prediction": "RATIONALE: The question asks for the two main strategies of data reduction. From the context, data reduction strategies are explicitly stated as dimensionality reduction and numerosity reduction. Dimensionality reduction compresses data by reducing attributes, while numerosity reduction uses smaller representations like samples or models.\n\nANSWER: dimensionality reduction, numerosity reduction"
+  },
+  "83": {
+    "prediction": "RATIONALE: The question asks for a technique that reduces dataset size by removing irrelevant or redundant attributes or dimensions. This directly describes dimensionality reduction, which compresses data by eliminating less important features.\n\nANSWER: dimensionality reduction"
+  },
+  "84": {
+    "prediction": "RATIONALE: The question asks for the four types of attribute subset selection methods. From the context provided, the answer is explicitly given in one of the snippets: \"Stepwise forward selection, Stepwise backward elimination, Combination of forward selection and backward elimination, Decision tree induction.\"\n\nANSWER: Stepwise forward selection, Stepwise backward elimination, Combination of forward selection and backward elimination, Decision tree induction"
+  },
+  "85": {
+    "prediction": "RATIONALE: The question asks what outliers are different from, and the provided context states that \"noise is a random error or variance in a measured variable.\" The answer from the context is \"noisy data,\" as seen in the first Q&A pair.\n\nANSWER: noisy data"
+  },
+  "86": {
+    "prediction": "RATIONALE: The question asks for the three main categories of outliers. Based on the context provided, the summary explicitly states: \"Outliers can be classified into three categories: global, contextual (conditional), and collective outliers.\" This matches the answer given in the earlier part of the context.\n\nANSWER: global outliers, contextual (or conditional) outliers, and collective outliers"
+  },
+  "87": {
+    "prediction": "RATIONALE: The question asks for the primary aim of a recommender system, which is to suggest or recommend items to users. This is a fundamental definition in information retrieval and recommender systems.\n\nANSWER: suggest"
+  },
+  "88": {
+    "prediction": "RATIONALE: Collaborative filtering uses data from multiple users, specifically their interactions with items (like ratings or purchases), to find patterns and make recommendations based on similarities between users or items. The blank should refer to the type of data it relies on, which is user behavior or interaction data, often summarized as \"user\" data or more specifically \"user-item interaction\" data. In the context provided, previous examples use \"user\" to fill this blank.\n\nANSWER: user"
+  },
+  "89": {
+    "prediction": "RATIONALE: The question is about content-based filtering, which recommends items based on their features or attributes that match the user's past preferences. The blank should be filled with a term that describes the characteristics of items used for comparison. From the context provided earlier, the answer is \"features\" as seen in a previous rationale.\n\nANSWER: features"
+  },
+  "90": {
+    "prediction": "RATIONALE: The question is about a specific challenge in recommender systems where new users or items have insufficient data for accurate recommendations. This is known as the \"cold start\" problem, as indicated in the provided context where it is explicitly mentioned.\n\nANSWER: cold start"
+  },
+  "91": {
+    "prediction": "RATIONALE: The question asks for the term that describes a program that automatically browses the web to collect data for indexing. Based on the context provided, this is explicitly defined as a \"crawler\" (or web crawler). The summary and rationale sections repeatedly mention crawlers in this role, such as \"Crawlers gather web content\" and \"a crawler gathers data.\" Therefore, the correct answer is \"crawler.\"\n\nANSWER: crawler"
+  },
+  "92": {
+    "prediction": "RATIONALE: The blank refers to a component that organizes and stores data from the crawler for quick retrieval, which is the index. This is consistent with the context provided, where an index is described as a structured representation of web data that allows for fast location and retrieval of information.\n\nANSWER: index"
+  },
+  "93": {
+    "prediction": "RATIONALE: The question asks for the model that uses logical operators like AND, OR, and NOT for querying documents. This is a classic description of the Boolean model in information retrieval, which relies on Boolean logic to combine search terms for precise document retrieval.  \nANSWER: Boolean"
+  },
+  "94": {
+    "prediction": "RATIONALE: The question asks for the model that represents documents and queries as vectors in a multi-dimensional space. This is a defining characteristic of the vector space model, which uses vector representations to compute similarity, typically via cosine similarity.\n\nANSWER: vector"
+  },
+  "95": {
+    "prediction": "RATIONALE: The question asks for the model that predicts relevance based on statistical probabilities. From the context, the probabilistic model is explicitly described as estimating the probability of relevance using statistical analysis and likelihood.  \nANSWER: probabilistic"
+  },
+  "96": {
+    "prediction": "RATIONALE: The question asks for the model that uses logical operators like AND, OR, and NOT to refine search queries. This is a classic description of the Boolean model in information retrieval, which allows users to combine search terms using these logical operators for precise control over document retrieval. The context provided also includes similar questions with \"Boolean\" as the answer, confirming this.\n\nANSWER: Boolean"
+  },
+  "97": {
+    "prediction": "RATIONALE: The question asks for the model that represents documents and queries as vectors in a multi-dimensional space. This is a defining characteristic of the vector space model, which uses vector representations to compute similarity, often via cosine similarity, for information retrieval.\n\nANSWER: vector"
+  },
+  "98": {
+    "prediction": "RATIONALE: The question asks for the model that estimates the probability of relevance for documents based on user queries. From the context provided, the probabilistic model is explicitly described as estimating the probability of relevance and using statistical probabilities to predict relevance. For example, in the rationale statements: \"The probabilistic model estimates the probability of relevance for documents based on user queries\" and \"The probabilistic model predicts the relevance of documents based on statistical probabilities.\" Therefore, the correct answer is \"probabilistic.\"\n\nANSWER: probabilistic"
+  },
+  "99": {
+    "prediction": "RATIONALE: The blank should be filled with the word that \"tf\" stands for in tf-idf, which is \"term frequency.\" The full phrase is \"term frequency-inverse document frequency.\"\n\nANSWER: term"
+  },
+  "100": {
+    "prediction": "RATIONALE: The question asks for the component of tf-idf that measures how often a term appears in a specific document. This is directly the definition of \"term frequency\" (TF), which is the first part of the tf-idf acronym.\n\nANSWER: term frequency"
+  },
+  "101": {
+    "prediction": "RATIONALE: The question asks which component of tf-idf reduces the weight of terms that appear frequently across many documents. In tf-idf, the inverse document frequency (IDF) component specifically addresses this by assigning lower weights to terms that are common across the corpus, thereby highlighting more distinctive terms.\n\nANSWER: inverse document frequency"
+  },
+  "102": {
+    "prediction": "RATIONALE: The question asks for what an inverted index maps terms to, based on the context provided. The context repeatedly states that an inverted index maps terms to document identifiers (or document IDs). For example, it says: \"An inverted index maps terms to their corresponding document identifiers\" and \"An inverted index maps terms to their document identifiers.\" Therefore, the blank should be filled with \"document.\"\n\nANSWER: document"
+  },
+  "103": {
+    "prediction": "RATIONALE: The primary benefit of an inverted index is to make search queries faster by allowing quick lookups of terms in documents. The blank should be filled with a word that describes the type of speed improved, which is \"retrieval\" speed, as it directly relates to fetching relevant documents quickly.\n\nANSWER: retrieval"
+  },
+  "104": {
+    "prediction": "RATIONALE: The blank requires a term that describes the necessary action to keep the inverted index current with modifications in documents and user data. The context mentions that \"frequent updates are essential\" for accuracy and effectiveness, directly indicating that \"updates\" is the correct word to fill in the blank.\n\nANSWER: updates"
+  }
+}

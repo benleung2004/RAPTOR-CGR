@@ -1,0 +1,950 @@
+{
+  "702": {
+    "prediction": "RATIONALE: The statement is true because breadth-first search (BFS) explores all nodes at the current depth before moving deeper, so it will not get stuck exploring a deep, fruitless branch indefinitely. In contrast, depth-first search (DFS) could follow a deep branch without a solution for a long time, potentially wasting resources. BFS is more systematic in such scenarios.\n\nANSWER: True"
+  },
+  "703": {
+    "prediction": "RATIONALE: Depth-first search (DFS) is an uninformed search algorithm that explores as far as possible along each branch before backtracking, without using a heuristic to guide the search. In contrast, A* search with an admissible heuristic uses both the cost to reach a node and an estimate of the cost to the goal, which helps it focus on promising paths. Because A* is optimally efficient for a given heuristic, it typically expands fewer nodes than uninformed searches like DFS when a solution exists. DFS can sometimes expand fewer nodes if it gets lucky and quickly finds a solution, but the statement says \"always expands at least as many nodes,\" which is false because DFS can expand fewer in some cases.\n\nANSWER: False"
+  },
+  "704": {
+    "prediction": "RATIONALE: An admissible heuristic never overestimates the cost to reach the goal. For the 8-puzzle, h(n)=0 always estimates a cost of 0, which is never greater than the actual cost, so it is admissible.\n\nANSWER: True"
+  },
+  "705": {
+    "prediction": "RATIONALE: Breadth-first search (BFS) is complete because it systematically explores all nodes at the current depth before moving to the next depth level. This property holds regardless of step costs, including zero step costs, as completeness depends on the search strategy's ability to eventually reach all reachable nodes, not on the cost structure. Zero step costs do not affect the order of exploration in BFS, so it remains complete.\n\nANSWER: True"
+  },
+  "706": {
+    "prediction": "RATIONALE: The Manhattan distance is the sum of the absolute differences in x and y coordinates. For a rook, which moves horizontally or vertically, the minimum number of moves to go from A to B is 1 if they share a row or column, or 2 otherwise (one horizontal then one vertical move). The Manhattan distance counts the total grid steps without diagonal moves, but since the rook can move any distance in one move along a row or column, the actual moves needed are either 1 or 2, while Manhattan distance could be much larger (e.g., from (1,1) to (8,8), Manhattan distance is 14, but the rook can get there in 2 moves). Thus, Manhattan distance overestimates the actual cost, making it not admissible (an admissible heuristic must never overestimate). Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "707": {
+    "prediction": "RATIONALE: Prim's and Kruskal's algorithms can produce different MSTs for the same graph if there are multiple edges with the same weight, because they select edges in different orders (Prim's grows a single tree from a starting vertex, while Kruskal's sorts all edges globally). Even with unique edge weights, they will produce the same MST in terms of edges, but the statement says \"always,\" which is false because with non-unique weights, the MST may not be unique, and the algorithms may choose different edges among equal-weight options.  \n\nANSWER: False"
+  },
+  "708": {
+    "prediction": "RATIONALE: The Minimum Spanning Tree (MST) connects all vertices in a graph with the minimum total edge weight, but it does not guarantee that the path between any two specific vertices is the shortest possible. The shortest path between two vertices is typically found using algorithms like Dijkstra's or Bellman-Ford, not MST algorithms like Prim's or Kruskal's.\n\nANSWER: False"
+  },
+  "709": {
+    "prediction": "RATIONALE: Prim's algorithm works by repeatedly adding the minimum-weight edge that connects a vertex in the growing MST to a vertex outside it. The algorithm does not require edge weights to be positive; it works correctly with negative weights as well, because it still selects edges based on minimum weight, and negative weights are simply smaller values. The key requirement is that the graph is connected and undirected, not that weights are positive.  \n\nANSWER: False"
+  },
+  "710": {
+    "prediction": "RATIONALE: The statement claims A* is useless in robotics due to continuous percepts, states, and actions. However, A* is a graph search algorithm commonly used in robotics for path planning, often applied to discretized representations of continuous spaces (e.g., grid maps). While continuous domains require adaptations, A* remains highly useful, making the assertion false.\n\nANSWER: False"
+  },
+  "711": {
+    "prediction": "RATIONALE: Greedy best-first search uses a heuristic to select the most promising node but does not consider the cost so far. It can get stuck in infinite loops or on dead-end paths, making it incomplete in some search spaces. It also does not guarantee optimality because it may choose a path that looks good initially but leads to a higher overall cost. Therefore, the statement is true.\n\nANSWER: True"
+  },
+  "712": {
+    "prediction": "RATIONALE: In an unordered array, there is no inherent order to preserve, so when an item is deleted, the typical approach to avoid leaving a gap is to shift all subsequent items one position to the left. This maintains the array's contiguous structure.  \n\nANSWER: True"
+  },
+  "713": {
+    "prediction": "RATIONALE: In an unordered array, the only way to search is linear search, checking each element one by one. Whether the item is present or not, you may need to examine all elements in the worst case. If the item is found, you stop early on average after checking half the elements; if it's not found, you always check all elements. So, on average, finding that an item is not present takes longer because you always traverse the entire array, whereas finding it stops early. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "714": {
+    "prediction": "RATIONALE: The base 2 logarithm of 100 is the exponent to which 2 must be raised to get 100. Since 2^2 = 4 and 2^6 = 64, 2^7 = 128, the logarithm is not an integer. Specifically, log₂(100) ≈ 6.64, not 2. Therefore, the statement is false.  \n\nANSWER: False"
+  },
+  "715": {
+    "prediction": "RATIONALE: Bubble sort compares adjacent items in each pass and does not compare every item with every other item directly. It reduces the number of comparisons in subsequent passes as elements are sorted.\n\nANSWER: False"
+  },
+  "716": {
+    "prediction": "RATIONALE: The statement claims bubble sort makes exactly N*N comparisons. However, bubble sort's number of comparisons depends on its implementation and the state of the data. In the standard version, it makes roughly N*(N-1)/2 comparisons in the worst case, not N*N. In optimized versions or with early termination, it can make fewer comparisons, especially for nearly sorted arrays. Therefore, the claim is false.\n\nANSWER: False"
+  },
+  "717": {
+    "prediction": "RATIONALE: The statement is reversed. Arrays are often used as the underlying mechanism to implement stacks and queues, not the other way around. Stacks and queues are abstract data types (ADTs) that can be implemented using arrays or linked lists.\n\nANSWER: False"
+  },
+  "718": {
+    "prediction": "RATIONALE: Pushing and popping on a stack are O(1) operations, as they only involve adding or removing from the top. Similarly, inserting (enqueue) and removing (dequeue) in a queue are typically O(1) operations when implemented efficiently (e.g., using a linked list or a circular array). The statement claims they all take O(N) time, which is false.  \nANSWER: False"
+  },
+  "719": {
+    "prediction": "RATIONALE: The statement suggests that a good interval sequence for Shellsort is simply repeatedly halving the array size. However, while halving (like the original Shell sequence) is one possible sequence, it is not considered optimal. More efficient sequences, such as Knuth's (3^k-1)/2 or Sedgewick's, are often used because they yield better performance. The key point is that the sequence should be designed to reduce the number of comparisons and swaps, not just arbitrary halving. Therefore, the statement is false because it oversimplifies and implies that halving is inherently good, whereas in practice, other sequences are preferred for efficiency.\n\nANSWER: False"
+  },
+  "720": {
+    "prediction": "RATIONALE: The statement is true because quicksort's partitioning algorithm can work with any element chosen as the pivot, whether it's the first, last, middle, or a random element. The efficiency may vary based on pivot choice, but the algorithm itself does not restrict which element can serve as the pivot.\n\nANSWER: True"
+  },
+  "721": {
+    "prediction": "RATIONALE: This statement is true because quicksort's recursive partitioning becomes inefficient for very small subarrays due to overhead. Switching to a simpler algorithm like insertion sort for small partitions (e.g., size 5 or 10) can reduce overhead and improve overall performance, as insertion sort is efficient for small, nearly sorted arrays.\n\nANSWER: True"
+  },
+  "722": {
+    "prediction": "RATIONALE: The statement \"Not all trees are binary trees\" is true because a binary tree is a specific type of tree where each node has at most two children. General trees can have any number of children per node, so not all trees are binary.\n\nANSWER: True"
+  },
+  "723": {
+    "prediction": "RATIONALE: In a binary search tree, deleting a node with one child is straightforward: the node is replaced by its only child. Finding the successor is only necessary when deleting a node with two children, to replace it with the inorder successor (or predecessor). Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "724": {
+    "prediction": "RATIONALE: The red-black rules themselves do not rearrange nodes; they are constraints on coloring and structure that guide operations like rotations and recoloring to maintain balance. Rotations are the operations that physically rearrange nodes, but the rules are the properties that must be satisfied.\n\nANSWER: False"
+  },
+  "725": {
+    "prediction": "RATIONALE: The statement describes a common technique for string hashing, where each character's ASCII value is multiplied by a power of a constant (like a prime) and summed, effectively creating a polynomial hash (e.g., Horner's method). This accounts for character order and position, making it a valid hash function approach.\n\nANSWER: True"
+  },
+  "726": {
+    "prediction": "RATIONALE: In linear probing, an unsuccessful search may require traversing the entire cluster of occupied slots until an empty slot is found, which can involve many probes. A successful search stops as soon as the target is found, which on average will be earlier in the cluster. Therefore, unsuccessful searches typically take longer on average. The statement says \"unsuccessful search takes longer than a successful search,\" which is generally true.\n\nANSWER: True"
+  },
+  "727": {
+    "prediction": "RATIONALE: The statement is about external hashing, where records (typically stored in blocks on disk) can handle collisions by chaining or using overflow blocks. The concern is not about records becoming \"full\" in a strict sense, as external hashing structures are designed to manage overflow dynamically (e.g., through separate overflow areas or buckets). The key point is that external hashing efficiently handles varying data sizes and collisions without requiring records to never be full; instead, it accommodates growth. Therefore, the statement is misleading.\n\nANSWER: False"
+  },
+  "728": {
+    "prediction": "RATIONALE: In HFC (Hybrid Fiber-Coaxial) networks, the downstream bandwidth from the headend to users is broadcast, but upstream bandwidth from users to the headend is shared among multiple users, leading to potential contention. However, the statement \"HFC transmission rate shared among users\" generally refers to the shared nature of the network, particularly in the upstream direction, but also in the sense that multiple users contend for the available capacity. Given the context and typical understanding, this is considered true.\n\nANSWER: True"
+  },
+  "729": {
+    "prediction": "RATIONALE: In HFC networks, the downstream channel from the headend to subscribers is a broadcast medium, but it is typically designed with a point-to-multipoint architecture where the headend controls transmissions. Downstream traffic is sent from the headend to all users, and users do not transmit on the downstream channel; they only receive. Collisions occur when multiple devices try to transmit on a shared medium simultaneously, but since users do not transmit downstream, collisions are not possible in the downstream channel. The upstream channel, however, is shared and can experience collisions.\n\nANSWER: False"
+  },
+  "730": {
+    "prediction": "RATIONALE: Persistent connections in HTTP/1.1 allow multiple requests and responses to be sent over a single TCP connection without closing it after each exchange. This means that after fetching one web page (including its embedded resources), the same connection can be reused to request another distinct web page from the same server. Therefore, it is possible to send two distinct web pages over the same persistent connection.\n\nANSWER: True"
+  },
+  "731": {
+    "prediction": "RATIONALE: Nonpersistent HTTP connections establish a new TCP connection for each request/response pair. Each HTTP request is sent over its own separate TCP connection, so a single TCP segment cannot carry two distinct HTTP request messages because each request is sent in its own connection. Even if multiple requests were made, they would be in separate TCP segments due to the nature of nonpersistent connections.\n\nANSWER: False"
+  },
+  "732": {
+    "prediction": "RATIONALE: The Date header in an HTTP response indicates the date and time when the response was generated by the server, not when the object was last modified. The last modification time is indicated by the Last-Modified header.\n\nANSWER: False"
+  },
+  "733": {
+    "prediction": "RATIONALE: HTTP response messages can indeed have an empty message body. For example, responses with status codes like 204 (No Content) or 304 (Not Modified) typically have no message body. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "734": {
+    "prediction": "RATIONALE: The question asks whether HTTP provides encryption services. According to the context, specifically the first line: \"The encryption services are provided by HTTP Rationale: HTTP does not provide encryption services; HTTPS, a secure version of HTTP, does A: False\". This directly states that HTTP does not provide encryption; HTTPS does. Therefore, the correct answer is False.\n\nANSWER: False"
+  },
+  "735": {
+    "prediction": "RATIONALE: The question asks if it's possible for one side to initiate closing a connection while the other side is still transmitting data. According to the HTTP/1.1 specification (RFC 2616), either client or server may close a transport connection if it detects the connection has been idle. However, the scenario describes one side closing while the other is actively transmitting data, which is not about idle detection but asymmetric closure. From the context provided earlier, it states: \"Asymmetric closure is possible in HTTP; one side can close while the other is transmitting data.\" This indicates that such a scenario is indeed possible, as one side might decide to close the connection even if the other side is still sending data, leading to a half-closed state or abrupt termination. Therefore, the answer should be True.\n\nANSWER: A"
+  },
+  "736": {
+    "prediction": "RATIONALE: In the scenario, Bob uses parallel instances of non-persistent HTTP while the other four users use non-persistent HTTP without parallel downloads. This means Bob can open multiple connections simultaneously to download web page components, while each of the other users is limited to one connection at a time. Even though the link is shared, Bob's parallel connections allow him to grab a larger share of the available bandwidth compared to each individual user, as he can initiate multiple requests in parallel. This typically results in faster web page retrieval for Bob relative to if he also used only a single connection, because he can overcome the limitations of serialized downloads. Therefore, his parallel connections do help him get web pages more quickly.\n\nANSWER: A"
+  },
+  "737": {
+    "prediction": "RATIONALE: In the original scenario, Bob benefits from parallel connections because he can open multiple connections to download resources simultaneously, while the other four users each use only one connection at a time. This gives Bob a larger share of the bandwidth. However, if all five users open five parallel instances each, then all users are competing equally for the network resources. In this case, Bob no longer has an advantage over the others because everyone is using the same strategy. The benefit of parallel connections comes from having more connections than others; when everyone uses parallel connections, the advantage diminishes. Therefore, Bob's parallel connections would not be as beneficial as before, and might not provide any significant benefit at all compared to the others.\n\nANSWER: False"
+  },
+  "738": {
+    "prediction": "RATIONALE: In BitTorrent, free-riding is possible because the protocol does not strictly enforce uploading; a peer can download chunks from others without reciprocating, especially if they can obtain data from seeders or other peers that are not enforcing strict tit-for-tat. However, many clients use mechanisms like choking to penalize free-riders, but it is still technically possible to complete a download without uploading, albeit inefficiently and against the ethos of the system.\n\nANSWER: A"
+  },
+  "739": {
+    "prediction": "RATIONALE: In BitTorrent, free-riding is possible but discouraged. Using multiple computers with distinct IP addresses could allow Bob to appear as multiple peers, potentially increasing his download speed by obtaining chunks from different sources simultaneously without reciprocating uploads. However, this is still a form of free-riding and may be detected or penalized by the protocol's mechanisms, such as choking algorithms that favor cooperative peers. Despite ethical and practical limitations, the claim is technically possible.\n\nANSWER: A"
+  },
+  "740": {
+    "prediction": "RATIONALE: The context explicitly states that applications can implement their own reliability mechanisms over UDP, as seen in the rationale for the first question: \"Applications can implement their own reliability mechanisms over UDP, like in video streaming protocols.\" This indicates that while UDP itself does not provide reliability, the application layer can add reliability features on top of UDP, making reliable data transfer possible.\n\nANSWER: A"
+  },
+  "741": {
+    "prediction": "RATIONALE: UDP sockets are identified by the combination of destination IP address and destination port number. In this scenario, both segments are sent to Host C (same destination IP) with the same destination port (6789). Therefore, they will be directed to the same socket at Host C, regardless of the source IP or source port differences.\n\nANSWER: A"
+  },
+  "742": {
+    "prediction": "RATIONALE: Host B can still send acknowledgments even if it has no data to send. TCP acknowledgments are sent in separate segments if there is no data to piggyback on. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "743": {
+    "prediction": "RATIONALE: The TCP receiver window (rwnd) is advertised by the receiver to inform the sender of how much free buffer space it has. This value can change during the connection as the receiver processes data and frees up buffer space, or as network conditions change. Therefore, it is not static.\n\nANSWER: False"
+  },
+  "744": {
+    "prediction": "RATIONALE: In TCP, the sender (Host A) is limited by the receiver's advertised window (rwnd), which indicates the available space in Host B's receive buffer. The sender cannot have more unacknowledged data in flight than the rwnd size, as this would risk overflowing the receiver's buffer. This is a fundamental aspect of TCP flow control.\n\nANSWER: True"
+  },
+  "745": {
+    "prediction": "RATIONALE: In TCP, sequence numbers are assigned to each byte of data. The sequence number in a segment indicates the byte number of the first data byte in that segment. Therefore, the sequence number for a subsequent segment depends on the amount of data in the current segment. If the current segment contains n bytes of data, the next segment's sequence number will be m + n, not necessarily m + 1. The statement is false because it assumes each segment carries exactly one byte of data, which is not necessarily the case.\n\nANSWER: B"
+  },
+  "746": {
+    "prediction": "RATIONALE: The TCP header includes a 16-bit field called the \"window size,\" which is used to communicate the receiver's advertised window (rwnd) to the sender. This field indicates the amount of data the receiver is willing to accept.\n\nANSWER: A"
+  },
+  "747": {
+    "prediction": "RATIONALE: The TimeoutInterval in TCP is computed using the EstimatedRTT and DevRTT, which incorporate past SampleRTT values with smoothing. It is not simply the last SampleRTT; it is EstimatedRTT plus a safety margin (typically 4 * DevRTT). While it is usually greater than the SampleRTT to account for variations, it is not necessarily always ≥1 sec because the EstimatedRTT could be lower due to smoothing of previous lower values, and the safety margin might not push it above 1 sec. However, the statement says \"necessarily,\" implying it must always be true. Since TCP's calculation can result in a TimeoutInterval less than the last SampleRTT in some cases (e.g., if the last SampleRTT is an outlier spike and previous RTTs were much smaller), the statement is false.\n\nANSWER: False"
+  },
+  "748": {
+    "prediction": "RATIONALE: The acknowledgment number in a TCP segment is independent of the sequence number and data length of that same segment. It indicates the next byte the sender expects to receive from the other side, not an acknowledgment of the data being sent in this segment. Therefore, it is not necessarily 42; it could be any valid acknowledgment number based on previous data received from Host B.\n\nANSWER: False"
+  },
+  "749": {
+    "prediction": "RATIONALE: In TCP congestion control, when a timeout occurs, the sender sets the slow start threshold (ssthresh) to half of the current congestion window (cwnd) size, not to half of its previous value. This is a standard part of TCP's response to congestion, as it reduces the sending rate to alleviate network congestion.\n\nANSWER: False"
+  },
+  "750": {
+    "prediction": "RATIONALE: Source port numbers are chosen independently by each client host for their outgoing connections. Since A and B are different hosts, they each have their own local port space and can independently choose the same source port number when initiating connections to the same server S. This is common in practice; for example, both might use ephemeral ports starting from 1024. The server S distinguishes the connections by the combination of source IP address and source port, so even if the source ports are the same, the connections are different because the source IPs differ.\n\nANSWER: A"
+  },
+  "751": {
+    "prediction": "RATIONALE: The Internet checksum used by UDP is a simple error-detection mechanism that calculates a sum of the segment's bits. While it can detect many common errors, it is not foolproof. There is a possibility that multiple bit errors could cancel each other out, resulting in the same checksum value even though the data has been altered. Therefore, the receiver cannot be absolutely certain that no bit errors have occurred.\n\nANSWER: A"
+  },
+  "752": {
+    "prediction": "RATIONALE: In Selective Repeat (SR), acknowledgments are cumulative for the window base but individual ACKs can be received for packets outside the current window if the window has advanced after those packets were retransmitted and acknowledged earlier. However, the statement says \"falls outside of its current window,\" meaning at the time the ACK is received, the packet's sequence number is not within the sender's current window. This can happen if, for example, the sender's window has moved forward after receiving duplicate ACKs or timeouts, and then an old delayed ACK arrives. SR allows out-of-order ACKs, so an ACK for a packet that is now outside the window (because the window has slid) is possible. This is true.\n\nANSWER: A"
+  },
+  "753": {
+    "prediction": "RATIONALE: The alternating-bit protocol is a simple stop-and-wait protocol where the sender transmits a packet with a sequence number (0 or 1) and waits for an acknowledgment before sending the next packet. Selective Repeat (SR) with a window size of 1 means the sender can only have one unacknowledged packet at a time, and the receiver window is also 1, so it can only accept packets in order. This configuration effectively reduces SR to a stop-and-wait protocol, which is exactly what the alternating-bit protocol is. Therefore, the statement is true.\n\nANSWER: A"
+  },
+  "754": {
+    "prediction": "RATIONALE: The question is a fill-in-the-blank style, asking about the purpose or role of IP addresses on routers. Based on the context, routers use IP addresses for several key functions: they have their own IP addresses for identification and management, and they use destination IP addresses in packets to make forwarding decisions. Specifically, routers have IP addresses assigned to their interfaces so they can be addressed as endpoints in the network (e.g., for routing protocols, management, and as next hops). This allows them to participate in the network layer communication.\n\nANSWER: for identification and management of interfaces, and to serve as next-hop addresses for forwarding packets."
+  },
+  "755": {
+    "prediction": "RATIONALE: Head-of-Line (HOL) blocking in routers refers to a situation where a packet at the front of a queue cannot be forwarded because the output port it needs is busy, even though packets behind it could be forwarded to other available output ports. This phenomenon specifically occurs in input-queued switches, where each input port has a queue. The packet at the head of the queue blocks others behind it, even if those other packets are destined for idle output ports. Therefore, the statement is true.\n\nANSWER: True"
+  },
+  "756": {
+    "prediction": "RATIONALE: The transport layer segment header checksum is computed over the segment (including header and data), while the IP datagram header checksum is computed only over the IP header itself. They cover different parts of the packet; the IP checksum does not include the transport segment, and the transport checksum does not include the IP header. Therefore, there are no common bytes between the two checksum calculations.\n\nANSWER: False"
+  },
+  "757": {
+    "prediction": "RATIONALE: The statement is correct. In IPv6 tunneling over IPv4 networks, IPv6 packets are encapsulated within IPv4 packets. From the perspective of the IPv6 protocol, the IPv4 tunnel acts as a virtual link-layer connection, because the IPv6 layer sees the tunnel as a direct link to the other end of the tunnel, abstracting away the underlying IPv4 routing infrastructure. This is a common technique for transitioning between IPv4 and IPv6.\n\nANSWER: A"
+  },
+  "758": {
+    "prediction": "RATIONALE: A shared bus is a single communication medium that can only handle one transmission at a time. Even if two packets are destined for different output ports, they cannot be forwarded simultaneously because the bus can only carry one packet at any given moment. One packet must be transmitted first, and then the other, leading to sequential forwarding.\n\nANSWER: False"
+  },
+  "759": {
+    "prediction": "RATIONALE: Autonomous systems (ASes) are independent networks that can choose their own internal routing protocols based on their specific needs, topology, and policies. There is no requirement that all ASes use the same intra-AS routing algorithm; different ASes commonly use different protocols such as OSPF, RIP, or EIGRP.\n\nANSWER: False"
+  },
+  "760": {
+    "prediction": "RATIONALE: Ethernet frames and 802.11 frames have different structures. Ethernet frames are designed for wired networks and include fields like preamble and SFD, while 802.11 frames are for wireless networks and include additional fields such as frame control, duration, and multiple address fields to handle wireless-specific needs like mobility and error-prone media. They operate at the MAC sublayer but have distinct formats.\n\nANSWER: False"
+  },
+  "761": {
+    "prediction": "RATIONALE: The statement is partially correct but has key inaccuracies. BGP routers do add their own AS number to the AS path when advertising routes, but they do not necessarily send the path to all neighbors. BGP uses policies to selectively advertise routes, and routes are not always advertised to all neighbors (e.g., to prevent loops or enforce policies). Additionally, \"identity\" is vague; BGP adds the AS number, not a router identifier, to the AS path. The correct answer is False.\n\nANSWER: False"
+  },
+  "762": {
+    "prediction": "RATIONALE: In OSPF, routers broadcast their link-state information to all other routers within the same area or autonomous system, not just to directly attached neighbors. This is done via flooding to ensure all routers have a consistent view of the network topology.  \nANSWER: False"
+  },
+  "763": {
+    "prediction": "RATIONALE: The definition states that a conforming flow has at most rt+b packets in any interval of length t. A leaky bucket policer with parameters (r, b) allows bursts up to b and sustains an average rate r. If the flow exactly meets the specification (rt+b), it could arrive with a burst of b packets at once, which would be allowed by the bucket's capacity b. However, if the flow arrives at a rate higher than r, the bucket may empty slower than arrivals, causing waiting. But the definition \"less than rt+b\" (strict inequality) means the flow is always within the limits, so it should never exceed the bucket's capacity or sustained rate, implying no waiting. However, in practice, \"conforming\" means it satisfies the inequality, and the policer enforces exactly that; if the flow is exactly at the limit, it might not wait if the bucket is initially full? Actually, careful analysis: The leaky bucket policer has a bucket that drains at rate r and can hold b tokens (or packets). A conforming flow has arrivals that never exceed rt+b. This means that at any time, the cumulative arrivals are at most r*t + b. The policer's bucket level represents the allowed arrivals minus actual service. If the flow is conforming, the bucket level never goes negative, meaning no packet arrives when there are no tokens, so no waiting. Therefore, a conforming flow should never have to wait.\n\nANSWER: False"
+  },
+  "764": {
+    "prediction": "RATIONALE: SIP (Session Initiation Protocol) is a signaling protocol used for initiating, maintaining, and terminating real-time sessions. Unlike H.323, which mandates specific codecs like G.711, SIP is designed to be flexible and does not require support for any particular audio encoding. Instead, codec negotiation is handled via SDP (Session Description Protocol) during session setup, allowing clients to agree on mutually supported codecs. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "765": {
+    "prediction": "RATIONALE: SIP clients need to refresh their registration with the registrar to keep their binding active and prevent it from expiring, which is done by sending periodic REGISTER messages.\n\nANSWER: True"
+  },
+  "766": {
+    "prediction": "RATIONALE: The statement is true. In Differentiated Services (DiffServ), per-hop behavior (PHB) defines the forwarding behavior and performance characteristics for different traffic classes, but it does not specify the exact implementation mechanisms. This allows network providers flexibility in how they achieve the desired performance, such as using specific queueing or scheduling algorithms.\n\nANSWER: True"
+  },
+  "767": {
+    "prediction": "RATIONALE: The RTS/CTS mechanism is designed to reduce collisions by reserving the channel before transmitting a long data frame. However, if RTS and CTS frames are as long as DATA and ACK frames, the overhead becomes significant. The benefit of RTS/CTS comes from the fact that these frames are short compared to data frames, so if a collision occurs, it only wastes the time of the short RTS/CTS exchange rather than the entire long data transmission. If RTS/CTS are as long as data frames, then using them would not save time in case of collisions; it would actually add overhead without reducing collision cost effectively. Therefore, there would be no advantage.\n\nANSWER: False"
+  },
+  "768": {
+    "prediction": "RATIONALE: The question asks whether a wireless connection implies mobility. Wireless connections provide network access without physical cables, but the node itself can be stationary (e.g., a desktop computer with a Wi-Fi card fixed in one location). Mobility refers to the ability to change network attachment points while maintaining connectivity, which is not inherent to wireless technology. Therefore, having a wireless connection does not necessitate mobility.\n\nANSWER: B"
+  },
+  "769": {
+    "prediction": "RATIONALE: Mobility in networking refers to changing network points of attachment, such as moving between different access points or networks, which involves changes in IP address or network layer connectivity. In this scenario, the user is physically moving but remains connected to the same access point, so the network point of attachment does not change. Therefore, from a network standpoint, the user is not considered mobile.\n\nANSWER: False"
+  },
+  "770": {
+    "prediction": "RATIONALE: In Mobile IP, the mobile host registers its care-of address with its home agent. When a correspondent node sends data to the mobile host, it initially sends packets to the mobile host's home address. The home agent intercepts these packets and tunnels them (via encapsulation) to the mobile host's care-of address. This tunneling typically continues for the entire data transfer phase; the correspondent does not directly send data to the mobile host unless route optimization is used. Even with route optimization, the initial connection setup may involve the home network, but the statement claims data transfer \"directly\" bypasses the home network, which is not generally true for basic Mobile IP. The provided context also includes a similar question with answer \"False,\" supporting this reasoning.\n\nANSWER: False"
+  },
+  "771": {
+    "prediction": "RATIONALE: In Mobile IP, when a mobile node is in a foreign network, it can obtain a care-of address (CoA). If a foreign agent is present, the CoA can be the foreign agent's address (a foreign agent CoA). Multiple mobile nodes can share the same foreign agent CoA because the foreign agent keeps track of each mobile node's specific location (e.g., through a visitor list) and decapsulates packets, forwarding them to the correct mobile node based on their unique identifiers. Therefore, it is possible for two mobile nodes to use the same care-of address when a foreign agent is involved.\n\nANSWER: A"
+  },
+  "772": {
+    "prediction": "RATIONALE: SSL/TLS does not have an explicit sequence number field in its record protocol. Instead, it uses implicit sequence numbers for integrity protection, which are incorporated into the MAC calculation but not transmitted as a separate field.\n\nANSWER: False"
+  },
+  "773": {
+    "prediction": "RATIONALE: In SSL/TLS when using CBC mode, the Initialization Vector (IV) is indeed sent in the clear. It is typically sent as part of the initial handshake or prefixed to the encrypted data so the client can decrypt the first block. This is standard practice because the IV does not need to be secret; its purpose is to ensure ciphertext randomness.  \n\nANSWER: A"
+  },
+  "774": {
+    "prediction": "RATIONALE: In IPsec, a Security Association (SA) is established to secure communication between two hosts. Once an SA is set up, it is typically used for multiple packets in a stream, not re-established for each packet. Establishing a new SA for every packet would introduce significant overhead and is not the standard practice. Instead, a single SA or a set of SAs is used for the duration of the session or until rekeying is needed.\n\nANSWER: False"
+  },
+  "775": {
+    "prediction": "RATIONALE: An IKE SA (Internet Key Exchange Security Association) is used to establish and manage IPsec SAs. It is a separate security association for the control plane, specifically for negotiating keys and parameters for the IPsec SAs, which are used for the actual data encryption and authentication. They are not the same thing.\n\nANSWER: False"
+  },
+  "776": {
+    "prediction": "RATIONALE: In Wired Equivalent Privacy (WEP), the Initialization Vector (IV) is included in the header of each encrypted frame without encryption, meaning it is transmitted in plaintext. This allows the receiver to use the IV along with the shared secret key to decrypt the frame.  \n\nANSWER: True"
+  },
+  "777": {
+    "prediction": "RATIONALE: Traditional stateless packet filters inspect individual packet headers, including TCP flags (like SYN, ACK, FIN) and other fields (like source/destination IP and port), to make filtering decisions without maintaining connection state. This allows them to enforce rules based on flag combinations, such as blocking packets with only SYN flags to prevent certain attacks.\n\nANSWER: A"
+  },
+  "778": {
+    "prediction": "RATIONALE: Traditional packet filters apply access control lists (ACLs) to individual interfaces to control inbound and/or outbound traffic, allowing network administrators to define specific security policies per interface. This is a fundamental characteristic of such filters.\n\nANSWER: True"
+  },
+  "779": {
+    "prediction": "RATIONALE: Signature-based Intrusion Detection Systems (IDS) and Intrusion Prevention Systems (IPS) work by scanning network traffic for known patterns or \"signatures\" of malicious activity. This inspection includes the payload (data) within both TCP and UDP segments, as attacks can be carried over both transport protocols. The context provided confirms this by stating they \"analyze payloads for signatures of known attacks, applicable to both TCP and UDP.\"\n\nANSWER: True"
+  },
+  "780": {
+    "prediction": "RATIONALE: SSL (Secure Sockets Layer) provides security at the transport layer, including integrity protection using a Message Authentication Code (MAC) that is computed with a shared secret key established during the handshake. Even if an attacker inserts a TCP segment with correct TCP-level information (checksum, sequence numbers, addresses, ports), the SSL layer will perform integrity verification using the MAC. Since the attacker does not have the shared keys, they cannot generate a valid MAC for the bogus data. Therefore, the integrity check will fail, and SSL will reject the packet, not passing the payload to the application.\n\nANSWER: False"
+  },
+  "781": {
+    "prediction": "RATIONALE: In HTTP streaming, the TCP receive buffer is part of the operating system's network stack, used to hold incoming data from the network before the application reads it. The client's application buffer is managed by the application itself to store data after reading from the TCP receive buffer. They are separate buffers with different purposes.\n\nANSWER: False"
+  },
+  "782": {
+    "prediction": "RATIONALE: UDP sockets are identified by a two-tuple consisting of the destination IP address and the destination port number. Both datagrams have the same destination IP address (B) and the same destination port (T). Therefore, they will be directed to the same socket at the destination host, regardless of differences in source IP addresses or source ports.\n\nANSWER: A"
+  },
+  "783": {
+    "prediction": "RATIONALE: In a conference call using RTP, Alice needs to send and receive audio streams to/from both Bob and Claire. RTP typically uses separate UDP sockets for each stream because each stream has a different destination IP/port combination. While RTP uses the SSRC field to differentiate streams within a session, in practice, each participant in a SIP conference would have their own RTP session with Alice, meaning separate sockets for sending to each recipient. Additionally, receiving from multiple sources on the same socket is possible if they all send to the same port, but in SIP conferences, participants often use separate ports. The context mentions that for UDP, sockets are identified by destination IP and port, so different destinations require different sockets for sending. For receiving, one socket can receive from multiple sources if they all target the same port, but in typical SIP/RTP setups, separate sockets are used for each participant to manage streams properly. The answer in the context provided is \"True,\" but that seems to contradict standard practice. However, based on the rationale in the context: \"Alice uses one socket; SSRC differentiation and RTCP reports map names to streams,\" it suggests that one socket is sufficient because RTP uses SSRC to differentiate streams within the same RTP session. This is possible if all participants send and receive on the same multicast group or port, but in a typical unicast scenario, it's not common. Given the context's answer, it aligns with the rationale provided.\n\nANSWER: A"
+  },
+  "784": {
+    "prediction": "RATIONALE: RTP supports dynamic payload types, which can be changed during a session through signaling mechanisms like RTCP or SDP, allowing the encoding to be adjusted without restarting the session.  \nANSWER: True"
+  },
+  "785": {
+    "prediction": "RATIONALE: RTP does not mandate a specific port number. Applications can choose any available port, often negotiated via SDP or other signaling protocols. Port 87 is not reserved for RTP; it is assigned to a different service (typically \"link\" or \"private link\"). Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "786": {
+    "prediction": "RATIONALE: In RTP, each stream from a sender is identified by a unique SSRC (Synchronization Source) identifier. If a sender transmits both audio and video, they are separate streams and will have different SSRC values to allow receivers to distinguish and synchronize them properly.\n\nANSWER: False"
+  },
+  "787": {
+    "prediction": "RATIONALE: The question asks whether a collision occurs if two nodes start transmitting at the same time over a broadcast channel, given that the propagation delay is less than L/R. In a broadcast channel, a collision happens when two transmissions overlap at a receiver. If both nodes start at the same time, their signals will propagate toward each other. Since dprop < L/R, the propagation delay is less than the transmission time of a packet. This means that before a node finishes transmitting its own packet, it will start receiving the packet from the other node. Specifically, the time for the signal from the other node to arrive is dprop, which is less than L/R, so during its own transmission, it will detect the other signal, leading to a collision. Therefore, the answer is True.\n\nANSWER: True"
+  },
+  "788": {
+    "prediction": "RATIONALE: The RTS/CTS mechanism in 802.11 is optional and used to avoid hidden terminal problems. It is not required for every data frame transmission; stations can send data frames directly using CSMA/CA.\n\nANSWER: False"
+  },
+  "789": {
+    "prediction": "RATIONALE: The statement says the client sends one request message and receives four response messages. In HTTP, when a user requests a web page with text and three images, the client typically sends one request for the HTML page and then additional requests for each embedded resource (like images). With non-persistent HTTP, each object requires a separate TCP connection and thus separate request/response pairs. So the client sends multiple request messages (one for the HTML and one for each image) and receives multiple response messages (one for each request). Therefore, the claim that the client sends only one request message is false.\n\nANSWER: False"
+  },
+  "790": {
+    "prediction": "RATIONALE: In Go-Back-N (GBN), acknowledgments are cumulative. This means that an ACK for sequence number N acknowledges all packets up to N. The sender's window only contains packets that have been sent but not yet acknowledged. Since ACKs are cumulative, the sender will not receive an ACK for a packet outside the current window because that would imply an out-of-order acknowledgment, which GBN does not support. The sender only advances its window when it receives an ACK for the oldest unacknowledged packet. Therefore, an ACK for a packet outside the current window is not possible in GBN.\n\nANSWER: False"
+  },
+  "791": {
+    "prediction": "RATIONALE: The alternating-bit protocol is a stop-and-wait protocol where the sender transmits one packet at a time and waits for an acknowledgment before sending the next. Go-Back-N (GBN) with a window size of 1 also operates in this manner, as it can only have one unacknowledged packet in transit. Therefore, they are equivalent in this specific configuration.\n\nANSWER: A"
+  },
+  "792": {
+    "prediction": "RATIONALE: SYN cookies are a defense mechanism against SYN flood attacks. When using SYN cookies, the server does not allocate resources (like connection variables and buffers) upon receiving a SYN packet. Instead, it encodes connection information in the initial sequence number (ISN) of the SYN-ACK. Only if the server receives a valid ACK back (with the correct ISN+1) will it allocate resources to establish the connection. Therefore, an attacker cannot create half-open or fully open connections by simply sending an ACK packet; they would need to complete the three-way handshake with a valid SYN-ACK response from the server, which requires the server to have sent a SYN-ACK first. The attacker sending an unsolicited ACK without a prior SYN-ACK from the server will not cause the server to create any connection state.\n\nANSWER: A"
+  },
+  "793": {
+    "prediction": "RATIONALE: The server uses SYN cookies, which means it does not allocate resources (like connection variables and buffers) until it receives a valid ACK that proves the client is legitimate. However, the attacker can collect initial sequence numbers (ISNs) from SYN-ACKs, but to create a fully open connection, the attacker must send an ACK with the correct ISN+1. Even if the attacker does this, the server using SYN cookies validates the ACK by reconstructing the ISN from the cookie. If the ACK is valid, the server creates the connection, but this requires the attacker to have received a SYN-ACK for each connection attempt. Simply sending ACKs with collected ISNs without having completed the three-way handshake for each would not work because the server's SYN cookie mechanism ensures that the ACK must correspond to a recently sent SYN-ACK. Therefore, the attacker cannot arbitrarily create many fully open connections just by sending ACKs with collected ISNs; they would need to complete the handshake for each, which is resource-intensive and limited by the server's SYN cookie validation.\n\nANSWER: False"
+  },
+  "794": {
+    "prediction": "RATIONALE: Switching via memory involves the router's CPU copying packets from input ports to memory and then to output ports. Since memory operations are typically sequential and the CPU can only handle one memory operation at a time, two packets arriving simultaneously cannot be forwarded at the same time; they would be processed one after the other.\n\nANSWER: False"
+  },
+  "795": {
+    "prediction": "RATIONALE: A crossbar switch fabric allows multiple simultaneous connections between different input and output ports as long as there are no conflicts. However, if both packets are destined for the same output port, they cannot be forwarded at the same time because the output port can only receive one packet at a time. The crossbar can only connect one input to that output at any given moment, so the packets must be forwarded sequentially.\n\nANSWER: False"
+  },
+  "796": {
+    "prediction": "RATIONALE: Nonpersistent HTTP connections establish a new TCP connection for each request/response pair. Each HTTP request is sent over its own separate TCP connection, so a single TCP segment cannot carry two distinct HTTP request messages because they would be sent on different connections. Even if multiple requests were made, they would be serialized per connection, and TCP segments are part of a single byte stream per connection, but with nonpersistent connections, each request uses a new connection, making it impossible for one segment to carry two separate requests.\n\nANSWER: False"
+  },
+  "797": {
+    "prediction": "RATIONALE: The Date header in an HTTP response indicates the date and time when the response was generated by the server, not when the object was last modified. The last modification time is indicated by the Last-Modified header.\n\nANSWER: False"
+  },
+  "798": {
+    "prediction": "RATIONALE: HTTP response messages can indeed have an empty message body. For example, responses with status codes like 204 (No Content) or 304 (Not Modified) typically have no message body. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "799": {
+    "prediction": "RATIONALE: In OSPF, link-state advertisements (LSAs) are flooded throughout the entire OSPF area, not just to directly connected neighbors. Each router forwards LSAs to all OSPF neighbors except the one from which it received the LSA, ensuring all routers in the area build a consistent link-state database.\n\nANSWER: False"
+  },
+  "800": {
+    "prediction": "RATIONALE: The statement is partially correct but has key inaccuracies. BGP routers do add their own AS number to the AS path when advertising routes, but they do not necessarily send the path to all neighbors. BGP uses policies to selectively advertise routes, and routes are not always advertised to all neighbors (e.g., due to route filtering, peer types like iBGP vs. eBGP, or to prevent routing loops). Additionally, \"identity\" is vague; BGP specifically prepends the AS number, not a general identity.\n\nANSWER: False"
+  },
+  "801": {
+    "prediction": "RATIONALE: Host B can still send acknowledgments even if it has no data to send. TCP acknowledgments are sent in separate segments if there is no data to piggyback on. Therefore, the statement is false.  \nANSWER: False"
+  },
+  "802": {
+    "prediction": "RATIONALE: The certificate is signed by the certifier using its private key, not encrypted with its public key. The certificate itself contains the public key of foo.com and is signed to ensure integrity and authenticity. Encryption with certifier.com's public key would not make sense for a certificate meant to be publicly distributed.\n\nANSWER: False"
+  },
+  "803": {
+    "prediction": "RATIONALE: In SSL/TLS when using a block cipher in CBC mode, the Initialization Vector (IV) is indeed sent in the clear. This is a standard practice because the IV does not need to be kept secret; its purpose is to ensure that identical plaintext blocks encrypt to different ciphertext blocks. The IV is typically sent as part of the initial handshake or within the record protocol.  \n\nANSWER: A"
+  },
+  "804": {
+    "prediction": "RATIONALE: SSL/TLS does not have an explicit sequence number field in its record protocol. Instead, it uses implicit sequence numbers that are part of the MAC (Message Authentication Code) calculation to prevent replay attacks, but these are not transmitted as a separate field in the record.\n\nANSWER: False"
+  },
+  "805": {
+    "prediction": "RATIONALE: In Mobile IP, the mobile host registers its care-of address with its home agent. When a correspondent node sends packets to the mobile host, they are first routed to the home network, where the home agent encapsulates and tunnels them to the mobile host's current location. The data transfer does not bypass the home network; it goes through the home agent via tunneling. Therefore, both the connection phase and data transfer phase involve the home network.\n\nANSWER: False"
+  },
+  "806": {
+    "prediction": "RATIONALE: Ethernet frames and 802.11 frames have different structures. Ethernet frames include fields like preamble and SFD, while 802.11 frames include additional control fields and four address fields to handle wireless-specific functions like mobility and power management. They are designed for different media (wired vs. wireless) and have distinct MAC sublayer requirements.\n\nANSWER: False"
+  },
+  "807": {
+    "prediction": "RATIONALE: The RTS/CTS mechanism in 802.11 is optional and used to avoid hidden terminal problems. It is not required for every data frame transmission; stations can send data frames directly using CSMA/CA.\n\nANSWER: False"
+  },
+  "808": {
+    "prediction": "RATIONALE: Processes run concurrently if their time intervals overlap. Process A runs from time 0 to 2, and process B runs from 1 to 4. Their intervals overlap from time 1 to 2, so they do run concurrently.\n\nANSWER: True"
+  },
+  "809": {
+    "prediction": "RATIONALE: Processes run concurrently if their time intervals overlap. Process A runs from time 0 to 2, and process C runs from time 3 to 5. There is no overlap because A ends at time 2 and C starts at time 3, so they do not run concurrently.\n\nANSWER: False"
+  },
+  "810": {
+    "prediction": "RATIONALE: The mutex semaphore ensures mutual exclusion when accessing shared buffer data structures. Even with a single producer and single consumer (p=1, c=1), if n>1 (buffer has multiple slots), both the producer and consumer can access the buffer concurrently—the producer might be inserting while the consumer is removing. Without a mutex, concurrent modifications to shared variables like buffer indices could lead to race conditions. Therefore, the mutex is necessary.\n\nANSWER: A"
+  },
+  "811": {
+    "prediction": "RATIONALE: When p>1, c>1, and n=1, the buffer can only hold one item. In such a scenario, the producer and consumer cannot access the buffer simultaneously because the buffer is either full or empty, preventing concurrent modification. However, with multiple producers and consumers, there is still a risk of race conditions when multiple producers try to insert into an empty buffer or multiple consumers try to remove from a full buffer, as they would be modifying shared variables (like buffer indices or counts) concurrently. Therefore, a mutex semaphore is necessary to protect those critical sections.\n\nANSWER: True"
+  },
+  "812": {
+    "prediction": "RATIONALE: The statement accurately describes the ISA as the programmer-visible interface that defines how software interacts with the hardware, serving as the crucial boundary between them.\n\nANSWER: A"
+  },
+  "813": {
+    "prediction": "RATIONALE: The context states that the review uses examples from 80x86, ARM, and MIPS to illustrate *seven* dimensions of an ISA, not five. Therefore, the statement in the question is false.\n\nANSWER: False"
+  },
+  "814": {
+    "prediction": "RATIONALE: The statement claims that all desktop and server computers, including 80x86, ARM, and MIPS, use word addressing. However, these architectures actually use byte addressing, where each byte in memory has a unique address. This allows for more flexible access to data of different sizes (e.g., bytes, half-words, words) and is standard in modern systems. Word addressing, where addresses refer to larger fixed-size units, is less common and not used by these architectures.\n\nANSWER: False"
+  },
+  "815": {
+    "prediction": "RATIONALE: The statement claims that all processors since about 1985 have used pipelining to achieve ILP. While pipelining became a standard technique in processor design from that era onward, it is not accurate to say that *all* processors have used it. Some low-power, embedded, or very simple processors (e.g., some microcontrollers) may not employ pipelining. Therefore, the statement is too absolute and incorrect.\n\nANSWER: False"
+  },
+  "816": {
+    "prediction": "RATIONALE: The statement is false because hazards in pipelining can arise not only from data dependences but also from control dependences (e.g., branch hazards) and structural hazards (resource conflicts). Data dependence is one type, but hazards exist when dependent instructions are close enough in the pipeline that overlapping execution causes problems, not regardless of execution proximity. The proximity matters because if instructions are far apart, the hazard might not occur.\n\nANSWER: False"
+  },
+  "817": {
+    "prediction": "RATIONALE: Control dependence specifically refers to the ordering of instructions based on branch outcomes. It determines whether an instruction should be executed based on the result of a branch, so it is directly related to branch instructions. The statement says \"regardless of its relationship to a branch instruction,\" which is false because control dependence is defined by that relationship.\n\nANSWER: False"
+  },
+  "818": {
+    "prediction": "RATIONALE: The statement is false because a memory hierarchy does not provide unlimited fast memory. Instead, it uses a combination of small, fast, expensive memory (like caches) and larger, slower, cheaper memory (like main memory and storage) to create the illusion of fast, large memory at a reasonable cost. Programmers desire unlimited fast memory, but practical constraints of cost and technology make a hierarchy necessary to balance speed, size, and expense.\n\nANSWER: False"
+  },
+  "819": {
+    "prediction": "RATIONALE: The principle of locality describes the observed behavior in programs where memory accesses are not uniform. Instead, they tend to cluster in time (temporal locality) and space (spatial locality). This non-uniform access pattern is fundamental to the design of effective memory hierarchies, such as caches.\n\nANSWER: False"
+  },
+  "820": {
+    "prediction": "RATIONALE: True sharing misses are a direct consequence of cache coherence protocols. When one processor writes to a shared cache block, it invalidates that block in other caches. Subsequent reads by other processors will then miss and require a fresh fetch of the block. This is a genuine sharing miss because the processors are actively accessing the same data.\n\nANSWER: True"
+  },
+  "821": {
+    "prediction": "RATIONALE: False sharing is a phenomenon in multiprocessor systems where multiple processors have copies of the same cache block in their caches, and one processor writes to a word in that block. This write invalidates the entire block in other caches due to cache coherence protocols, even if the other processors are accessing different words within the same block. This causes unnecessary cache misses because the invalidation is not due to actual sharing of the same data word, but rather because the block contains both shared and private data. The statement accurately describes this scenario.\n\nANSWER: True"
+  },
+  "822": {
+    "prediction": "RATIONALE: The context explicitly states that \"SLOs focus on ensuring a high percentage of requests meet specific latency thresholds, enhancing user satisfaction rather than just targeting average latency.\" This directly contradicts the statement in the question, which claims SLOs specify goals for average latency rather than the percentage below a threshold. Therefore, the statement is false.\n\nANSWER: A"
+  },
+  "823": {
+    "prediction": "RATIONALE: Cloud computing providers allow startups to scale resources on-demand, which reduces the risks of over-provisioning (paying for unused capacity) and under-provisioning (insufficient resources). This makes resource management more flexible and cost-effective for startups.\n\nANSWER: True"
+  },
+  "824": {
+    "prediction": "RATIONALE: The statement is true. Warehouse-scale computers (WSCs) prioritize cost and energy efficiency, leading to server designs that emphasize performance per dollar (cost efficiency) and performance per joule (energy efficiency). This mirrors how mobile clients have driven microprocessor design toward low power consumption and energy efficiency. The influence of WSCs on server design is a recognized trend in computer architecture.\n\nANSWER: A"
+  },
+  "825": {
+    "prediction": "RATIONALE: Independence means that the occurrence of B does not affect the probability of A, so P(A|B) = P(A). This is a fundamental property of independent events.\n\nANSWER: True"
+  },
+  "826": {
+    "prediction": "RATIONALE: The p-value is the probability of obtaining results at least as extreme as the observed data, assuming the null hypothesis is true. It is not the probability that the null hypothesis itself is true. This is a common misconception.\n\nANSWER: False"
+  },
+  "827": {
+    "prediction": "RATIONALE: The statement reverses the roles of descriptive and inferential statistics. Descriptive statistics summarize and describe the features of a collected data sample (e.g., mean, standard deviation) and do not generalize beyond that sample. Inferential statistics, on the other hand, use sample data to make inferences or predictions about a larger population, thus extending beyond the data you have.\n\nANSWER: False"
+  },
+  "828": {
+    "prediction": "RATIONALE: The sample variance is defined as the average of the squared differences between each data point and the sample mean. It quantifies the dispersion or spread of the data points relative to the sample mean, making this statement true.\n\nANSWER: True"
+  },
+  "829": {
+    "prediction": "RATIONALE: Cosine similarity is defined as the cosine of the angle between two vectors. The cosine function ranges from -1 to 1, so cosine similarity can indeed be negative when the angle is greater than 90 degrees (indicating the vectors point in generally opposite directions).\n\nANSWER: True"
+  },
+  "830": {
+    "prediction": "RATIONALE: The sample space is defined as the set of all possible outcomes of a random experiment. This is a fundamental concept in probability theory.\n\nANSWER: True"
+  },
+  "831": {
+    "prediction": "RATIONALE: The central limit theorem (CLT) states that the sampling distribution of the sample mean approaches a normal distribution as the sample size increases, provided the samples are independent and identically distributed (i.i.d.). The key conditions are independence, identical distribution, and a sufficiently large sample size (typically n ≥ 30 is a common rule of thumb, though it depends on the population distribution). The CLT holds regardless of the shape of the population distribution, as long as the population has a finite variance. Therefore, the statement is true.\n\nANSWER: True"
+  },
+  "832": {
+    "prediction": "RATIONALE: A Minimum Spanning Tree (MST) is a tree that spans all vertices of a connected graph with the minimum possible total edge weight. By definition, a tree with V vertices has exactly V-1 edges. This is a fundamental property of trees in graph theory, and since an MST is a tree, it must have exactly V-1 edges.  \n\nANSWER: True"
+  },
+  "833": {
+    "prediction": "RATIONALE: The statement is true. In a graph with unique edge weights, the Minimum Spanning Tree (MST) is unique. This is because algorithms like Kruskal's and Prim's will have no ties when selecting edges, leading to a single, deterministic MST. The uniqueness of edge weights ensures that no two spanning trees can have the same total weight, so the MST is unique.\n\nANSWER: A"
+  },
+  "834": {
+    "prediction": "RATIONALE: The statement says that if a is conditionally independent of b and c given no conditions (i.e., P(a|b,c) = P(a)), then it claims that b and c are independent (P(b|c) = P(b)). However, from P(a|b,c) = P(a), we only know that a is independent of the joint event (b and c). This does not necessarily imply that b and c are independent. For example, b and c could be dependent, but a might be independent of both individually and jointly. Therefore, the implication does not hold in general.\n\nANSWER: False"
+  },
+  "835": {
+    "prediction": "RATIONALE: The given condition \\( P(a \\mid b, c) = P(b \\mid a, c) \\) does not necessarily imply \\( P(a \\mid c) = P(b \\mid c) \\). This equality suggests a symmetry, but it does not enforce that the marginal conditional probabilities given \\( c \\) are equal. For example, consider a scenario where \\( a \\) and \\( b \\) are not conditionally independent given \\( c \\), and their probabilities differ. The symmetric property alone is insufficient to conclude equality of \\( P(a \\mid c) \\) and \\( P(b \\mid c) \\). The rationale in the context incorrectly states it suggests conditional independence; actually, conditional independence would be \\( P(a \\mid b, c) = P(a \\mid c) \\), which is different. The given condition is symmetric but does not imply the marginals are equal. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "836": {
+    "prediction": "RATIONALE: The statement says: If P(a|b) = P(a) (meaning a and b are independent), then does it follow that P(a|b,c) = P(a|c)? Independence of a and b does not imply conditional independence given c. That is, even if a and b are independent, they may become dependent when conditioning on c (e.g., in a collider structure). Without additional assumptions (like conditional independence given c), we cannot conclude that P(a|b,c) = P(a|c). The given context includes a similar example where a statement with a similar structure is marked false, reinforcing that we cannot directly draw this conclusion.\n\nANSWER: False"
+  },
+  "837": {
+    "prediction": "RATIONALE: The determinant of a matrix can be positive, negative, or zero, depending on the entries of the matrix. For example, the determinant of a diagonal matrix with negative entries is negative. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "838": {
+    "prediction": "RATIONALE: Matrix equality is defined element-wise: two matrices are equal if they have the same dimensions and each corresponding element is identical.  \n\nANSWER: A"
+  },
+  "839": {
+    "prediction": "RATIONALE: A matrix has an inverse only if it is square and its determinant is non-zero (i.e., it is non-singular). Many matrices are singular (determinant zero) and thus do not have inverses. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "840": {
+    "prediction": "RATIONALE: This is a fundamental axiom of probability theory. In any probability space, the sum of the probabilities of all mutually exclusive and exhaustive outcomes must equal 1, representing certainty that one of the outcomes occurs.\n\nANSWER: True"
+  },
+  "841": {
+    "prediction": "RATIONALE: The statement is ambiguous without specifying the type of random variable. A continuous random variable can take any value within an interval, but a discrete random variable takes only specific, countable values. Therefore, the statement is not universally true.\n\nANSWER: False"
+  },
+  "842": {
+    "prediction": "RATIONALE: The variance measures the spread or dispersion of a random variable around its mean. A constant random variable always takes the same value, so there is no variability. Therefore, its variance is zero.\n\nANSWER: True"
+  },
+  "843": {
+    "prediction": "RATIONALE: The derivative measures the rate of change of a function. A constant function does not change, so its rate of change is zero.  \nANSWER: True"
+  },
+  "844": {
+    "prediction": "RATIONALE: The statement is false because the integral of a function can yield various types of functions, not just polynomials. For example, the integral of 1/x is ln|x| + C, which is not a polynomial. Similarly, integrals of trigonometric, exponential, or other non-polynomial functions do not result in polynomials. Therefore, the claim is incorrect.\n\nANSWER: False"
+  },
+  "845": {
+    "prediction": "RATIONALE: A function can indeed have multiple local maxima, as local maxima are points where the function value is higher than at nearby points, and there can be several such peaks in a function's domain.  \nANSWER: True"
+  },
+  "846": {
+    "prediction": "RATIONALE: The statement is the definition of a complete graph.  \nANSWER: True"
+  },
+  "847": {
+    "prediction": "RATIONALE: In a directed graph, edges have a specific direction from one vertex to another, unlike undirected graphs where edges have no direction. The statement is false.\n\nANSWER: False"
+  },
+  "848": {
+    "prediction": "RATIONALE: By definition, a set is a collection of distinct objects. Therefore, it cannot contain duplicate elements.\n\nANSWER: False"
+  },
+  "849": {
+    "prediction": "RATIONALE: Hash functions are one-way functions, meaning they produce a fixed-size output from an input, but it is computationally infeasible to reverse the process and retrieve the original input from the hash. This property ensures security in applications like password storage and data integrity verification.\n\nANSWER: No"
+  },
+  "850": {
+    "prediction": "RATIONALE: For Bob to verify that Alice created the message, authentication is needed. Without Alice having her own key pair, she cannot create a digital signature (which requires a private key). A hash alone does not provide authentication because anyone can compute the hash of a message. Even if Alice sends a hash of the message, Bob cannot verify it came specifically from Alice, as an attacker could also send a message and its hash. Therefore, without a shared secret or Alice's private key, no scheme can provide source authentication.\n\nANSWER: False"
+  },
+  "851": {
+    "prediction": "RATIONALE: Confidentiality means that only the intended recipient (Bob) can read the message. Since Alice has Bob's public key (from his certificate), she can encrypt the message with Bob's public key. Only Bob, with his private key, can decrypt it. This provides confidentiality even though Alice does not have her own key pair.\n\nANSWER: A"
+  },
+  "852": {
+    "prediction": "RATIONALE: In symmetric cryptography, the same key is used for both encrypting and decrypting data, which is a defining characteristic of symmetric encryption. This is true as stated.\n\nANSWER: A"
+  },
+  "853": {
+    "prediction": "RATIONALE: A good cryptographic hash function is designed to produce a fixed-length output regardless of the input size. This property ensures consistency, predictability, and reliability in applications like data integrity verification and digital signatures. Fixed-length outputs simplify storage and processing while maintaining security.\n\nANSWER: True"
+  },
+  "854": {
+    "prediction": "RATIONALE: Hash functions are designed to be one-way, meaning they produce a fixed-size output from an input in such a way that it is computationally infeasible to reverse the process and obtain the original input from the hash value. This property is fundamental to their use in cybersecurity for tasks like password storage and data integrity verification.\n\nANSWER: False"
+  },
+  "855": {
+    "prediction": "RATIONALE: Firewalls are designed to filter network traffic based on security rules, but they cannot stop all cyber attacks. For example, they are ineffective against attacks that exploit vulnerabilities in allowed traffic (like phishing emails or malicious websites visited by users), insider threats, or attacks that use encrypted channels to bypass inspection. They are a key security layer but not a complete solution.\n\nANSWER: False"
+  },
+  "856": {
+    "prediction": "RATIONALE: VPNs (Virtual Private Networks) are designed to create a secure, encrypted tunnel over public networks like the internet. This encryption ensures that data transmitted is protected from eavesdropping, maintaining confidentiality and privacy.\n\nANSWER: True"
+  },
+  "857": {
+    "prediction": "RATIONALE: Intrusion Detection Systems (IDS) are designed to monitor network or system activities for malicious actions or policy violations and generate alerts. They do not take active measures to block or prevent attacks; that function is performed by Intrusion Prevention Systems (IPS). Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "858": {
+    "prediction": "RATIONALE: SQL Injection attacks specifically target vulnerabilities in how user input is handled in database queries, allowing attackers to inject malicious SQL code. This is a fundamental concept in cybersecurity.\n\nANSWER: True"
+  },
+  "859": {
+    "prediction": "RATIONALE: HTTPS encrypts data in transit between the client and server, which protects against eavesdropping and man-in-the-middle attacks. However, it does not prevent XSS attacks, as XSS exploits vulnerabilities in how a web application handles user input, allowing malicious scripts to be injected and executed in a victim's browser. The prevention of XSS requires measures like input validation, output encoding, and Content Security Policy (CSP), not just transport layer encryption.\n\nANSWER: False"
+  },
+  "860": {
+    "prediction": "RATIONALE: Secure coding practices are specifically designed to reduce vulnerabilities in web applications, such as SQL injection and XSS, by promoting methods that prevent common exploits during development.\n\nANSWER: True"
+  },
+  "861": {
+    "prediction": "RATIONALE: A Trojan horse is a type of malware that disguises itself as legitimate software to trick users into installing it. Unlike viruses or worms, it does not have self-replicating capabilities. Its spread relies on user action, such as downloading and executing the malicious file.\n\nANSWER: False"
+  },
+  "862": {
+    "prediction": "RATIONALE: The statement is true because malware analysis is specifically the process of studying malicious software to determine its behavior, functionality, and potential impact on systems, which is essential for developing effective defenses and mitigation strategies.\n\nANSWER: True"
+  },
+  "863": {
+    "prediction": "RATIONALE: The statement describes ransomware's core function: encrypting files and demanding payment for decryption, which is accurate based on the context provided.  \nANSWER: True"
+  },
+  "864": {
+    "prediction": "RATIONALE: Ethical hacking requires explicit authorization from the organization to ensure the activities are legal, authorized, and within the bounds of agreed-upon rules of engagement. Conducting tests without permission is considered unauthorized access and is illegal, distinguishing ethical hackers from malicious attackers.\n\nANSWER: False"
+  },
+  "865": {
+    "prediction": "RATIONALE: The reconnaissance phase is explicitly defined as the stage where information about the target is collected, such as IP addresses, network configurations, and other intelligence, to plan subsequent testing steps. This is a standard and correct description in cybersecurity.\n\nANSWER: True"
+  },
+  "866": {
+    "prediction": "RATIONALE: The statement is false because penetration testing is a proactive security measure. It is conducted to identify and address vulnerabilities before a breach occurs, helping to strengthen defenses and prevent incidents, not just in response to them.\n\nANSWER: False"
+  },
+  "867": {
+    "prediction": "RATIONALE: The statement describes a common model in human perception, particularly in HCI and psychology, where visual perception is divided into two main stages: the physical reception of stimuli (via the eyes) and the cognitive processing/interpretation of those stimuli. This aligns with the information provided in the context.\n\nANSWER: True"
+  },
+  "868": {
+    "prediction": "RATIONALE: The statement \"Our perception of size relies on the visual angle\" is false because of size constancy. Size constancy is a perceptual phenomenon where we perceive an object's size as constant despite changes in its visual angle due to distance. For example, a person moving away appears smaller in terms of visual angle but is still perceived as the same height. Therefore, perception of size does not solely rely on visual angle.\n\nANSWER: B"
+  },
+  "869": {
+    "prediction": "RATIONALE: The statement is consistent with known facts about human vision. The fovea, located at the center of the retina, has the highest concentration of cones, which are responsible for color vision and high visual acuity. In contrast, the peripheral retina has more rods, which are sensitive to low light but do not perceive color well, resulting in poor color vision in the periphery.\n\nANSWER: True"
+  },
+  "870": {
+    "prediction": "RATIONALE: The statement claims brightness perception is solely determined by luminance, with no compensation by the visual system. However, brightness perception involves complex processing where the visual system adjusts for lighting conditions to maintain consistent perception, meaning luminance alone does not determine brightness. This is supported by the context, which notes that brightness perception involves \"visual system compensation for changes in lighting conditions.\" Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "871": {
+    "prediction": "RATIONALE: The statement says the DVORAK keyboard uses a similar layout of keys to QWERTY but assigns letters to different keys. This is true because both are keyboard layouts with keys in similar positions (e.g., same number of keys, similar physical arrangement), but the letter assignments are indeed different, designed for efficiency. The context provided earlier also confirms this with a similar question answered as \"True.\"\n\nANSWER: True"
+  },
+  "872": {
+    "prediction": "RATIONALE: The statement directly aligns with the core definition of ergonomics in HCI, which focuses on the physical aspects of interaction (like controls, displays, environment) and their impact on performance and effectiveness.\n\nANSWER: True"
+  },
+  "873": {
+    "prediction": "RATIONALE: The statement claims that ergonomics is limited to physical aspects and excludes perceptual issues like color use. However, ergonomics (or human factors) encompasses both physical and cognitive/perceptual aspects of human-system interaction. It addresses how design elements, including color in displays, affect user perception, performance, and comfort. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "874": {
+    "prediction": "RATIONALE: The statement claims that ergonomics in interface design focuses solely on social and organizational factors. However, ergonomics primarily addresses physical characteristics of interaction, such as usability, comfort, and safety, including factors like control design, seating, and display layout. Social and organizational factors are more related to broader HCI or socio-technical systems, not the core focus of ergonomics.\n\nANSWER: False"
+  },
+  "875": {
+    "prediction": "RATIONALE: The statement describes \"dialog\" as a monolog-like structure without cooperative exchange, which is incorrect. In HCI, dialog refers to a structured, interactive exchange between user and system, implying cooperation and mutual communication, not a one-sided monolog.\n\nANSWER: False"
+  },
+  "876": {
+    "prediction": "RATIONALE: The statement is true because State Transition Networks (STNs) are inherently sequential and struggle with representing concurrent interactions. To model multiple toggles (like bold and italic) that can be independently activated/deactivated, you need to combine separate STN diagrams for each toggle to capture all possible state combinations.\n\nANSWER: True"
+  },
+  "877": {
+    "prediction": "RATIONALE: The statement is directly supported by the context, which mentions that evaluation can be categorized into laboratory conditions and field studies (work environment). This distinction is a fundamental aspect of evaluation styles in HCI.\n\nANSWER: A"
+  },
+  "878": {
+    "prediction": "RATIONALE: The statement describes the fundamental structure of an experiment: formulating a hypothesis, manipulating or controlling variables, measuring participant behavior across conditions, and analyzing the impact on behavioral measures. This aligns with standard experimental design principles in human-computer interaction and other empirical sciences.\n\nANSWER: A"
+  },
+  "879": {
+    "prediction": "RATIONALE: The statement accurately describes cognitive models in HCI, as they indeed span from high-level goals to low-level actions and are developed by experts from those fields.\n\nANSWER: True"
+  },
+  "880": {
+    "prediction": "RATIONALE: The statement is consistent with the context provided, which notes that cognitive models often use computational analogies to simplify communication and analysis but risk a mechanistic view of the user.\n\nANSWER: A"
+  },
+  "881": {
+    "prediction": "RATIONALE: The statement describes how expert users, through practice, automate the action of inserting a space in the vi editor, treating it as a single chunk or proceduralized action rather than breaking it down into subgoals. This aligns with cognitive models of skill acquisition, where repeated practice leads to chunking and proceduralization of tasks.\n\nANSWER: A"
+  },
+  "882": {
+    "prediction": "RATIONALE: Gradient descent minimizes a function by moving in the direction opposite to the gradient (the direction of steepest ascent), not in the direction of the gradient itself. Moving in the gradient's direction would increase the function.\n\nANSWER: False"
+  },
+  "883": {
+    "prediction": "RATIONALE: The learning rate in gradient descent is a positive scalar that controls the step size in the direction opposite to the gradient (for minimization). A negative learning rate would cause movement in the direction of the gradient, which increases the function (for minimization), typically worsening performance. The statement is incorrect.\n\nANSWER: False"
+  },
+  "884": {
+    "prediction": "RATIONALE: While gradient descent is effective for convex functions, there are other optimization algorithms (like Newton's method or conjugate gradient) that can be more efficient in certain cases, depending on factors like the function's properties and computational resources. Therefore, it is not universally the most efficient.  \nANSWER: False"
+  },
+  "885": {
+    "prediction": "RATIONALE: The statement is false because even for convex functions, if the learning rate is too large, gradient descent can overshoot and increase the function value, leading to divergence. A positive learning rate alone does not guarantee a decrease in each iteration; it must be appropriately small.\n\nANSWER: False"
+  },
+  "886": {
+    "prediction": "RATIONALE: Gradient descent is an optimization algorithm used to minimize a loss function by iteratively moving in the direction opposite to the gradient. It is not a supervised learning technique itself; rather, it is a tool that can be applied within both supervised and unsupervised learning methods to optimize parameters.\n\nANSWER: False"
+  },
+  "887": {
+    "prediction": "RATIONALE: Gradient descent is an optimization algorithm used to minimize a loss function. It is not limited to supervised learning; it can also be applied in unsupervised learning contexts, such as optimizing the cost function in k-means clustering or in training autoencoders.\n\nANSWER: True"
+  },
+  "888": {
+    "prediction": "RATIONALE: Gradient descent is an optimization algorithm that finds local minima by moving opposite the gradient. However, it is not guaranteed to find the global minimum or maximum for all functions, especially non-convex ones with multiple local minima. It also does not directly find maxima unless the function is negated. The statement is too absolute.\n\nANSWER: False"
+  },
+  "889": {
+    "prediction": "RATIONALE: The gradient of a function at a point is a vector that points in the direction of the steepest ascent, meaning the direction in which the function increases most rapidly. This is a fundamental property of gradients in multivariable calculus.\n\nANSWER: True"
+  },
+  "890": {
+    "prediction": "RATIONALE: A Bayesian Belief Network (BBN) is defined by two components: a directed acyclic graph (DAG) that represents the dependency structure among variables, and a set of local conditional probability distributions for each node given its parents. This matches the description in the question.\n\nANSWER: True"
+  },
+  "891": {
+    "prediction": "RATIONALE: The scenario describes overfitting, where the model performs well on training data but poorly on unseen test data. Increasing model complexity would worsen overfitting, so we should instead reduce complexity or use regularization.\n\nANSWER: False"
+  },
+  "892": {
+    "prediction": "RATIONALE: The statement directly matches the definition provided in the context, which describes data mining as a subset of data analytics focused on extracting valuable information from large datasets using algorithms. The context also confirms this with \"A: True\" for the same question.\n\nANSWER: True"
+  },
+  "893": {
+    "prediction": "RATIONALE: The decision function in machine learning is responsible for generating predictions based on input data, while the loss function quantifies the error or discrepancy between these predictions and the actual true values. They are separate components with distinct roles in model training, as confirmed by multiple statements in the context.\n\nANSWER: True"
+  },
+  "894": {
+    "prediction": "RATIONALE: Logistic regression models the conditional probability of the class label given the features directly, without modeling the underlying data distribution of each class. This makes it a discriminative classifier, not a generative one.\n\nANSWER: False"
+  },
+  "895": {
+    "prediction": "RATIONALE: Multimedia data, such as images, videos, and audio files, are typically large in size, unstructured, and require significant storage and processing power. These characteristics align with the common challenges addressed by big data technologies, which handle high volume, velocity, and variety of data. Therefore, multimedia processing is indeed considered part of the big data domain.\n\nANSWER: True"
+  },
+  "896": {
+    "prediction": "RATIONALE: The statement claims data mining only involves finding patterns that are already known and easily interpretable. However, data mining specifically focuses on discovering novel, non-obvious patterns and insights from data, often beyond human intuition or initial expectations. It is not limited to known or easily interpretable patterns.\n\nANSWER: False"
+  },
+  "897": {
+    "prediction": "RATIONALE: The sigmoid function maps any real-valued number to a value between 0 and 1, which can be interpreted as a probability. This makes it particularly suitable for binary classification tasks, where the goal is to predict one of two possible classes. It is the standard activation function in the output layer of a logistic regression model for binary classification.\n\nANSWER: True"
+  },
+  "898": {
+    "prediction": "RATIONALE: In logistic regression, the model parameters (coefficients) indeed act as weights for each feature, determining their influence on the predicted log-odds of the target class. This is a fundamental characteristic of logistic regression.\n\nANSWER: True"
+  },
+  "899": {
+    "prediction": "RATIONALE: The statement describes classification as assigning data to pre-defined labels, which is accurate. Classification involves categorizing data points into predefined classes or categories based on their features. This is a fundamental concept in machine learning and data analysis, where models are trained to predict class labels for new instances. The rationale provided in the context confirms this definition, stating that classification involves labeling data based on predefined categories or classes for analysis or organization.\n\nANSWER: True"
+  },
+  "900": {
+    "prediction": "RATIONALE: The margin in SVM is defined as the distance from the hyperplane to the closest data point (support vector), not the average distance to all data points. Therefore, the statement is false.  \nANSWER: False"
+  },
+  "901": {
+    "prediction": "RATIONALE: Dividing customers by gender is a simple segmentation based on a known attribute, not a data mining task. Data mining involves discovering patterns or knowledge from data, often using complex algorithms, rather than straightforward grouping by predefined categories.\n\nANSWER: False"
+  },
+  "902": {
+    "prediction": "RATIONALE: The question asks whether dividing customers by profitability is a data mining task. Data mining involves discovering patterns, trends, or insights from data, often using complex algorithms. Dividing customers by profitability is typically a segmentation task based on known metrics (like revenue or cost), not necessarily discovering novel patterns. It is more of a straightforward classification or grouping based on predefined criteria rather than extracting hidden knowledge. In the context provided, similar tasks like dividing by gender or profitability are considered basic segmentation, not data mining.\n\nANSWER: False"
+  },
+  "903": {
+    "prediction": "RATIONALE: Predicting the outcomes of tossing a fair pair of dice is a straightforward probability calculation based on known principles (e.g., each die has 6 faces, outcomes are independent). It does not involve discovering novel patterns or insights from data, which is the essence of data mining. Data mining typically applies to complex datasets where patterns are not obvious or pre-defined.\n\nANSWER: False"
+  },
+  "904": {
+    "prediction": "RATIONALE: The question asks whether predicting future stock prices using historical records is a data mining task. According to the provided context, data mining involves analyzing historical data to predict future trends, as explicitly stated in the rationale for a similar question about stock price forecasting. Therefore, this activity qualifies as data mining.\n\nANSWER: A"
+  },
+  "905": {
+    "prediction": "RATIONALE: The question asks whether monitoring heart rate for abnormalities is a data mining task. Data mining involves discovering patterns, trends, and insights from large datasets, often for prediction or anomaly detection. Monitoring heart rate for abnormalities typically involves analyzing continuous data to detect unusual patterns, which aligns with data mining tasks like anomaly detection. Therefore, it is considered a data mining activity.\n\nANSWER: True"
+  },
+  "906": {
+    "prediction": "RATIONALE: The question asks whether monitoring seismic waves for earthquake activities is a data mining task. Based on the context provided, data mining involves analyzing patterns in data to detect trends or anomalies. Specifically, the rationale from a similar example states: \"Data mining involves analyzing seismic data to predict and monitor earthquake activities and patterns.\" Therefore, this activity fits the definition of data mining as it involves extracting patterns from seismic wave data to monitor earthquake activities.\n\nANSWER: True"
+  },
+  "907": {
+    "prediction": "RATIONALE: The text defines data mining as involving the discovery of novel patterns and insights from data, often using intelligent methods to extract patterns. It contrasts data mining with simple signal processing tasks. Specifically, in the provided examples, extracting sound wave frequencies is explicitly stated as a signal processing task, not data mining. Therefore, this activity is not considered a data mining task.\n\nANSWER: False"
+  },
+  "908": {
+    "prediction": "RATIONALE: The statement \"Noise objects can be outliers\" is true because in data analysis, noise refers to random errors or variances. While noise is generally considered uninteresting, certain noise objects can exhibit extreme deviations from normal patterns, making them detectable as outliers. This aligns with the earlier rationale that noise objects are not always outliers, but they can be in specific contexts.\n\nANSWER: True"
+  },
+  "909": {
+    "prediction": "RATIONALE: The statement \"Noise objects are always outliers\" is incorrect. Noise refers to random errors or variance in data that are typically uninteresting and can obscure patterns. Outliers are data points that significantly deviate from the norm and may be of interest. While noise can sometimes appear as outliers, not all noise objects are outliers; noise is often considered part of the expected variation, whereas outliers are exceptional. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "910": {
+    "prediction": "RATIONALE: Cosine similarity measures the cosine of the angle between two vectors. A cosine measure of 1 means the angle is 0 degrees, indicating the vectors point in the same direction. However, they could have different magnitudes (lengths) and still have a cosine similarity of 1. For example, vectors (1,1) and (2,2) have cosine similarity 1 but are not identical. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "911": {
+    "prediction": "RATIONALE: Even experienced deep learning engineers typically need to iterate through different models, architectures, and hyperparameters when tackling a new problem. Each problem has unique characteristics, data distributions, and challenges, so insights from previous problems provide a starting point but rarely yield an optimal model on the first attempt without experimentation and tuning.\n\nANSWER: False"
+  },
+  "912": {
+    "prediction": "RATIONALE: The statement describes a key principle in data preprocessing for linear regression. Ordered discrete attributes (ordinal data) have a meaningful ranking (e.g., low, medium, high), so converting them to numeric values (e.g., 1, 2, 3) preserves their order and allows them to be treated as continuous in regression. Unordered discrete attributes (nominal data) lack inherent order; converting them directly to numbers would imply false ordinal relationships, which could mislead the model. Instead, they require encoding methods like one-hot encoding. Thus, the statement is correct.\n\nANSWER: True"
+  },
+  "913": {
+    "prediction": "RATIONALE: The least squares method for linear regression indeed involves taking partial derivatives of the sum of squared errors with respect to the parameters (w and b), setting them to zero, and solving the resulting system of equations to find the closed-form solution (normal equations). This is a standard derivation.\n\nANSWER: True"
+  },
+  "914": {
+    "prediction": "RATIONALE: The statement describes parameter estimation accurately: it is the process of adjusting model parameters to fit the data, which is a core part of training probabilistic models.  \nANSWER: True"
+  },
+  "915": {
+    "prediction": "RATIONALE: The question asks whether Naive Bayes classification can handle dependencies between attribute conditions. The core assumption of Naive Bayes is that all attributes are conditionally independent given the class label. This assumption is often violated in real-world data, and Naive Bayes does not model or handle these dependencies; it simply ignores them. Variants like TAN or AODE are designed to handle some dependencies, but standard Naive Bayes does not.\n\nANSWER: False"
+  },
+  "916": {
+    "prediction": "RATIONALE: The Minkowski distance with p=2 is the Euclidean distance, not the Manhattan distance. Manhattan distance corresponds to p=1.\n\nANSWER: False"
+  },
+  "917": {
+    "prediction": "RATIONALE: The Minkowski distance is defined for numerical (interval or ratio-scaled) attributes, not ordinal attributes. Ordinal attributes have ordered categories but the differences between ranks are not necessarily equal, making Minkowski distance inappropriate. The summary explicitly states \"Minkowski distance is suitable only for ordinal attributes,\" but this is a misstatement; it is actually suitable for numerical attributes. The rationale in the provided Q&A says \"Minkowski distance can only be applied for ordinal attributes,\" which is incorrect. Therefore, the statement in the question is false because Minkowski distance is not suitable for both ordinal and non-ordinal; it is primarily for numerical attributes.\n\nANSWER: False"
+  },
+  "918": {
+    "prediction": "RATIONALE: The statement is a fundamental description of SVM: it finds the hyperplane that maximizes the margin between classes, and this hyperplane is defined by the support vectors (the data points closest to the margin). This is true.\n\nANSWER: True"
+  },
+  "919": {
+    "prediction": "RATIONALE: The statement is true because, by the kernel trick and Mercer's theorem, a valid kernel function corresponds to an inner product in a high-dimensional (possibly infinite) feature space that is a reproducing kernel Hilbert space (RKHS). This is a fundamental concept in kernel methods.\n\nANSWER: True"
+  },
+  "920": {
+    "prediction": "RATIONALE: The statement is a direct definition of the discrete wavelet transform (DWT). It is indeed a linear signal processing technique that produces wavelet coefficients. This is a true fact about DWT.\n\nANSWER: True"
+  },
+  "921": {
+    "prediction": "RATIONALE: The statement claims that tuple duplication is not needed at all in preprocessing. However, tuple duplication is a concept that arises in data integration, where duplicates may occur and need to be detected and resolved. Preprocessing includes data integration, and tuple duplication is a part of that process, meaning it is something to be addressed, not something that is \"not needed at all.\" Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "922": {
+    "prediction": "RATIONALE: The statement directly matches the definition of numerosity reduction, which aims to represent the original data with a smaller volume through techniques like sampling, clustering, or parametric models. This is consistent with the context provided in the flashcards.\n\nANSWER: True"
+  },
+  "923": {
+    "prediction": "RATIONALE: The statement is about dimensionality reduction techniques, which include methods like PCA (principal component analysis) and wavelet transforms. These techniques are generally not categorized as parametric or nonparametric; that classification is more commonly applied to numerosity reduction techniques (like regression or clustering) or to statistical models. The provided context includes a similar question stating \"Numerosity reduction techniques are parametric or nonparametric\" with the answer \"False,\" but here the subject is dimensionality reduction. However, dimensionality reduction techniques can indeed be parametric (like PCA, which has a fixed number of parameters) or nonparametric (like some manifold learning techniques). But given the context, the earlier statement \"These techniques of dimensionality reduction may be parametric or nonparametric\" is likely true, as dimensionality reduction encompasses both types. Yet, the context shows a similar question with \"Numerosity reduction techniques are parametric or nonparametric\" answered as \"False,\" which might indicate a trick. However, the question here is about dimensionality reduction, and it says \"may be,\" which is true. But in the provided context, there is a direct statement: \"These techniques of dimensionality reduction may be parametric or nonparametric\" with the rationale \"Numerosity reduction techniques are parametric or nonparametric\" and answer \"False.\" That suggests the answer is False because the rationale incorrectly associates the parametric/nonparametric classification with dimensionality reduction. Therefore, based on the context, the correct answer is False.\n\nANSWER: False"
+  },
+  "924": {
+    "prediction": "RATIONALE: The statement describes clustering as identifying majority patterns and outlier detection as identifying deviations from those patterns. Since clustering groups similar data points, outliers are often points that do not fit well into any cluster, making the two tasks related. The context also confirms this relationship.\n\nANSWER: True"
+  },
+  "925": {
+    "prediction": "RATIONALE: The question is a fill-in-the-blank style, asking to complete the definition of outlier detection. Based on the context provided in earlier parts, outlier detection is described as finding data objects that deviate substantially from majority patterns or normal behavior. The phrase \"with behaviors that are very different from expectation\" directly matches this concept.\n\nANSWER: objects that deviate from the majority or normal patterns"
+  },
+  "926": {
+    "prediction": "RATIONALE: In a Boolean retrieval system, stemming can lower precision because it reduces different word forms to a common root, which may cause the retrieval of irrelevant documents when distinct meanings are conflated. This means precision can be negatively affected, so the statement is false.\n\nANSWER: False"
+  },
+  "927": {
+    "prediction": "RATIONALE: In Boolean retrieval, stemming reduces words to their root forms, which increases the chance of matching more document variations for a query term. This typically expands the set of retrieved documents, thereby increasing or at least not reducing recall (the proportion of relevant documents that are retrieved). It does not \"never\" lower recall in an absolute sense, as in some edge cases it could cause mismatches that miss relevant documents, but the general principle is that stemming improves recall. Given the context and typical information retrieval knowledge, the statement is considered true.\n\nANSWER: A"
+  },
+  "928": {
+    "prediction": "RATIONALE: Stemming reduces words to their root forms, which consolidates different variations of a word into a single term. This decreases the number of unique words in the vocabulary, rather than increasing it.\n\nANSWER: False"
+  },
+  "929": {
+    "prediction": "RATIONALE: Stemming should be applied consistently at both indexing time and query processing time. If stemming is used during indexing to reduce words to their root forms, then the same stemming process must be applied to query terms to ensure they match the indexed terms. If stemming is not applied to the query, the query terms may not match the stemmed versions in the index, leading to missed relevant documents and reduced retrieval effectiveness.\n\nANSWER: False"
+  },
+  "930": {
+    "prediction": "RATIONALE: Recommender systems utilize various types of data beyond just user ratings, such as user behavior (clicks, views, purchase history), item attributes, and contextual information. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "931": {
+    "prediction": "RATIONALE: The cold start problem is a well-known challenge in collaborative filtering because it relies on historical user-item interaction data. New users or items lack sufficient interaction data, making it difficult to generate accurate recommendations. This is explicitly mentioned in the context provided.\n\nANSWER: True"
+  },
+  "932": {
+    "prediction": "RATIONALE: Content-based filtering recommends items by comparing the features of items a user has liked in the past with the features of other items. It analyzes item characteristics to find similarities.\n\nANSWER: True"
+  },
+  "933": {
+    "prediction": "RATIONALE: Demographic-based filtering primarily uses demographic information like age, gender, or location to make recommendations. However, it can also incorporate user preferences to some extent, especially when combined with other methods, so saying it does not consider preferences \"at all\" is too absolute and generally false.\n\nANSWER: False"
+  },
+  "934": {
+    "prediction": "RATIONALE: The question asks whether a web crawler is responsible for indexing web content. Based on the context provided, web crawlers are described as systematically navigating the web to gather content, while indexing is a separate function performed by an indexer or index. Specifically, the rationale states: \"A web crawler collects data from the web, while an indexer organizes and stores that data for efficient retrieval in search engines.\" Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "935": {
+    "prediction": "RATIONALE: The statement is false because search engines use algorithms that often include variations, synonyms, and related terms to provide relevant results, not just exact matches. This is evident from the context discussing how search engines handle natural language queries and polysemous words, and the mention of models like the vector space model which allows for partial matching.\n\nANSWER: False"
+  },
+  "936": {
+    "prediction": "RATIONALE: The Boolean model in information retrieval is defined by its use of logical operators (AND, OR, NOT) to combine search terms, enabling precise query formulation and document retrieval based on exact matches. This characteristic is a fundamental aspect of the model.\n\nANSWER: True"
+  },
+  "937": {
+    "prediction": "RATIONALE: The vector space model represents documents and queries as vectors (not single points) in a multi-dimensional space. These vectors are used to compute similarity, often via cosine similarity. The statement \"single points\" is ambiguous and not the standard description; the key is the vector representation.\n\nANSWER: False"
+  },
+  "938": {
+    "prediction": "RATIONALE: The statement directly describes the core mechanism of tf-idf, which is the combination of term frequency (how often a term appears in a document) and inverse document frequency (how rare the term is across the corpus) to assess a term's importance or significance within a document relative to a collection.\n\nANSWER: True"
+  },
+  "939": {
+    "prediction": "RATIONALE: The term frequency (TF) component measures how often a term appears in a specific document, increasing its weight based on frequency within that document. It does not consider commonness across documents. The component that decreases the weight of common terms across multiple documents is the inverse document frequency (IDF), which downweights terms that appear in many documents.\n\nANSWER: False"
+  },
+  "940": {
+    "prediction": "RATIONALE: The text explicitly states that TF-IDF does not capture word semantics and is not designed to understand semantic relationships between words. It focuses solely on term frequency and document distribution.\n\nANSWER: False"
+  },
+  "941": {
+    "prediction": "RATIONALE: The statement directly describes the core function of an inverted index, which is to map terms (or words) to the documents (via identifiers) where they appear, enabling efficient full-text search.\n\nANSWER: True"
+  },
+  "942": {
+    "prediction": "RATIONALE: An inverted index is actually highly efficient for large datasets because it organizes data in a way that allows for rapid retrieval of documents containing specific terms. It is particularly beneficial when dealing with large volumes of text data, as it reduces the need to scan through every document for each query. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "943": {
+    "prediction": "RATIONALE: The statement is false because an inverted index must be updated regularly to reflect changes in the underlying documents, such as additions, deletions, or modifications, to ensure accurate and efficient search results. Without updates, the index becomes outdated and less effective.\n\nANSWER: False"
+  },
+  "944": {
+    "prediction": "RATIONALE: The statement describes the fundamental purpose of a probabilistic language model, such as n-gram models or neural language models like GPT. These models estimate the likelihood of a given sequence of words occurring in a language based on training data.\n\nANSWER: True"
+  },
+  "945": {
+    "prediction": "RATIONALE: The Markov assumption in N-gram models states that the probability of a word depends only on a fixed number of previous words (N-1). As N increases, the model considers more context, which means it must estimate probabilities for more possible N-grams. This leads to an increase in the number of parameters (probabilities to estimate), not an unchanged parameter size. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "946": {
+    "prediction": "RATIONALE: The question asks whether, given any PCFG, it is possible to calculate the probability that the PCFG generates a string of exactly 10 words. A PCFG assigns probabilities to derivations, but there is no direct method to compute the probability of generating strings of a specific length without additional analysis. While it is theoretically possible to compute such probabilities by summing over all derivations that yield strings of length 10, this is generally computationally challenging and not a standard feature of PCFGs. The provided context includes a rationale stating \"PCFG itself does not directly provide a method for calculating the probability of generating sentences of specific lengths,\" which aligns with the answer \"False\" in the context. Therefore, the correct answer is False.\n\nANSWER: A"
+  },
+  "947": {
+    "prediction": "RATIONALE: The question asks whether morphological analysis is primarily concerned with the structure and formation of words. Morphological analysis in linguistics and NLP deals with the study of morphemes, which are the smallest units of meaning, and how they combine to form words. This includes processes like inflection, derivation, and compounding, focusing on word structure. Therefore, the statement is true.\n\nANSWER: True"
+  },
+  "948": {
+    "prediction": "RATIONALE: The statement claims that stemming and lemmatization always produce the same results for all words. However, while both techniques aim to reduce words to a base form, they operate differently. Stemming uses heuristic rules to chop off affixes, often resulting in non-words (e.g., \"running\" → \"run,\" but \"studies\" → \"studi\"). Lemmatization uses vocabulary and morphological analysis to return a valid dictionary form (lemma), considering context (e.g., \"better\" → \"good,\" \"is\" → \"be\"). Therefore, they do not produce identical results for all words, making the statement false.\n\nANSWER: False"
+  },
+  "949": {
+    "prediction": "RATIONALE: The statement says syntactic analysis is concerned with the meaning of words and sentences. However, based on the context provided, syntactic analysis focuses on grammatical structure (parsing, constituency, dependency), not meaning. Semantic analysis is the subfield that deals with meaning. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "950": {
+    "prediction": "RATIONALE: The statement is a correct definition of dependency parsing, which indeed establishes grammatical dependency relationships between words, forming a tree structure. This matches the description in the context.\n\nANSWER: A"
+  },
+  "951": {
+    "prediction": "RATIONALE: The question asks whether semantic analysis is primarily focused on syntactic structure. Semantic analysis is concerned with understanding the meaning of words, phrases, and sentences in context, not with grammatical structure. Syntactic structure is the domain of syntactic analysis (parsing). Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "952": {
+    "prediction": "RATIONALE: The statement in the question is a direct and accurate definition of polysemy, which is a key concept in semantic analysis within NLP. The provided context repeatedly confirms this definition, explicitly stating that \"Polysemy refers to a single word having multiple meanings depending on the context\" and that \"polysemy means one word has multiple related meanings based on context.\"\n\nANSWER: True"
+  },
+  "953": {
+    "prediction": "RATIONALE: The statement is false because NLP encompasses both written and spoken language. Applications like speech recognition and text-to-speech demonstrate NLP's applicability to spoken language.\n\nANSWER: False"
+  },
+  "954": {
+    "prediction": "RATIONALE: The statement directly matches the definition provided in the context, where sentiment analysis is described as an NLP application for determining emotional tone.\n\nANSWER: True"
+  },
+  "955": {
+    "prediction": "RATIONALE: The statement claims that finding corresponding points in stereo images is the easiest phase of stereo depth-finding. However, stereo correspondence is widely recognized as a major challenge in computer vision due to issues like occlusions, textureless regions, and repetitive patterns. The context also notes that \"stereo correspondence is a challenging step,\" directly contradicting the idea that it is the easiest phase.\n\nANSWER: False"
+  },
+  "956": {
+    "prediction": "RATIONALE: Shape-from-texture is a technique that infers 3D shape from the distortion of texture patterns on surfaces. Projecting a grid of light-stripes is a method to create a controlled texture pattern on the scene, which can then be analyzed to recover shape information. This is a valid approach for shape-from-texture, making the statement true.\n\nANSWER: True"
+  },
+  "957": {
+    "prediction": "RATIONALE: This statement is false due to perspective projection, which can cause foreshortening. Lines of equal length in the 3D scene can appear as lines of different lengths in the 2D image depending on their orientation and distance from the camera.\n\nANSWER: False"
+  },
+  "958": {
+    "prediction": "RATIONALE: Under perspective projection, straight lines in the 3D scene remain straight in the 2D image only if the projection is linear, which is generally true for standard pinhole camera models. However, if there are lens distortions (like radial or tangential distortion), straight lines in the scene can appear curved in the image. The question says \"necessarily,\" which implies it must always be true regardless of conditions. Since lens distortions can cause straight scene lines to appear curved, the statement is not necessarily true.\n\nANSWER: False"
+  },
+  "959": {
+    "prediction": "RATIONALE: The statement directly matches the foundational concept that ANNs are designed to mimic the structure and function of biological neural networks in the human brain, using interconnected nodes (neurons) to process information and learn patterns.\n\nANSWER: True"
+  },
+  "960": {
+    "prediction": "RATIONALE: While deeper networks can capture more complex patterns, simply adding more layers doesn’t always improve performance and can lead to problems such as overfitting or vanishing gradients, which can degrade performance.\n\nANSWER: False"
+  },
+  "961": {
+    "prediction": "RATIONALE: The statement claims that 3D reconstruction can only be achieved using multiple 2D images from different angles. However, as indicated in the context, techniques like single-image 3D reconstruction and depth sensing (e.g., LiDAR) allow for 3D reconstruction from a single image or without multiple images. Therefore, the statement is false.\n\nANSWER: False"
+  },
+  "962": {
+    "prediction": "RATIONALE: Depth maps encode per-pixel distance information from a camera viewpoint, which is directly useful for building 3D representations of scenes. This aligns with the context provided, where depth maps are described as providing distance information crucial for accurate 3D reconstruction.\n\nANSWER: True"
+  },
+  "963": {
+    "prediction": "RATIONALE: The statement is true because blurring reduces noise and smoothing, while sharpening enhances edges and details, both of which improve image quality for better analysis or viewing.\n\nANSWER: A"
+  },
+  "964": {
+    "prediction": "RATIONALE: The statement is partially true in that converting an image from RGB to grayscale does reduce the amount of color information, as it reduces three color channels to one intensity channel. However, it is incorrect to claim that this conversion is \"typically not useful.\" Grayscale conversion is a common and useful preprocessing step in many computer vision applications, such as edge detection, texture analysis, and feature extraction, where color information may be irrelevant or even distracting. It can also reduce computational complexity. Therefore, the overall statement is false.\n\nANSWER: A"
+  },
+  "965": {
+    "prediction": "RATIONALE: The statement claims object detection is only about locating objects, not classifying them. However, object detection involves both localization (finding where objects are) and classification (identifying what they are). This dual-task nature is a core definition of object detection, as indicated in the context where it states \"Object detection involves both localizing objects... and classifying them.\"\n\nANSWER: False"
+  },
+  "966": {
+    "prediction": "RATIONALE: The statement directly describes YOLO's key characteristic: it processes the entire image in one forward pass of the network to simultaneously predict bounding boxes and class probabilities, unlike two-stage detectors that first propose regions and then classify them. This single-pass approach is what makes YOLO fast and suitable for real-time applications.\n\nANSWER: True"
+  },
+  "967": {
+    "prediction": "RATIONALE: The context repeatedly states that computer vision is crucial for autonomous vehicles, enabling them to perceive their surroundings (like detecting objects, lanes, and signs) to navigate safely. This directly confirms the statement in the question.\n\nANSWER: True"
+  },
+  "968": {
+    "prediction": "RATIONALE: Facial recognition systems are a computer vision technology that uses visual data (images or video) to identify individuals based on facial features. They do not use audio signals for recognition.\n\nANSWER: False"
+  },
+  "969": {
+    "prediction": "RATIONALE: Forward chaining is explicitly described as data-driven, starting with known facts to derive conclusions, not goal-driven. Goal-driven reasoning is characteristic of backward chaining.\n\nANSWER: False"
+  },
+  "970": {
+    "prediction": "RATIONALE: The statement claims equivalence between \\((\\neg a \\land \\neg b) \\lor c\\) and \\((a \\Rightarrow c) \\land (b \\Rightarrow c)\\). Let's analyze:\n\n- \\((\\neg a \\land \\neg b) \\lor c\\) means: either both a and b are false, or c is true.\n- \\((a \\Rightarrow c) \\land (b \\Rightarrow c)\\) means: if a is true then c is true, and if b is true then c is true. This is equivalent to: c must be true whenever a or b is true. In other words, if a is false and b is false, c can be either true or false.\n\nCheck equivalence via truth table or logical manipulation:\n  - Consider case: a false, b false, c false. Left side: \\((\\neg F \\land \\neg F) \\lor F = (T \\land T) \\lor F = T \\lor F = T\\). Right side: \\((F \\Rightarrow F) \\land (F \\Rightarrow F) = T \\land T = T\\). So both true.\n  - Consider case: a false, b false, c true. Left: T, Right: T.\n  - Consider case: a true, b false, c true. Left: T, Right: T.\n  - Consider case: a true, b false, c false. Left: \\((\\neg T \\land \\neg F) \\lor F = (F \\land T) \\lor F = F \\lor F = F\\). Right: \\((T \\Rightarrow F) \\land (F \\Rightarrow F) = F \\land T = F\\). So both false.\n  - Similarly for other combinations.\n\nActually, we can transform \\((a \\Rightarrow c) \\land (b \\Rightarrow c)\\) to \\((\\neg a \\lor c) \\land (\\neg b \\lor c)\\), which by distribution is \\((\\neg a \\land \\neg b) \\lor c\\). Indeed:\n  \\((\\neg a \\lor c) \\land (\\neg b \\lor c) \\equiv (\\neg a \\land \\neg b) \\lor c\\) by the distributive law of \\(\\land\\) over \\(\\lor\\) (or by resolution). So they are logically equivalent.\n\nThus the statement is true. However, note that in the provided context snippets, there is a similar question: \"For any propositional sentences a, b and c, ((\\neg a \\land \\neg b) \\lor c) is equivalent to ((a \\Rightarrow c) \\land (b \\Rightarrow c))\" and the rationale given says: \"The first expression allows c even if both a and b are false, while the second expression requires a or b to be true for c to be true\" and the answer is marked False. That rationale is incorrect because it misinterprets the second expression. Actually, the second expression does not require a or b to be true for c to be true; it only requires that if a is true then c is true, and if b is true then c is true. When a and b are both false, c can be anything. So the equivalence holds.\n\nGiven the context, there is inconsistency: one snippet says False with a flawed rationale, but another snippet later says: \"Q: (C ∨ (¬A ∧¬B )) ≡ ((A ⇒ C ) ∧ (B ⇒ C )) Rationale: Proof by truth table enumeration, or by application of distributivity A: True\". That snippet confirms the equivalence is true. So the correct answer should be True.\n\nANSWER: True"
+  },
+  "971": {
+    "prediction": "RATIONALE: The given sentences are S1: ¬a ∨ b and S2: a ∨ c. From these, we can infer b ∨ c by resolution (resolving on a). However, we cannot infer b ∧ c because that would require both b and c to be true individually, but the disjunctions only guarantee that at least one of b or c is true (since if a is false, b must be true from S1; if a is true, c must be true from S2). Therefore, the inference to b ∧ c is not valid.\n\nANSWER: False"
+  },
+  "972": {
+    "prediction": "RATIONALE: The statement asserts that there are task environments where a pure reflex agent cannot behave rationally. A pure reflex agent selects actions based solely on the current percept, without any internal state or memory to consider past percepts or future consequences. In environments where the optimal action depends on history or long-term outcomes (e.g., games requiring planning, or environments with delayed rewards), a pure reflex agent will fail to act rationally because it cannot account for these factors. This aligns with the rationale provided in the context: \"Pure reflex agents lack the ability to consider future consequences or learn from experience.\" Therefore, the statement is true.\n\nANSWER: True"
+  },
+  "973": {
+    "prediction": "RATIONALE: Perfect rationality requires an agent to choose actions that maximize its performance measure given its knowledge. If an agent only senses partial information, it lacks complete knowledge of the state, which can lead to suboptimal decisions regardless of its internal reasoning capabilities. Therefore, it cannot be perfectly rational because perfect rationality assumes optimality based on the actual state, not just the perceived information.\n\nANSWER: True"
+  },
+  "974": {
+    "prediction": "RATIONALE: The statement is true because some task environments are so complex or uncertain that no agent, regardless of its design, can always choose the optimal action. This is due to factors like computational limits (e.g., environments requiring solving undecidable problems) or inherent randomness and partial observability that prevent perfect decision-making. The rationale provided in the context supports this.\n\nANSWER: True"
+  },
+  "975": {
+    "prediction": "RATIONALE: The agent function maps a sequence of percepts to an action, while the agent program is the implementation of that function, which may have different inputs (like internal state or memory) depending on the agent architecture. Therefore, the inputs are not necessarily the same.\n\nANSWER: False"
+  },
+  "976": {
+    "prediction": "RATIONALE: In a fully observable, turn-taking, zero-sum game with perfectly rational players, the optimal strategy for both players is given by the minimax solution. If the first player knows the second player's strategy (i.e., how the second player will respond to each move), the first player can exploit that knowledge to potentially achieve a better outcome than the minimax value. However, if both players are perfectly rational, the second player will play an optimal strategy, and any deviation from that would be irrational. Knowing the opponent's optimal strategy does not allow the first player to improve over the minimax value because the opponent's strategy is already optimal. The first player's best response to the opponent's optimal strategy is still within the equilibrium, and the value of the game remains the same. The statement says \"it does not help,\" meaning it does not improve the outcome for the first player beyond what is already achievable with minimax. Given perfect rationality and full observability, the game has a well-defined value, and knowing the opponent's strategy does not change that value. Therefore, the statement is true.\n\nANSWER: True"
+  },
+  "977": {
+    "prediction": "RATIONALE: In a partially observable game, players lack full information about the game state. Knowing the opponent's future move can reveal hidden information (e.g., cards in hand, hidden pieces), which would be beneficial. This contrasts with a fully observable game, where knowing the opponent's strategy doesn't help if both are perfectly rational, as the opponent's move is already determined by optimal play. Here, partial observability means extra information about the opponent's move provides insights into the hidden state, aiding the first player's decisions.\n\nANSWER: False"
+  },
+  "978": {
+    "prediction": "RATIONALE: The question asks whether an agent can be perfectly rational in two different task environments. Perfect rationality means the agent chooses actions that maximize its performance measure given its knowledge. An agent's rationality depends on its design and the environment. An agent can be designed to be perfectly rational in a specific environment, but if the environments are distinct, the agent might need different capabilities (e.g., different sensors, actuators, or decision-making processes) to be perfectly rational in both. However, it is theoretically possible if the agent's design is sufficiently general or adaptable to meet the demands of both environments. For example, a general-purpose problem solver could be perfectly rational in multiple environments if it can compute optimal actions for each. The provided context includes a similar statement: \"It is possible for a given agent to be perfectly rational in two distinct task environments\" with rationale \"An agent can adapt its behavior to different task environments to achieve perfect rationality\" and answer \"True.\" This directly supports the answer.\n\nANSWER: True"
+  },
+  "979": {
+    "prediction": "RATIONALE: In an unobservable environment, the agent has no access to percepts about the state, so it cannot make informed decisions. Rationality depends on maximizing expected performance given the percept sequence, but with no percepts, the agent lacks any basis for choosing actions that achieve its goals. Therefore, it cannot be guaranteed to be rational.\n\nANSWER: False"
+  },
+  "980": {
+    "prediction": "RATIONALE: Poker involves elements of chance (like card draws) and hidden information (opponents' cards), which introduce randomness and unpredictability. Even a perfectly rational agent makes decisions that maximize expected utility based on available information, but it cannot control the cards dealt or opponents' actions. Therefore, it can still lose individual hands or games due to these factors, though it may perform optimally in the long run.\n\nANSWER: False"
+  },
+  "981": {
+    "prediction": "RATIONALE: Backgammon is a game that involves dice rolls, introducing a significant element of chance. Even a perfectly rational agent, which makes optimal decisions given the information available, cannot guarantee a win in every game because the randomness of the dice can lead to unfavorable outcomes regardless of the agent's strategy. Therefore, it is possible for such an agent to lose due to factors beyond its control.\n\nANSWER: B"
+  },
+  "982": {
+    "prediction": "RATIONALE: The expression (A ∨ B) ∧ ¬(A ⇒ B) can be simplified. First, note that A ⇒ B is equivalent to ¬A ∨ B. So ¬(A ⇒ B) is ¬(¬A ∨ B) = A ∧ ¬B. Thus the whole expression becomes (A ∨ B) ∧ (A ∧ ¬B) = A ∧ ¬B (since A ∧ ¬B implies A ∨ B is true). A ∧ ¬B is satisfiable (e.g., A true, B false). Therefore, the statement that it is satisfiable is true.\n\nANSWER: True"
+  },
+  "983": {
+    "prediction": "RATIONALE: The original statement says: A radical person is electable if conservative, but otherwise not electable. This can be interpreted as: If a person is radical, then (if they are conservative then they are electable) and (if they are not conservative then they are not electable). That is: R ⇒ ((C ⇒ E) ∧ (¬C ⇒ ¬E)). The given expression is R ⇒ ((C ⇒ E) ∨ ¬E). This simplifies to R ⇒ (¬C ∨ E ∨ ¬E) which is R ⇒ True, which is always true (a tautology). So it does not capture the meaning of the original statement; it's vacuous. The rationale in the context says \"This one is vacuous\" and marks it as True for satisfiability, but the question asks whether it can express the sentence, meaning whether it's logically equivalent. Since it's vacuous (always true), it's not equivalent to the original statement, which is not always true. Therefore, the answer should be False.\n\nANSWER: B"
+  },
+  "984": {
+    "prediction": "RATIONALE: The sentence is (∃x x=x) ⇒ (∀y ∃z y=z). The antecedent ∃x x=x is logically valid (true in all non-empty domains) because it asserts there exists an x that is equal to itself, which is always true. The consequent ∀y ∃z y=z asserts that for every y, there exists a z such that y equals z. This is also logically valid because for any y, we can choose z to be y itself, so y=z holds. Since both the antecedent and consequent are logically valid, the implication is valid (true in all interpretations). However, even if the consequent were not valid, the implication would still be valid if the antecedent is false in some interpretations, but here the antecedent is always true, so the truth of the implication depends on the consequent. Since the consequent is also always true, the implication is necessarily true. The rationale provided in the context also states that the statement is valid based on the principle of identity and existential quantification.\n\nANSWER: A"
+  },
+  "985": {
+    "prediction": "RATIONALE: The sentence ∀x (P(x) ∨ ¬P(x)) is an instance of the law of excluded middle applied to each object in the domain. In classical logic, for any predicate P and any individual x, either P(x) is true or ¬P(x) is true. Since this holds for every x, the universally quantified statement is logically valid (true in all interpretations).  \n\nANSWER: A"
+  },
+  "986": {
+    "prediction": "RATIONALE: The sentence is ∀x (Smart(x) ∨ (x = x)). The part (x = x) is a tautology: for any x, x equals itself. Therefore, for any x, the disjunction Smart(x) ∨ (x = x) is true because (x = x) is always true, regardless of the truth value of Smart(x). Thus, the universally quantified statement is true in all interpretations, making it valid.\n\nANSWER: A"
+  },
+  "987": {
+    "prediction": "RATIONALE: (A) states that for every natural number x, there exists some natural number y such that x ≥ y. Since for any natural number x, we can choose y = x (or y = 0, etc.), the condition x ≥ y holds (because x ≥ x is true). Therefore, (A) is true under the given interpretation.\n\nANSWER: True"
+  },
+  "988": {
+    "prediction": "RATIONALE: Census data from 1900–1950 is historical and typically considered public domain due to its age and anonymization. It is often used for research and genealogy without privacy concerns, as it does not involve current personally identifiable information that requires protection.\n\nANSWER: False"
+  },
+  "989": {
+    "prediction": "RATIONALE: IP addresses and visit times can be used to track individuals' online behavior, potentially revealing sensitive information about their habits, locations, and interests. This data is subject to privacy regulations like GDPR and requires protection to prevent misuse, such as unauthorized surveillance or profiling.\n\nANSWER: True"
+  },
+  "990": {
+    "prediction": "RATIONALE: Images from Earth-orbiting satellites typically capture publicly visible geographical and environmental data. They are generally not considered private personal information, as they do not focus on identifiable individuals or private property in a way that raises significant privacy concerns. Such images are often used for scientific, commercial, and governmental purposes and are widely accessible.\n\nANSWER: False"
+  },
+  "991": {
+    "prediction": "RATIONALE: The names and addresses of people from a telephone book are typically considered public information, as they are published and made available for directory assistance. Therefore, data privacy is not a major concern for this dataset, as the information is already intended for public access.\n\nANSWER: False"
+  },
+  "992": {
+    "prediction": "RATIONALE: The equivalence can be verified by logical manipulation. Starting with the right-hand side:  \n(A ⇒ C) ∧ (B ⇒ C) ≡ (¬A ∨ C) ∧ (¬B ∨ C).  \nBy distributivity, this is equivalent to (¬A ∧ ¬B) ∨ C, which matches the left-hand side (C ∨ (¬A ∧ ¬B)). Therefore, the two expressions are logically equivalent.  \n\nANSWER: A"
+  },
+  "993": {
+    "prediction": "RATIONALE: The expression (A ⇔ B) ∧ (¬A ∨ B) is satisfiable if there exists at least one assignment of truth values to A and B that makes the whole conjunction true. First, note that (A ⇔ B) is true when A and B have the same truth value. (¬A ∨ B) is equivalent to (A ⇒ B). For the conjunction to be true, both parts must be true. If A and B are both true, then (A ⇔ B) is true and (¬A ∨ B) is true (since B is true). If A and B are both false, then (A ⇔ B) is true, but (¬A ∨ B) becomes (true ∨ false) = true. So both assignments (A=true, B=true) and (A=false, B=false) satisfy the expression. Therefore, it is satisfiable.\n\nANSWER: True"
+  },
+  "994": {
+    "prediction": "RATIONALE: The statement claims that (A ⇔ B) ⇔ C has the same number of models as (A ⇔ B) for any fixed set of proposition symbols that includes A, B, C. The rationale provided in the context says: \"Half the models of (A ⇔ B) satisfy (A ⇔ B) ⇔ C, as do half the non-models, and there are the same numbers of models and non-models.\" This suggests that the number of models for (A ⇔ B) ⇔ C is exactly half of all possible assignments, because it is satisfied when (A ⇔ B) and C have the same truth value. For a set of proposition symbols that includes A, B, C, there are 2^3 = 8 possible assignments. (A ⇔ B) has 4 models (the assignments where A and B are equal). (A ⇔ B) ⇔ C is true when (A ⇔ B) and C are both true or both false. Since (A ⇔ B) is true in 4 assignments, (A ⇔ B) ⇔ C is true in those 4 when C is true (2 assignments) plus when (A ⇔ B) is false (4 assignments) and C is false (2 assignments), totaling 4 models as well. So both have 4 models. However, the rationale says \"half the models of (A ⇔ B) satisfy (A ⇔ B) ⇔ C, as do half the non-models,\" which would yield: half of 4 = 2 from models, and half of 4 = 2 from non-models, total 4. So indeed they have the same number of models. But wait, the statement says \"for any fixed set of proposition symbols that includes A, B, C.\" If there are additional proposition symbols beyond A, B, C, then the number of models scales by 2^k for k additional symbols. Both formulas do not mention other symbols, so their models are independent of other symbols. For each assignment to other symbols, the count for A, B, C remains the same. So both have 4 * 2^k models, where k is the number of other symbols. Thus they have the same number of models. Therefore the statement is true.\n\nANSWER: True"
+  },
+  "995": {
+    "prediction": "RATIONALE: The original statement says: \"a person who is radical is electable if he/she is conservative, but otherwise is not electable.\" This can be interpreted as: If a person is radical, then they are electable if and only if they are conservative. In logical terms: R ⇒ (E ⇔ C). The given expression (R ∧ E) ⇔ C is not equivalent. It asserts that being conservative is equivalent to being both radical and electable, which is different from the original statement. The original does not say that all conservatives are radical and electable; it says that among radicals, electability depends on being conservative. Therefore, this Horn form is not equivalent.\n\nANSWER: B"
+  },
+  "996": {
+    "prediction": "RATIONALE: The original statement says: \"a person who is radical (R) is electable (E) if he/she is conservative (C), but otherwise is not electable.\" This can be interpreted as: For a radical person, being electable is equivalent to being conservative. That is, if a person is radical, then they are electable if and only if they are conservative. This is exactly R ⇒ (E ⇐⇒ C). Now, we need to check if this can be expressed in Horn form. Horn clauses are disjunctions of literals with at most one positive literal. The expression R ⇒ (E ⇐⇒ C) is not a Horn clause in its current form because it involves a biconditional. However, the question asks if it can be expressed in Horn form, meaning whether there exists an equivalent set of Horn clauses. The biconditional can be rewritten as two implications: (E ⇒ C) and (C ⇒ E). So R ⇒ (E ⇐⇒ C) is equivalent to R ⇒ (E ⇒ C) and R ⇒ (C ⇒ E). Simplifying: R ⇒ (E ⇒ C) is equivalent to (R ∧ E) ⇒ C, which is a Horn clause (since it is an implication with a conjunction of positive literals on the left and a single positive literal on the right). Similarly, R ⇒ (C ⇒ E) is equivalent to (R ∧ C) ⇒ E, which is also a Horn clause. Therefore, the original sentence can be expressed as a conjunction of two Horn clauses. In the context provided, the rationale for this expression says \"This one is equivalent after the simplification,\" and the answer given is True. So it is indeed expressible in Horn form.\n\nANSWER: A"
+  },
+  "997": {
+    "prediction": "RATIONALE: The question asks whether every agent function can be implemented by some program/machine combination. From the context, there is an example: \"the environment may contain Turing machines and input tapes and the agent's job is to solve the halting problem; there is an agent function that specifies the right answers, but no agent program can implement it.\" This indicates that for certain agent functions (like solving the halting problem), no program can implement them due to computational limits (undecidability). Therefore, not every agent function is implementable.\n\nANSWER: False"
+  },
+  "998": {
+    "prediction": "RATIONALE: The statement says the agent selects actions uniformly at random. In a deterministic task environment, the outcome is determined solely by the current state and the agent's action. For an agent to be rational, it must choose actions that maximize its performance measure given its knowledge. If the environment is deterministic and the agent has no knowledge (or if all actions lead to the same outcome), then choosing randomly might be as good as any other strategy. However, the claim is that there *exists* a deterministic task environment where this random agent is rational. Consider a deterministic environment where all actions yield identical performance (e.g., a trivial environment where every action results in the same reward). In such a case, any action choice, including random selection, is optimal, so the agent is rational. Therefore, the statement is true.\n\nANSWER: A"
+  },
+  "999": {
+    "prediction": "RATIONALE: Statement (B) says \"There exists a natural number y such that for every natural number x, x ≥ y.\" This means there is a natural number that is less than or equal to every natural number. In the natural numbers (0, 1, 2, ...), the smallest number is 0. For y = 0, every natural number x is ≥ 0, so (B) is true.  \n\nANSWER: True"
+  },
+  "1000": {
+    "prediction": "RATIONALE: The question asks whether (A) logically entails (B), meaning in every interpretation where (A) is true, (B) must also be true. The domain is specified as natural numbers, but logical entailment considers all possible interpretations (domains and meanings of ≥), not just the given one. (A) is true in the natural numbers (since for any x, take y = x, then x ≥ y). (B) is also true in the natural numbers (take y = 0, then for all x, x ≥ 0). However, logical entailment requires that in every interpretation where (A) holds, (B) holds. We can find a counterexample interpretation: consider a domain with at least two distinct elements, say {a, b}, and interpret ≥ as the relation where x ≥ y only if x = y. Then (A) is true because for any x, we can choose y = x, so x ≥ y holds. But (B) is false because there is no single y such that for all x, x ≥ y, since if we pick y = a, then b ≥ a is false (as b ≠ a), and similarly for y = b. Thus, (A) does not logically entail (B). The provided context includes a similar example with integers, showing (A) true but (B) false, though that uses a different domain. The key is that logical entailment is about all interpretations, not just the natural numbers.\n\nANSWER: False"
+  },
+  "1001": {
+    "prediction": "RATIONALE: The question asks whether (B) logically entails (A). Logical entailment means that in every interpretation where (B) is true, (A) must also be true. (B) says \"There exists a y such that for all x, x ≥ y.\" This means there is a natural number that is less than or equal to every natural number. In the domain of natural numbers, such a y exists (y = 0, since every natural number is ≥ 0). So (B) is true in this interpretation. (A) says \"For every x, there exists a y such that x ≥ y.\" This is also true (for any x, we can choose y = 0 or y = x). However, logical entailment requires that in every interpretation (not just the natural numbers) where (B) is true, (A) is true. We need to check if there is any interpretation (any domain and meaning for ≥) where (B) is true but (A) is false. (A) is actually logically valid: for any x, we can always choose y = x (since ≥ is reflexive, x ≥ x). So (A) is true in every interpretation because of reflexivity of ≥ (if ≥ is interpreted as \"greater than or equal to,\" it must be reflexive). But wait: the problem says \"assume the variables range over natural numbers and ≥ means greater than or equal to.\" However, logical entailment is about all interpretations, not just this specific one. But the question might be asking in the context of this interpretation? The phrasing \"Does (B) logically entail (A)?\" typically means in first-order logic, without restriction to a specific interpretation. However, the context given includes the interpretation. Looking at the provided text, there is a similar question: \"Does (A) logically entail (B)?\" and the answer is False, with rationale about integers. That suggests logical entailment is considered across interpretations. For (B) entails (A), we need to see if (B) → (A) is valid. (A) is valid because ∀x ∃y (x ≥ y) is always true if ≥ is reflexive. But is ≥ necessarily reflexive? In first-order logic, ≥ is just a predicate symbol; we are not forced to interpret it as a reflexive relation. However, in the context, it says \"the '≥' predicate means 'is greater than or equal to'\", so it is reflexive. But for logical entailment, we consider all interpretations that satisfy (B). We need to check if there is an interpretation where (B) is true but (A) is false. (A) could be false if there is some x such that for all y, not (x ≥ y). That would require that x is not ≥ any y, including itself. So if ≥ is not reflexive, (A) could be false. But (B) says ∃y ∀x (x ≥ y). That implies that for that particular y, we have y ≥ y (by taking x = y). So in any interpretation where (B) is true, ≥ must be reflexive for at least that y. But does that guarantee reflexivity for all x? Not necessarily. For (A) to be true, we need every x to have some y such that x ≥ y. (B) gives us one y0 such that every x is ≥ y0. For a given x, we can choose y = y0, and then x ≥ y0 is true. So (A) follows: for any x, take the y that exists from (B) (call it y0), and we have x ≥ y0. So (A) is true. More formally: (B) asserts ∃y ∀x (x ≥ y). Let c be such a y. Then for any x, x ≥ c. So for any x, there exists a y (namely c) such that x ≥ y. That is exactly (A). So (B) logically entails (A) in first-order logic, regardless of interpretation, because from ∃y ∀x (x ≥ y) we can derive ∀x ∃y (x ≥ y). The converse is not true. Therefore, (B) logically entails (A).\n\nANSWER: True"
+  },
+  "1002": {
+    "prediction": "RATIONALE: Forward chaining is a sound inference method because it applies the Modus Ponens rule (if P and P→Q are true, then Q is true) to derive new facts from a knowledge base of definite clauses. Since Modus Ponens is a valid inference rule, forward chaining ensures that all derived conclusions are logically entailed by the knowledge base, making it sound.\n\nANSWER: True"
+  },
+  "1003": {
+    "prediction": "RATIONALE: The statement claims that forward chaining is complete because the inferred table ends with true for every entailed atomic sentence and false for all others. However, forward chaining's completeness for definite clause knowledge bases means it will derive all entailed atomic sentences (i.e., set them to true), but it does not explicitly set non-entailed sentences to false; they simply remain unknown or false by default. The inferred table typically only tracks derived truths, not explicit falsity for all others. The rationale in the context says forward chaining is complete as it derives all entailed facts, but the phrasing \"contains true for every entailed atomic sentence and false for all others\" is too absolute because forward chaining doesn't actively infer falsehoods for non-entailed sentences; it just doesn't derive them. The context's own rationale for a similar statement says \"the final state of the inferred table accurately reflects all entailed atomic sentences, with true for derived facts and false otherwise,\" but this might be an oversimplification. In standard AI treatments, forward chaining is complete in the sense that it will eventually derive any entailed atomic sentence, but it doesn't necessarily label all non-entailed ones as false—that would require negation or closed-world assumption. Given the context, the earlier statement with the same wording was answered as \"True,\" so consistency suggests this is also considered true.\n\nANSWER: True"
+  },
+  "1004": {
+    "prediction": "RATIONALE: Backward chaining starts from the goal and works backward to find supporting facts, not from known facts to the goal. The statement describes forward chaining instead.\n\nANSWER: False"
+  },
+  "1005": {
+    "prediction": "RATIONALE: The statement is true because backward chaining in first-order logic (FOL) with variables involves finding all possible unifications (substitutions) that satisfy the goal. FOL-BC-ASK recursively explores different rule applications and variable bindings, returning each successful substitution as a separate result. This allows it to generate multiple answers for queries with variables, unlike propositional backward chaining which only returns true/false.\n\nANSWER: A"
+  },
+  "1006": {
+    "prediction": "RATIONALE: The statement accurately describes backward chaining: it uses OR to find any rule that can prove the goal (multiple possible rules) and AND to ensure all conjuncts in the left-hand side of a rule are satisfied (all subgoals must be proven). This matches the AND/OR search paradigm.  \n\nANSWER: A"
+  },
+  "1007": {
+    "prediction": "RATIONALE: The statement describes backward chaining as a depth-first search algorithm, which is accurate because it recursively explores one branch at a time, leading to linear space complexity in the depth of the search. However, due to its depth-first nature, it can encounter repeated states (if the same subgoal is attempted multiple times) and may be incomplete if the search space contains infinite branches or loops without proper cycle detection. This matches the typical characterization of backward chaining in AI.\n\nANSWER: A"
+  },
+  "1008": {
+    "prediction": "RATIONALE: The initial construction of the knowledge base in the wumpus world focuses on the immutable aspects (rules that never change, like the rules of movement and perception). Mutable aspects (like the current location of the wumpus or pits) are added later as percepts are received.\n\nANSWER: False"
+  },
+  "1009": {
+    "prediction": "RATIONALE: The statement describes theorem proving as building proofs directly from the knowledge base, contrasting it with model checking which enumerates models. It correctly notes that theorem proving can be more efficient when proofs are short, even if the number of models is large, because it avoids exploring all possible models.\n\nANSWER: True"
+  },
+  "1010": {
+    "prediction": "RATIONALE: The statement directly matches the fundamental concept of knowledge representation in AI, where agents use a knowledge base to store structured information in a formal language, enabling logical reasoning and decision-making.\n\nANSWER: True"
+  },
+  "1011": {
+    "prediction": "RATIONALE: The statement claims natural languages are free from ambiguity and thus ideal for knowledge representation languages. However, natural languages are inherently ambiguous due to polysemy, syntax variations, and context-dependence, which makes them unsuitable for precise knowledge representation. Knowledge representation languages require clarity, formality, and lack of ambiguity to enable reliable reasoning.\n\nANSWER: False"
+  },
+  "1012": {
+    "prediction": "RATIONALE: The Sapir–Whorf hypothesis posits that language significantly shapes our perception and understanding of the world, which is the opposite of the statement given.\n\nANSWER: False"
+  },
+  "1013": {
+    "prediction": "RATIONALE: The statement claims that Whorf's ideas have been dismissed, but modern studies support them. However, from the context provided, it is clear that Whorf's theories were initially speculative but are now supported by evidence from multiple fields, not dismissed. The first Q&A explicitly states that modern studies have provided real data supporting his theories, and the correct answer choice in the multiple-choice question indicates that his ideas were speculative but are now supported. Therefore, the statement is false because it incorrectly asserts that his ideas have been dismissed, whereas they are actually validated by contemporary research.\n\nANSWER: False"
+  },
+  "1014": {
+    "prediction": "RATIONALE: The statement is incorrect because complex domains often benefit from general, flexible representations to handle abstract concepts like events and beliefs, which are indeed a focus of ontological engineering. Ontological engineering aims to create structured representations of knowledge, including abstract concepts, to support reasoning across various domains.\n\nANSWER: False"
+  },
+  "1015": {
+    "prediction": "RATIONALE: The statement accurately describes an upper ontology as a high-level framework that encompasses broad, general concepts, which serve as the foundation for more specialized concepts organized hierarchically beneath them. This aligns with standard definitions in knowledge representation and ontology engineering.\n\nANSWER: True"
+  },
+  "1016": {
+    "prediction": "RATIONALE: Classical planning assumes a fully observable environment, not a partially observable one. The environment must be fully observable to guarantee that the planner has complete knowledge of the state. The characteristics of classical planning are: discrete, deterministic, static, and fully observable.\n\nANSWER: False"
+  },
+  "1017": {
+    "prediction": "RATIONALE: The statement describes contingency planning as generating plans with conditional branching based on percepts, making it suitable for environments with partial observability, nondeterminism, or both. This aligns with the definitions provided in the context, where contingency planning is explicitly mentioned as a method extended to handle partially observable and nondeterministic environments, unlike classical planning which requires full observability.\n\nANSWER: A"
+  }
+}
