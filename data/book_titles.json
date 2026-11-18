@@ -1,0 +1,23 @@
+{
+  "_note": "Titles identified from each textbook's content (GraphRAG-Bench does not name them). Edit if one is wrong.",
+  "textbook1": "Algorithms (Jeff Erickson)",
+  "textbook2": "Artificial Intelligence: A Modern Approach (Russell & Norvig)",
+  "textbook3": "Artificial Intelligence: Structures and Strategies for Complex Problem Solving (Luger)",
+  "textbook4": "Basic Computer Architecture (Sarangi)",
+  "textbook5": "Big Data: Conceptual Analysis and Applications (Zgurovsky & Zaychenko)",
+  "textbook6": "Computer Architecture: A Quantitative Approach (Hennessy & Patterson)",
+  "textbook7": "Computer Networking: A Top-Down Approach (Kurose & Ross)",
+  "textbook8": "Computer Networks (Tanenbaum)",
+  "textbook9": "Computer Vision: A Modern Approach (Forsyth & Ponce)",
+  "textbook10": "Computer Vision: Algorithms and Applications (Szeliski)",
+  "textbook11": "Data Mining: Concepts and Techniques (Han, Kamber & Pei)",
+  "textbook12": "Data Mining: The Textbook (Aggarwal)",
+  "textbook13": "Data Structures & Algorithms in Java (Lafore)",
+  "textbook14": "Database System Concepts (Silberschatz, Korth & Sudarshan)",
+  "textbook15": "Introduction to Algorithms (Cormen, Leiserson, Rivest & Stein)",
+  "textbook16": "Introduction to Data Mining (Tan, Steinbach & Kumar)",
+  "textbook17": "Probabilistic Machine Learning: An Introduction (Murphy)",
+  "textbook18": "Natural Language Processing with Python (Bird, Klein & Loper)",
+  "textbook19": "Speech and Language Processing (Jurafsky & Martin)",
+  "textbook20": "The Quest for Artificial Intelligence (Nilsson)"
+}

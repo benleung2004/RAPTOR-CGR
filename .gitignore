@@ -21,3 +21,6 @@ results/logs/
 .DS_Store
 .vscode/
 .idea/
+
+# Web index (rebuildable, built from local textbooks)
+data/web_index/

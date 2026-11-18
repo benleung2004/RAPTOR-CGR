@@ -101,6 +101,48 @@ Every step can be resumed: rerunning a command skips finished work and retries f
 
 At DeepSeek `deepseek-flash` prices (November 2026) this costs about **US$4–8** in total. Free tiers allow roughly 1,000 requests a day, so a full run would take weeks. Use one model for all answering runs, so that the pipelines stay comparable.
 
+## Web tutor (chat with the textbooks)
+
+A chat website for students: ask a computer science question in English or Chinese and get an answer
+grounded in the 20 textbooks. Each answer cites the passages it uses, explains step by step, and
+gives algorithms or pseudocode when needed. Maths is rendered with KaTeX.
+
+**How it answers (one request):**
+1. The question is embedded locally with `multilingual-e5-small`, so Chinese questions find English passages (~20 ms).
+2. The 6 most relevant passages are found among about 38,000 textbook chunks (~20 ms).
+3. One streamed LLM call answers from those passages, citing them as [1]–[6].
+
+There is no web search and no multi-step agent loop, so the first words appear in about 1 s and a
+full answer usually takes 2–6 s with Groq.
+
+```bash
+python src/download_data.py          # once: the 20 textbooks (kept local, not in git)
+python src/build_web_index.py        # once: ~5-10 min, free (local embeddings)
+python web/server.py --demo          # try the UI without any API key
+python web/server.py                 # real answers: set CHAT_PRIMARY_API_KEY in .env
+```
+
+Then open http://127.0.0.1:8000.
+
+**Models:** the primary is Groq `openai/gpt-oss-120b` on the free tier (about 1,000 requests a day,
+8K tokens a minute, so roughly 2–3 questions a minute). An optional fallback such as DeepSeek
+`deepseek-flash` (about US$0.0005 per answer) takes over automatically when the primary is rate-limited.
+
+**Built in:**
+- streamed answers
+- source cards with the full passage
+- follow-up questions (last two exchanges)
+- cache for repeated questions
+- per-visitor rate limit
+- input validation
+- dark mode and a mobile layout
+
+No accounts, and questions are not stored.
+
+**Demo it publicly from a Mac (free):** with the server running, run
+`cloudflared tunnel --url http://127.0.0.1:8000` ([Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/)).
+It prints a public `https://….trycloudflare.com` link, which stays up while the Mac and the command keep running.
+
 ## Tests (offline, no API key needed)
 
 ```bash
@@ -110,6 +152,8 @@ python -m unittest discover tests
 - `test_scoring.py` covers answer parsing, normalisation, multi-select partial credit, option-shuffle mapping, judge parsing and the AR table.
 - `test_retrieval.py` checks that the fast numpy retriever returns exactly the same context as RAPTOR's own `TreeRetriever`.
 - `test_end_to_end.py` runs the whole workflow with a fake LLM on two textbooks: tree, retrieval, leakage audit, all pipelines (with injected API failures and retry), the shuffle run, evaluation and the report.
+- `test_report.py` checks the paired bootstrap and Cohen's kappa.
+- `test_web.py` covers the web tutor: retrieval, prompt, cache, follow-ups, provider fallback, interrupted streams, the HTTP API (streaming, validation, rate limit, no leaked errors) and demo mode.
 
 ## Repository structure
 
@@ -125,13 +169,32 @@ python -m unittest discover tests
 │   ├── check_leakage.py   answer-key leakage audit
 │   ├── run_pipeline.py    baseline / pure / cgr / selfcritique (+ --shuffle-seed)
 │   ├── evaluate.py        per-question judgments
-│   └── make_report.py     scores, tables, guessing checks, judge agreement
+│   ├── make_report.py     scores, tables, guessing checks, judge agreement, significance
+│   ├── build_web_index.py multilingual chunk index for the web tutor
+│   └── chat_engine.py     retrieval + grounded streamed answer + provider fallback
+├── web/                   FastAPI server + chat page (HTML/CSS/JS)
 ├── raptor/                RAPTOR library (vendored, MIT, unmodified)
 ├── tests/
-├── data/graphrag_bench.jsonl   the 1,018 questions
+├── data/graphrag_bench.jsonl   the 1,018 questions (+ book_titles.json)
 ├── results/               v2 outputs; results/v1/ = submitted version
 └── docs/                  report, presentation, summary
 ```
+
+## Future work
+
+These need money, a long-running server or more time, so they are not done yet:
+
+1. **Full v2 evaluation:** build the RAPTOR trees, answer all 1,018 questions with every pipeline,
+   run the shuffle check and judge them (≈ 24,500 API calls, about US$4–8 with `deepseek-flash`, 3–4 h).
+   The code and tests are ready; see *Run it*.
+2. **RAPTOR answers in the web tutor:** add the RAPTOR cluster summaries to the web index, so that
+   broad questions can use chapter-level summaries (≈ US$2 of summarisation, or about two weeks on free quotas).
+3. **Always-on hosting:** move from a Mac + Cloudflare Tunnel to a small VPS (about US$4–6/month)
+   or to Cloudflare Workers + Vectorize (about US$5/month; the index is larger than the free tier).
+4. **Textbook licensing:** the 20 textbooks stay local and are never committed. A public service
+   should check the licences, or switch to openly licensed textbooks, before serving passages.
+5. **Measured web accuracy:** compare the tutor with a plain LLM on a sample of benchmark questions
+   (100 questions fit in one day of the Groq free tier), and publish the numbers on the page.
 
 ## Acknowledgements
 

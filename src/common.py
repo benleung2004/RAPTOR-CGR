@@ -76,7 +76,7 @@ def model_config(role):
     load_env()
     base = {"api_key": os.getenv("LLM_API_KEY"),
             "base_url": os.getenv("LLM_BASE_URL", "https://api.deepseek.com"),
-            "model": os.getenv("LLM_MODEL", "deepseek-chat")}
+            "model": os.getenv("LLM_MODEL", "deepseek-flash")}
     if role == "judge":
         base = {"api_key": os.getenv("JUDGE_API_KEY") or base["api_key"],
                 "base_url": os.getenv("JUDGE_BASE_URL") or base["base_url"],

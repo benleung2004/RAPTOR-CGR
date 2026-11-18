@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CS Textbook Tutor</title>
+  <meta name="description" content="Ask computer science questions and get answers grounded in 20 university CS textbooks, with citations.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232f6fed'/><path d='M9 9h9a5 5 0 0 1 5 5v9H14a5 5 0 0 1-5-5z' fill='white'/></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+  <link rel="stylesheet" id="hljs-light" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github.min.css">
+  <link rel="stylesheet" id="hljs-dark" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github-dark.min.css" disabled>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true"></span>
+      <div>
+        <h1>CS Textbook Tutor</h1>
+        <p class="tagline">Answers grounded in 20 university computer science textbooks</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button id="new-chat" class="ghost" type="button" title="Start a new conversation">New chat</button>
+      <button id="theme" class="ghost icon" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+    </div>
+  </header>
+
+  <main id="chat" aria-live="polite">
+    <section id="welcome" class="welcome">
+      <h2>Ask anything about computer science</h2>
+      <p>Algorithms, data structures, networks, databases, AI, machine learning, computer vision, NLP and more.
+         Every answer cites the textbook passages it is based on. English or 中文 both work.</p>
+      <div class="examples">
+        <button type="button" class="example">Explain Dijkstra's algorithm step by step with an example</button>
+        <button type="button" class="example">Solve T(n) = 2T(n/2) + n using the master theorem</button>
+        <button type="button" class="example">What is the difference between TCP and UDP?</button>
+        <button type="button" class="example">什麼是反向傳播 (backpropagation)？</button>
+        <button type="button" class="example">資料庫交易的 ACID 特性是什麼？</button>
+        <button type="button" class="example">How does a B+ tree index speed up database queries?</button>
+      </div>
+    </section>
+    <div id="messages"></div>
+  </main>
+
+  <footer class="composer-wrap">
+    <form id="composer" class="composer" autocomplete="off">
+      <textarea id="input" rows="1" maxlength="2000" placeholder="Ask a CS question…  (Enter to send, Shift+Enter for a new line)" aria-label="Your question"></textarea>
+      <button id="send" type="submit" class="send" aria-label="Send">Send</button>
+    </form>
+    <p class="disclaimer">AI-generated answers can be wrong — check the cited textbook passages. Questions are not stored.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
