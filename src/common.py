@@ -69,6 +69,21 @@ def load_env():
         pass
 
 
+def extra_body_for(prefix, base_url):
+    """Provider-specific request options from <prefix>_EXTRA_BODY (JSON).
+
+    Default for DeepSeek: thinking mode off. DeepSeek models think by default; the hidden reasoning
+    is slow and uses up max_tokens (empty 100-token summaries, empty judge replies), and v1 used
+    the non-thinking deepseek-chat. Set e.g. {"thinking": {"type": "enabled"}} to turn it back on.
+    """
+    raw = os.getenv(f"{prefix}_EXTRA_BODY")
+    if raw:
+        return json.loads(raw)
+    if "deepseek.com" in (base_url or ""):
+        return {"thinking": {"type": "disabled"}}
+    return None
+
+
 def model_config(role):
     """Endpoint settings for role 'answer' (answering + summaries) or 'judge' (evaluation).
 
@@ -78,10 +93,12 @@ def model_config(role):
     base = {"api_key": os.getenv("LLM_API_KEY"),
             "base_url": os.getenv("LLM_BASE_URL", "https://api.deepseek.com"),
             "model": os.getenv("LLM_MODEL", "deepseek-flash")}
+    base["extra_body"] = extra_body_for("LLM", base["base_url"])
     if role == "judge":
-        base = {"api_key": os.getenv("JUDGE_API_KEY") or base["api_key"],
-                "base_url": os.getenv("JUDGE_BASE_URL") or base["base_url"],
-                "model": os.getenv("JUDGE_MODEL") or base["model"]}
+        url = os.getenv("JUDGE_BASE_URL") or base["base_url"]
+        base = {"api_key": os.getenv("JUDGE_API_KEY") or base["api_key"], "base_url": url,
+                "model": os.getenv("JUDGE_MODEL") or base["model"],
+                "extra_body": extra_body_for("JUDGE", url)}
     return base
 
 

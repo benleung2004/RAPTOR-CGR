@@ -243,6 +243,23 @@ class ProviderConfig(unittest.TestCase):
         os.environ["CHAT_PRIMARY_API_KEY"] = "test-key"
         (p,) = chat_engine.providers_from_env()
         self.assertEqual((p.name, p.model, p.reasoning_effort), ("deepseek", "deepseek-flash", None))
+        self.assertEqual(p.extra_body, {"thinking": {"type": "disabled"}})       # DeepSeek: no hidden thinking
+        os.environ["CHAT_PRIMARY_EXTRA_BODY"] = '{"thinking": {"type": "enabled"}}'
+        (p,) = chat_engine.providers_from_env()
+        self.assertEqual(p.extra_body, {"thinking": {"type": "enabled"}})
+
+    def test_primary_reuses_research_key_for_same_endpoint(self):
+        import os
+        import chat_engine
+        chat_engine.load_env = lambda: None
+        os.environ.update(LLM_API_KEY="research-key", LLM_BASE_URL="https://api.deepseek.com")
+        try:
+            (p,) = chat_engine.providers_from_env()
+            self.assertEqual(p.client.api_key, "research-key")
+            os.environ["CHAT_PRIMARY_BASE_URL"] = "https://other.example/v1"
+            self.assertEqual(chat_engine.providers_from_env(), [])
+        finally:
+            del os.environ["LLM_API_KEY"], os.environ["LLM_BASE_URL"]
 
     def test_fallback_needs_a_model(self):
         import os

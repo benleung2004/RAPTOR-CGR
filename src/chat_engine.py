@@ -18,7 +18,7 @@ from pathlib import Path
 
 import numpy as np
 
-from common import ROOT, load_env
+from common import ROOT, extra_body_for, load_env
 
 WEB_INDEX_DIR = ROOT / "data" / "web_index"
 
@@ -125,15 +125,18 @@ def build_messages(question, sources, history):
 
 # ── LLM providers ────────────────────────────────────────────────────────────
 class Provider:
-    def __init__(self, name, base_url, api_key, model, reasoning_effort=None, client=None):
+    def __init__(self, name, base_url, api_key, model, reasoning_effort=None, client=None, extra_body=None):
         self.name, self.model, self.reasoning_effort = name, model, reasoning_effort
+        self.extra_body = dict(extra_body or {})
+        if reasoning_effort:
+            self.extra_body["reasoning_effort"] = reasoning_effort
         if client is None:
             from openai import OpenAI
             client = OpenAI(api_key=api_key, base_url=base_url, max_retries=0, timeout=60)
         self.client = client
 
     def stream(self, messages, max_tokens=1200):
-        kwargs = {"extra_body": {"reasoning_effort": self.reasoning_effort}} if self.reasoning_effort else {}
+        kwargs = {"extra_body": self.extra_body} if self.extra_body else {}
         resp = self.client.chat.completions.create(model=self.model, messages=messages, temperature=0.2,
                                                    max_tokens=max_tokens, stream=True, **kwargs)
         for chunk in resp:
@@ -158,15 +161,18 @@ def providers_from_env():
     found = []
     for slot, (base_default, model_default) in (("PRIMARY", ("https://api.deepseek.com", "deepseek-flash")),
                                                 ("FALLBACK", ("https://openrouter.ai/api/v1", ""))):
+        base_url = os.getenv(f"CHAT_{slot}_BASE_URL") or base_default
         key = os.getenv(f"CHAT_{slot}_API_KEY")
+        if not key and slot == "PRIMARY" and base_url == (os.getenv("LLM_BASE_URL") or "https://api.deepseek.com"):
+            key = os.getenv("LLM_API_KEY")          # one DeepSeek key for both the research code and the tutor
         if not key:
             continue
-        base_url = os.getenv(f"CHAT_{slot}_BASE_URL") or base_default
         model = os.getenv(f"CHAT_{slot}_MODEL") or model_default
         if not model:
             raise SystemExit(f"CHAT_{slot}_MODEL is not set in .env")
         found.append(Provider(os.getenv(f"CHAT_{slot}_NAME") or provider_name(base_url), base_url, key, model,
-                              os.getenv(f"CHAT_{slot}_REASONING_EFFORT") or None))
+                              os.getenv(f"CHAT_{slot}_REASONING_EFFORT") or None,
+                              extra_body=extra_body_for(f"CHAT_{slot}", base_url)))
     return found
 
 

@@ -8,7 +8,7 @@ from common import model_config
 
 
 class LLM:
-    def __init__(self, role="answer", client=None, model=None):
+    def __init__(self, role="answer", client=None, model=None, extra_body=None):
         cfg = model_config(role)
         if client is None:
             if not cfg["api_key"]:
@@ -18,6 +18,7 @@ class LLM:
             client = OpenAI(api_key=cfg["api_key"], base_url=cfg["base_url"], max_retries=0, timeout=120)
         self.client = client
         self.model = model or cfg["model"]
+        self.extra_body = extra_body if extra_body is not None else (cfg["extra_body"] if client is None else None)
         self.prompt_tokens = 0
         self.completion_tokens = 0
         self.calls = 0
@@ -26,6 +27,8 @@ class LLM:
     def chat(self, messages, temperature=0.0, max_tokens=None, retries=6):
         """Return (text, usage dict). Retries with exponential backoff on any API error."""
         kwargs = {"max_tokens": max_tokens} if max_tokens else {}
+        if self.extra_body:
+            kwargs["extra_body"] = self.extra_body
         for attempt in range(retries):
             try:
                 resp = self.client.chat.completions.create(
