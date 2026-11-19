@@ -56,3 +56,21 @@ class Sampling(unittest.TestCase):
         self.assertEqual({t: sum(detect_question_type(questions[i]) == t for i in idx) for t in counts}, counts)
         self.assertEqual(stratified_sample(questions, 300, 42)[0], idx)            # reproducible
         self.assertNotEqual(stratified_sample(questions, 300, 7)[0], idx)
+
+
+class Holm(unittest.TestCase):
+    def test_holm_adjustment(self):
+        from make_report import holm
+        self.assertEqual([round(x, 3) for x in holm([0.01, 0.04, 0.03])], [0.03, 0.06, 0.06])
+        self.assertEqual(holm([0.5, 0.9]), [1.0, 1.0])
+
+
+class Experiments(unittest.TestCase):
+    def test_experiment_env_selects_results_folder(self):
+        import subprocess
+        import sys
+        from pathlib import Path
+        root = Path(__file__).resolve().parents[1]
+        out = subprocess.run([sys.executable, "-c", "import common; print(common.RAW_DIR)"], cwd=root / "src",
+                             env={"EXPERIMENT": "raptor-1018", "PATH": ""}, capture_output=True, text=True)
+        self.assertTrue(out.stdout.strip().endswith("results/raptor-1018/raw"), out.stdout + out.stderr)

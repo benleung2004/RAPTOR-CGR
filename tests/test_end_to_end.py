@@ -150,6 +150,18 @@ class EndToEnd(unittest.TestCase):
         self.assertEqual(json.loads((self.tmp / "leakage.json").read_text())["rationale_in_context"], 0)
 
 
+    def test_runs_with_different_retrieval_indexes_never_mix(self):
+        (self.tmp / "contexts.jsonl").write_text("".join(
+            json.dumps({"idx": i, "context": "c", "nodes": []}) + "\n" for i in range(1018)))
+        (self.tmp / "contexts_meta.json").write_text(json.dumps({"index": "web"}))
+        sample = self.tmp / "s.json"
+        sample.write_text(json.dumps({"idx": [1, 2]}))
+        run_pipeline.main(["--pipeline", "pure", "--sample", str(sample)], llm=FakeLLM())
+        self.assertEqual({r["index"] for r in common.load_run(self.tmp / "raw" / "pure.jsonl").values()}, {"web"})
+        (self.tmp / "contexts_meta.json").write_text(json.dumps({"index": "raptor"}))
+        with self.assertRaises(SystemExit):
+            run_pipeline.main(["--pipeline", "pure", "--sample", str(sample)], llm=FakeLLM())
+
     def test_sample_run_answers_only_sampled_questions(self):
         sample = self.tmp / "sample.json"
         sample.write_text(json.dumps({"idx": [3, 150, 700]}))

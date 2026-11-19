@@ -88,6 +88,7 @@ cp .env.example .env              # add an API key (any OpenAI-compatible endpoi
 ```
 
 ```bash
+export EXPERIMENT=raptor-1018                      # each experiment gets its own results/<name>/ folder
 python src/download_data.py                        # 20 textbooks (~36 MB); verifies the 1,018 questions
 python src/build_tree.py                           # RAPTOR trees + index (resumable)
 python src/retrieval.py                            # retrieved context for every question
@@ -115,6 +116,7 @@ To reduce self-grading bias, the answers can be judged by a stronger model: set
 `JUDGE_MODEL=deepseek-v4-pro` in `.env` (about US$0.4–0.8 extra for 300 questions).
 
 ```bash
+export EXPERIMENT=web-300                                        # results go to results/web-300/ (never mixed)
 python src/make_sample.py --n 300 --seed 42                      # data/samples/sample_300_seed42.json
 python src/retrieval.py --index web                              # free, local
 python src/check_leakage.py --index web

@@ -16,7 +16,10 @@ TEXTBOOK_DIR = DATA_DIR / "textbooks"           # downloaded by download_data.py
 TREE_DIR = DATA_DIR / "trees"                   # one RAPTOR tree per textbook (not committed)
 INDEX_DIR = DATA_DIR / "index"                  # flat index over every tree node (not committed)
 
-RESULTS_DIR = ROOT / "results"
+# Each experiment writes to its own folder: EXPERIMENT=raptor-1018 python src/... -> results/raptor-1018/
+# (results/v1 = submitted version). Keeps different runs from ever being mixed by resume logic.
+EXPERIMENT = os.getenv("EXPERIMENT", "").strip()
+RESULTS_DIR = ROOT / "results" / EXPERIMENT if EXPERIMENT else ROOT / "results"
 CONTEXTS_PATH = RESULTS_DIR / "contexts.jsonl"  # retrieved context for every question
 RAW_DIR = RESULTS_DIR / "raw"                   # one JSONL per run (model outputs)
 JUDGE_DIR = RESULTS_DIR / "judgments"           # one JSONL per (run, judge model)

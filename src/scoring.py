@@ -16,6 +16,11 @@ def split_prediction(text):
     text = (text or "").replace("\r\n", "\n")
     tags = list(_ANSWER_TAG.finditer(text))
     if not tags:
+        bare = text.strip().strip("*_").strip()
+        # thinking-mode replies are sometimes just the answer ("A, C, D", "2n + 2"): accept a short
+        # one-line reply as the answer; anything longer without a tag counts as unanswered
+        if bare and "\n" not in bare and len(bare) <= 120:
+            return "", bare
         return text.strip(), ""
     last = tags[-1]
     answer = text[last.end():].strip().strip("*_").strip()

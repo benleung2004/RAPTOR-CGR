@@ -27,10 +27,10 @@ RAPTOR-CGR/
 │   ├── build_web_index.py        free multilingual chunk index -> data/web_index
 │   ├── retrieval.py              retrieved context for every question -> results/contexts.jsonl
 │   │                             (--index raptor | web)
-│   ├── check_leakage.py          proves no benchmark answer key is retrievable -> results/leakage.json
+│   ├── check_leakage.py          proves no benchmark answer key is retrievable -> results/<experiment>/leakage.json
 │   ├── make_sample.py            stratified question sample -> data/samples/
 │   ├── run_pipeline.py           answer questions: baseline | pure | cgr | selfcritique (+ --sample, --shuffle-seed)
-│   ├── evaluate.py               LLM-judge every answer -> results/judgments/
+│   ├── evaluate.py               LLM-judge every answer -> results/<experiment>/judgments/
 │   ├── make_report.py            scores, tables, significance, guessing checks, cost -> results/
 │   ├── make_figures.py           report figures (PNG) -> evaluation-report/figures/
 │   └── chat_engine.py            web tutor engine: search, grounded prompt, streaming, fallback, deep mode
@@ -54,12 +54,13 @@ RAPTOR-CGR/
 │   ├── trees/, index/            RAPTOR trees and flat index (built by build_tree.py; not committed)
 │
 ├── results/
-│   ├── contexts.jsonl            retrieved context per question (current run)
-│   ├── leakage.json              leakage audit
-│   ├── contexts_meta.json        which index produced contexts.jsonl (web or raptor)
-│   ├── raw/                      answers of the 300-question run (thinking off; *-think = thinking on)
-│   ├── judgments/                per-question scores from the deepseek-v4-pro judge
-│   ├── tables/, scores.json      all result tables (CSV, Excel, summary.md)
+│   ├── web-300/                  the leak-free 300-question evaluation (EXPERIMENT=web-300)
+│   │   ├── contexts.jsonl, contexts_meta.json   retrieved context per question + which index
+│   │   ├── leakage.json          leakage audit
+│   │   ├── raw/                  answers (thinking off; *-think = thinking on)
+│   │   ├── judgments/            per-question scores from the deepseek-v4-pro judge
+│   │   └── tables/, scores.json  all result tables (CSV, Excel, summary.md) with Holm p-values
+│   ├── <experiment>/             any new run: EXPERIMENT=<name> python src/... (never mixes with others)
 │   └── v1/                       everything from the submitted version (tag v1-submitted)
 │       ├── raw/                  model outputs of the 4 v1 pipelines
 │       ├── eval_inputs/          evaluator-format questions and predictions

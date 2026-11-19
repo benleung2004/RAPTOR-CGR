@@ -31,7 +31,12 @@ class SplitPrediction(unittest.TestCase):
         self.assertEqual((rat, ans), ("the answer: is C because...", "C"))
 
     def test_missing_tag(self):
-        self.assertEqual(split_prediction("I think it is B"), ("I think it is B", ""))
+        # a short untagged line is taken as the answer, but it must still be scored strictly:
+        # "I think it is B" does not start with an option letter, so it is not read as B
+        self.assertEqual(split_prediction("I think it is B"), ("", "I think it is B"))
+        self.assertIsNone(mc_letter("I think it is B"))
+        long_reply = "Let me think step by step.\nThe answer could be B."
+        self.assertEqual(split_prediction(long_reply), (long_reply, ""))
 
 
 class Letters(unittest.TestCase):
@@ -114,3 +119,13 @@ class OptionShuffle(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class UntaggedReplies(unittest.TestCase):
+    def test_short_untagged_reply_is_the_answer(self):          # thinking-mode replies like "A, C, D"
+        self.assertEqual(split_prediction("A, C, D"), ("", "A, C, D"))
+        self.assertEqual(split_prediction("**2n + 2**"), ("", "2n + 2"))
+
+    def test_long_or_multiline_untagged_reply_is_unanswered(self):
+        self.assertEqual(split_prediction("I think about it\nmaybe B")[1], "")
+        self.assertEqual(split_prediction("x " * 100)[1], "")

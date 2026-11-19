@@ -741,13 +741,13 @@
     },
     "baseline-think": {
       "total": {
-        "answer_score": 0.8466666666666667,
-        "rationale_score": 0.823728813559322,
-        "ar_score": 0.7745762711864407,
+        "answer_score": 0.855,
+        "rationale_score": 0.8169491525423729,
+        "ar_score": 0.7711864406779662,
         "count": 300,
         "count_with_rationale": 295,
-        "unsupported_correct": 0.0576271186440678,
-        "no_answer_tag": 3,
+        "unsupported_correct": 0.06440677966101695,
+        "no_answer_tag": 0,
         "judge_failed": 0
       },
       "by_type": {
@@ -772,13 +772,13 @@
           "judge_failed": 0
         },
         "MS": {
-          "answer_score": 0.6515151515151515,
-          "rationale_score": 0.7575757575757576,
-          "ar_score": 0.6287878787878788,
+          "answer_score": 0.696969696969697,
+          "rationale_score": 0.7272727272727273,
+          "ar_score": 0.6136363636363636,
           "count": 33,
           "count_with_rationale": 33,
-          "unsupported_correct": 0.06060606060606061,
-          "no_answer_tag": 2,
+          "unsupported_correct": 0.09090909090909091,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "OE": {
@@ -792,13 +792,13 @@
           "judge_failed": 0
         },
         "TF": {
-          "answer_score": 0.8279569892473119,
-          "rationale_score": 0.8444444444444444,
-          "ar_score": 0.8222222222222222,
+          "answer_score": 0.8387096774193549,
+          "rationale_score": 0.8333333333333334,
+          "ar_score": 0.8166666666666667,
           "count": 93,
           "count_with_rationale": 90,
-          "unsupported_correct": 0.022222222222222223,
-          "no_answer_tag": 1,
+          "unsupported_correct": 0.03333333333333333,
+          "no_answer_tag": 0,
           "judge_failed": 0
         }
       },
@@ -824,13 +824,13 @@
           "judge_failed": 0
         },
         "Computer networks": {
-          "answer_score": 0.8888888888888888,
-          "rationale_score": 0.9090909090909091,
-          "ar_score": 0.8787878787878788,
+          "answer_score": 0.9166666666666666,
+          "rationale_score": 0.8787878787878788,
+          "ar_score": 0.8636363636363636,
           "count": 36,
           "count_with_rationale": 33,
-          "unsupported_correct": 0.030303030303030304,
-          "no_answer_tag": 1,
+          "unsupported_correct": 0.06060606060606061,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Computer vision": {
@@ -894,13 +894,13 @@
           "judge_failed": 0
         },
         "Human-computer interaction": {
-          "answer_score": 0.75,
+          "answer_score": 0.8125,
           "rationale_score": 0.625,
           "ar_score": 0.625,
           "count": 8,
           "count_with_rationale": 8,
           "unsupported_correct": 0.125,
-          "no_answer_tag": 1,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Information retrieval": {
@@ -914,13 +914,13 @@
           "judge_failed": 0
         },
         "Machine learning": {
-          "answer_score": 0.8863636363636364,
-          "rationale_score": 0.8636363636363636,
-          "ar_score": 0.7954545454545454,
+          "answer_score": 0.9318181818181818,
+          "rationale_score": 0.8181818181818182,
+          "ar_score": 0.7727272727272727,
           "count": 22,
           "count_with_rationale": 22,
-          "unsupported_correct": 0.09090909090909091,
-          "no_answer_tag": 1,
+          "unsupported_correct": 0.13636363636363635,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Mathematics": {
@@ -987,13 +987,13 @@
     },
     "pure-think": {
       "total": {
-        "answer_score": 0.865,
-        "rationale_score": 0.8762711864406779,
-        "ar_score": 0.809322033898305,
+        "answer_score": 0.8916666666666667,
+        "rationale_score": 0.8491525423728814,
+        "ar_score": 0.7957627118644067,
         "count": 300,
         "count_with_rationale": 295,
-        "unsupported_correct": 0.03389830508474576,
-        "no_answer_tag": 13,
+        "unsupported_correct": 0.061016949152542375,
+        "no_answer_tag": 0,
         "judge_failed": 0
       },
       "by_type": {
@@ -1004,17 +1004,17 @@
           "count": 31,
           "count_with_rationale": 31,
           "unsupported_correct": 0.0967741935483871,
-          "no_answer_tag": 2,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "MC": {
-          "answer_score": 0.875,
-          "rationale_score": 0.8984375,
-          "ar_score": 0.8515625,
+          "answer_score": 0.90625,
+          "rationale_score": 0.8671875,
+          "ar_score": 0.8359375,
           "count": 64,
           "count_with_rationale": 64,
-          "unsupported_correct": 0.0625,
-          "no_answer_tag": 2,
+          "unsupported_correct": 0.09375,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "MS": {
@@ -1024,7 +1024,7 @@
           "count": 33,
           "count_with_rationale": 33,
           "unsupported_correct": 0.030303030303030304,
-          "no_answer_tag": 2,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "OE": {
@@ -1038,25 +1038,25 @@
           "judge_failed": 0
         },
         "TF": {
-          "answer_score": 0.8494623655913979,
-          "rationale_score": 0.8888888888888888,
-          "ar_score": 0.8527777777777777,
+          "answer_score": 0.9139784946236559,
+          "rationale_score": 0.8222222222222222,
+          "ar_score": 0.8194444444444444,
           "count": 93,
           "count_with_rationale": 90,
-          "unsupported_correct": 0.022222222222222223,
-          "no_answer_tag": 7,
+          "unsupported_correct": 0.08888888888888889,
+          "no_answer_tag": 0,
           "judge_failed": 0
         }
       },
       "by_topic": {
         "Artificial intelligence introduction": {
-          "answer_score": 0.8260869565217391,
-          "rationale_score": 0.9130434782608695,
-          "ar_score": 0.8695652173913043,
+          "answer_score": 0.8695652173913043,
+          "rationale_score": 0.8695652173913043,
+          "ar_score": 0.8478260869565217,
           "count": 23,
           "count_with_rationale": 23,
-          "unsupported_correct": 0.0,
-          "no_answer_tag": 1,
+          "unsupported_correct": 0.043478260869565216,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Computer architecture": {
@@ -1070,13 +1070,13 @@
           "judge_failed": 0
         },
         "Computer networks": {
-          "answer_score": 0.9444444444444444,
-          "rationale_score": 0.9393939393939394,
-          "ar_score": 0.9242424242424242,
+          "answer_score": 0.9722222222222222,
+          "rationale_score": 0.9090909090909091,
+          "ar_score": 0.9090909090909091,
           "count": 36,
           "count_with_rationale": 33,
-          "unsupported_correct": 0.030303030303030304,
-          "no_answer_tag": 1,
+          "unsupported_correct": 0.06060606060606061,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Computer vision": {
@@ -1086,7 +1086,7 @@
           "count": 18,
           "count_with_rationale": 18,
           "unsupported_correct": 0.0,
-          "no_answer_tag": 1,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Cybersecurity": {
@@ -1096,7 +1096,7 @@
           "count": 29,
           "count_with_rationale": 29,
           "unsupported_correct": 0.034482758620689655,
-          "no_answer_tag": 1,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Data science and big data": {
@@ -1110,13 +1110,13 @@
           "judge_failed": 0
         },
         "Data structures and algorithms": {
-          "answer_score": 0.7162162162162162,
-          "rationale_score": 0.8108108108108109,
-          "ar_score": 0.6756756756756757,
+          "answer_score": 0.7972972972972973,
+          "rationale_score": 0.7297297297297297,
+          "ar_score": 0.6351351351351351,
           "count": 37,
           "count_with_rationale": 37,
-          "unsupported_correct": 0.05405405405405406,
-          "no_answer_tag": 5,
+          "unsupported_correct": 0.13513513513513514,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Database systems": {
@@ -1140,33 +1140,33 @@
           "judge_failed": 0
         },
         "Human-computer interaction": {
-          "answer_score": 0.6875,
-          "rationale_score": 0.8125,
-          "ar_score": 0.6875,
+          "answer_score": 0.8125,
+          "rationale_score": 0.6875,
+          "ar_score": 0.625,
           "count": 8,
           "count_with_rationale": 8,
-          "unsupported_correct": 0.0,
-          "no_answer_tag": 1,
+          "unsupported_correct": 0.125,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Information retrieval": {
-          "answer_score": 0.828125,
-          "rationale_score": 0.875,
-          "ar_score": 0.734375,
+          "answer_score": 0.859375,
+          "rationale_score": 0.84375,
+          "ar_score": 0.71875,
           "count": 32,
           "count_with_rationale": 32,
-          "unsupported_correct": 0.03125,
-          "no_answer_tag": 2,
+          "unsupported_correct": 0.0625,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Machine learning": {
-          "answer_score": 0.9318181818181818,
-          "rationale_score": 0.9090909090909091,
-          "ar_score": 0.8636363636363636,
+          "answer_score": 0.9772727272727273,
+          "rationale_score": 0.8636363636363636,
+          "ar_score": 0.8409090909090909,
           "count": 22,
           "count_with_rationale": 22,
-          "unsupported_correct": 0.045454545454545456,
-          "no_answer_tag": 1,
+          "unsupported_correct": 0.09090909090909091,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Mathematics": {
@@ -1233,34 +1233,34 @@
     },
     "cgr-think": {
       "total": {
-        "answer_score": 0.875,
-        "rationale_score": 0.8457627118644068,
-        "ar_score": 0.8084745762711865,
+        "answer_score": 0.885,
+        "rationale_score": 0.8389830508474576,
+        "ar_score": 0.8050847457627118,
         "count": 300,
         "count_with_rationale": 295,
-        "unsupported_correct": 0.03728813559322034,
-        "no_answer_tag": 5,
+        "unsupported_correct": 0.04406779661016949,
+        "no_answer_tag": 0,
         "judge_failed": 0
       },
       "by_type": {
         "FB": {
-          "answer_score": 0.8387096774193549,
-          "rationale_score": 0.6935483870967742,
-          "ar_score": 0.6290322580645161,
+          "answer_score": 0.8709677419354839,
+          "rationale_score": 0.6612903225806451,
+          "ar_score": 0.6129032258064516,
           "count": 31,
           "count_with_rationale": 31,
-          "unsupported_correct": 0.16129032258064516,
-          "no_answer_tag": 1,
+          "unsupported_correct": 0.1935483870967742,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "MC": {
-          "answer_score": 0.890625,
-          "rationale_score": 0.875,
-          "ar_score": 0.8515625,
+          "answer_score": 0.90625,
+          "rationale_score": 0.859375,
+          "ar_score": 0.84375,
           "count": 64,
           "count_with_rationale": 64,
-          "unsupported_correct": 0.0625,
-          "no_answer_tag": 1,
+          "unsupported_correct": 0.078125,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "MS": {
@@ -1270,7 +1270,7 @@
           "count": 33,
           "count_with_rationale": 33,
           "unsupported_correct": 0.0,
-          "no_answer_tag": 1,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "OE": {
@@ -1284,13 +1284,13 @@
           "judge_failed": 0
         },
         "TF": {
-          "answer_score": 0.8924731182795699,
+          "answer_score": 0.9032258064516129,
           "rationale_score": 0.8888888888888888,
           "ar_score": 0.8861111111111111,
           "count": 93,
           "count_with_rationale": 90,
           "unsupported_correct": 0.011111111111111112,
-          "no_answer_tag": 2,
+          "no_answer_tag": 0,
           "judge_failed": 0
         }
       },
@@ -1312,17 +1312,17 @@
           "count": 20,
           "count_with_rationale": 20,
           "unsupported_correct": 0.0,
-          "no_answer_tag": 1,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Computer networks": {
-          "answer_score": 0.9444444444444444,
+          "answer_score": 0.9722222222222222,
           "rationale_score": 0.9393939393939394,
           "ar_score": 0.9393939393939394,
           "count": 36,
           "count_with_rationale": 33,
           "unsupported_correct": 0.030303030303030304,
-          "no_answer_tag": 1,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Computer vision": {
@@ -1346,23 +1346,23 @@
           "judge_failed": 0
         },
         "Data science and big data": {
-          "answer_score": 0.8947368421052632,
-          "rationale_score": 0.9166666666666666,
-          "ar_score": 0.8333333333333334,
+          "answer_score": 0.9473684210526315,
+          "rationale_score": 0.8611111111111112,
+          "ar_score": 0.8055555555555556,
           "count": 19,
           "count_with_rationale": 18,
-          "unsupported_correct": 0.05555555555555555,
-          "no_answer_tag": 1,
+          "unsupported_correct": 0.1111111111111111,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Data structures and algorithms": {
-          "answer_score": 0.7972972972972973,
-          "rationale_score": 0.7972972972972973,
-          "ar_score": 0.7432432432432432,
+          "answer_score": 0.8243243243243243,
+          "rationale_score": 0.7702702702702703,
+          "ar_score": 0.7297297297297297,
           "count": 37,
           "count_with_rationale": 37,
-          "unsupported_correct": 0.05405405405405406,
-          "no_answer_tag": 1,
+          "unsupported_correct": 0.08108108108108109,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Database systems": {
@@ -1402,7 +1402,7 @@
           "count": 32,
           "count_with_rationale": 32,
           "unsupported_correct": 0.0625,
-          "no_answer_tag": 1,
+          "no_answer_tag": 0,
           "judge_failed": 0
         },
         "Machine learning": {

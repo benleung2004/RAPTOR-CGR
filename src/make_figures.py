@@ -21,7 +21,16 @@ from common import JUDGE_DIR, QUESTION_TYPES, ROOT, judge_file, read_jsonl  # no
 SERIES = ["#2a78d6", "#eb6834", "#1baf7a"]
 SURFACE, INK, MUTED, GRID = "#fcfcfb", "#1f1f1e", "#6b6a64", "#e4e3de"
 RUNS = ["baseline", "pure", "cgr"]
-NAMES = {"baseline": "Baseline (no retrieval)", "pure": "Textbook-RAG", "cgr": "Textbook-RAG + CGR"}
+NAMES = {"baseline": "Baseline (no retrieval)", "pure": "RAPTOR-RAG", "cgr": "RAPTOR-CGR"}
+SHORT = {"pure": "RAPTOR-RAG", "cgr": "RAPTOR-CGR"}
+
+
+def use_index_labels():
+    """Textbook-chunk retrieval (no RAPTOR trees) must not be labelled RAPTOR."""
+    from make_report import retrieval_index
+    if retrieval_index() == "web":
+        NAMES.update(pure="Textbook-RAG", cgr="Textbook-RAG + CGR")
+        SHORT.update(pure="Textbook-RAG", cgr="RAG + CGR")
 METRICS = [("answer_score", "Answer accuracy"), ("rationale_score", "Rationale score"), ("ar_score", "AR score")]
 
 
@@ -80,8 +89,8 @@ def fig_overall(data, out, suffix="", title=""):
 
 def fig_differences(data, out):
     """Forest plot of paired differences with 95% bootstrap CIs, both thinking conditions."""
-    pairs = [("pure", "baseline", "Textbook-RAG − Baseline"), ("cgr", "baseline", "RAG + CGR − Baseline"),
-             ("cgr", "pure", "RAG + CGR − Textbook-RAG")]
+    pairs = [("pure", "baseline", f"{SHORT['pure']} − Baseline"), ("cgr", "baseline", f"{SHORT['cgr']} − Baseline"),
+             ("cgr", "pure", f"{SHORT['cgr']} − {SHORT['pure']}")]
     fig, axes = plt.subplots(1, 3, figsize=(10, 3.4), sharey=True)
     fig.patch.set_facecolor(SURFACE)
     for ax, (metric, label) in zip(axes, METRICS):
@@ -163,6 +172,7 @@ def main(argv=None):
     parser.add_argument("--judge", default="deepseek-v4-pro")
     parser.add_argument("--out", default=str(ROOT / "evaluation-report" / "figures"))
     args = parser.parse_args(argv)
+    use_index_labels()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     data = {r: load(r, args.judge) for r in [x + s for s in ("", "-think") for x in RUNS]

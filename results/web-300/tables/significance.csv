@@ -1,0 +1,28 @@
+Comparison,Metric,Questions,Difference,95% CI low,95% CI high,p-value,Holm p,"Significant (Holm, 0.05)"
+Textbook-RAG − LLM baseline (no retrieval),answer_score,300,0.01,-0.021666666666666667,0.041666666666666664,0.5584,1.0,no
+Textbook-RAG − LLM baseline (no retrieval),rationale_score,295,0.0,-0.03220338983050847,0.03389830508474576,1.0,1.0,no
+Textbook-RAG − LLM baseline (no retrieval),ar_score,295,-0.015254237288135594,-0.05508474576271186,0.02457627118644068,0.4568,1.0,no
+Textbook-RAG + CGR − LLM baseline (no retrieval),answer_score,300,0.006666666666666667,-0.025,0.04,0.7178,1.0,no
+Textbook-RAG + CGR − LLM baseline (no retrieval),rationale_score,295,-0.023728813559322035,-0.059322033898305086,0.011864406779661017,0.2152,1.0,no
+Textbook-RAG + CGR − LLM baseline (no retrieval),ar_score,295,-0.01440677966101695,-0.05593220338983051,0.02711864406779661,0.5136,1.0,no
+Textbook-RAG + CGR − Textbook-RAG,answer_score,300,-0.0033333333333333335,-0.02666666666666667,0.018333333333333333,0.834,1.0,no
+Textbook-RAG + CGR − Textbook-RAG,rationale_score,295,-0.023728813559322035,-0.04915254237288136,-0.001694915254237288,0.0482,0.4338,no
+Textbook-RAG + CGR − Textbook-RAG,ar_score,295,0.000847457627118644,-0.0288135593220339,0.030508474576271188,0.9648,1.0,no
+Textbook-RAG · thinking on − LLM baseline (no retrieval) · thinking on,answer_score,300,0.03666666666666667,0.008333333333333333,0.065,0.011,0.09899999999999999,no
+Textbook-RAG · thinking on − LLM baseline (no retrieval) · thinking on,rationale_score,295,0.03220338983050847,-0.011864406779661017,0.07796610169491526,0.1636,0.9816,no
+Textbook-RAG · thinking on − LLM baseline (no retrieval) · thinking on,ar_score,295,0.02457627118644068,-0.019491525423728815,0.07033898305084746,0.2786,1.0,no
+Textbook-RAG + CGR · thinking on − LLM baseline (no retrieval) · thinking on,answer_score,300,0.03,0.0,0.06166666666666667,0.056,0.448,no
+Textbook-RAG + CGR · thinking on − LLM baseline (no retrieval) · thinking on,rationale_score,295,0.022033898305084745,-0.022033898305084745,0.06610169491525424,0.3242,1.0,no
+Textbook-RAG + CGR · thinking on − LLM baseline (no retrieval) · thinking on,ar_score,295,0.03389830508474576,-0.011016949152542373,0.0788135593220339,0.134,0.9380000000000001,no
+Textbook-RAG + CGR · thinking on − Textbook-RAG · thinking on,answer_score,300,-0.006666666666666667,-0.023333333333333334,0.008333333333333333,0.4598,1.0,no
+Textbook-RAG + CGR · thinking on − Textbook-RAG · thinking on,rationale_score,295,-0.010169491525423728,-0.04576271186440678,0.025423728813559324,0.614,1.0,no
+Textbook-RAG + CGR · thinking on − Textbook-RAG · thinking on,ar_score,295,0.009322033898305085,-0.02711864406779661,0.04576271186440678,0.6324,1.0,no
+LLM baseline (no retrieval) · thinking on − LLM baseline (no retrieval),answer_score,300,-0.0016666666666666668,-0.03333333333333333,0.03,0.956,1.0,no
+LLM baseline (no retrieval) · thinking on − LLM baseline (no retrieval),rationale_score,295,-0.04576271186440678,-0.08813559322033898,-0.003389830508474576,0.0396,0.2772,no
+LLM baseline (no retrieval) · thinking on − LLM baseline (no retrieval),ar_score,295,-0.0576271186440678,-0.1016949152542373,-0.01440677966101695,0.0092,0.0828,no
+Textbook-RAG · thinking on − Textbook-RAG,answer_score,300,0.025,0.0016666666666666668,0.04833333333333333,0.0344,0.2752,no
+Textbook-RAG · thinking on − Textbook-RAG,rationale_score,295,-0.013559322033898305,-0.04915254237288136,0.022033898305084745,0.4764,1.0,no
+Textbook-RAG · thinking on − Textbook-RAG,ar_score,295,-0.017796610169491526,-0.05593220338983051,0.0211864406779661,0.3788,1.0,no
+Textbook-RAG + CGR · thinking on − Textbook-RAG + CGR,answer_score,300,0.021666666666666667,-0.0016666666666666668,0.04666666666666667,0.092,0.552,no
+Textbook-RAG + CGR · thinking on − Textbook-RAG + CGR,rationale_score,295,0.0,-0.03389830508474576,0.03389830508474576,1.0,1.0,no
+Textbook-RAG + CGR · thinking on − Textbook-RAG + CGR,ar_score,295,-0.009322033898305085,-0.044915254237288135,0.026271186440677965,0.6356,1.0,no

@@ -141,6 +141,8 @@ question/prediction pairs.
 | W9 | **RAPTOR's `split_text` deletes every `.`, `!`, `?` and line break it splits on**, so sentences lost their full stops, "6.5" became "6 5", and multi-line textbook pseudocode became one line. This also affected v1. | 🟠 | A text-preserving chunker (paragraphs, then sentences, then lines; original separators kept), used by the web index and the v2 trees, with tests. |
 | W11 | One textbook (CLRS) was extracted with the 'fi'/'fl' ligatures as 'û'/'ü' and the apostrophe as '9' ("ûrst", "üow", "Dijkstra9s"), about 5,000 broken words. | 🟡 | A per-book fix, applied only when the pattern is systematic, so genuine characters (e.g. Müller) stay. |
 | W12 | **Provider options never reached the API in the research code** (`llm.py` checked `client is None` after creating the client). DeepSeek's default thinking mode stayed on: answers were long and costly, and 35 of 300 judge replies came back empty. | 🟠 | Fixed, with a regression test that uses a real client object; the thinking-on answers were kept as a separate condition and the empty judgments were discarded. |
+| W13 | **Re-running with a new retrieval index would have silently reused old answers**: the resume logic only checked the model, so a RAPTOR run would have skipped the 300 questions already answered with the textbook-chunk index and mixed both into one table. | 🔴 | Each experiment now has its own results folder (`EXPERIMENT=…`); every answer records its retrieval index, and mixing indexes is refused (tested). |
+| W14 | In thinking mode, short replies without the `ANSWER:` tag ("A, C, D") were scored as unanswered (21 answers), and one answer looped for 22,000 characters. | 🟡 | A short one-line untagged reply is accepted as the answer (still strictly scored); answers are capped at 2,048 tokens. The main results were unaffected. |
 | W10 | A comparison with Perplexity (Claude Sonnet 5.5, reasoning) showed fast mode leaving an abandoned counterexample and a too-easy trace in a hard multi-part answer. A prompt-only fix made things worse (an accidental negative cycle). | 🟡 | **Deep reasoning mode** (DeepSeek thinking, 16k-token budget, about 45 s), which produced a fully verified answer; see [comparisons](../comparisons/shortest-paths/README.md). |
 
 ---
@@ -148,7 +150,7 @@ question/prediction pairs.
 ## Stage 9 – Leak-free evaluation (19 Nov 2026)
 
 300 stratified questions, three pipelines (Baseline, Textbook-RAG, Textbook-RAG + CGR), judged by
-`deepseek-v4-pro`, US$1.18 in total. **No statistically significant difference** between the pipelines
+`deepseek-v4-pro`, US$1.39 in total. **No statistically significant difference** between the pipelines
 (answer accuracy 0.857 / 0.867 / 0.863). The v1 gain of +12.5 points disappears once the answers cannot
 be retrieved. Full write-up: [evaluation report](../evaluation-report/README.md).
 

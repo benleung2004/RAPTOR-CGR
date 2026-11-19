@@ -14,6 +14,7 @@ Output: results/raw/<run>.jsonl, one record per question; finished questions are
 """
 
 import argparse
+import json
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -23,6 +24,14 @@ from common import (CONTEXTS_PATH, RAW_DIR, TYPE_NAMES, JsonlAppender, detect_qu
                     format_question, load_questions, load_run, option_order, read_jsonl)
 
 PIPELINES = ["baseline", "pure", "cgr", "selfcritique"]
+
+
+ANSWER_MAX_TOKENS = 2048    # caps runaway repetition loops (a real case produced 22,000 characters)
+
+
+def context_index():
+    meta = CONTEXTS_PATH.parent / "contexts_meta.json"
+    return json.loads(meta.read_text(encoding="utf-8"))["index"] if meta.exists() else "unknown"
 
 
 def run_name(pipeline, shuffle_seed=None):
@@ -35,23 +44,23 @@ def answer(pipeline, llm, qtype, question_text, context):
     if pipeline == "baseline":
         msgs = [{"role": "system", "content": prompts.BASELINE_SYSTEM},
                 {"role": "user", "content": prompts.user_prompt(name, question_text)}]
-        return llm.chat(msgs)
+        return llm.chat(msgs, max_tokens=ANSWER_MAX_TOKENS)
     if pipeline in ("pure", "selfcritique"):
         msgs = [{"role": "system", "content": prompts.RAG_SYSTEM},
                 {"role": "user", "content": prompts.user_prompt(name, question_text, context)}]
-        first, u1 = llm.chat(msgs)
+        first, u1 = llm.chat(msgs, max_tokens=ANSWER_MAX_TOKENS)
         if pipeline == "pure":
             return first, u1
         review = prompts.CRITIQUE_USER.format(question_block=prompts.question_block(name, question_text),
                                               context=context, first_answer=first,
                                               format_rules=prompts.FORMAT_RULES)
         second, u2 = llm.chat([{"role": "system", "content": prompts.CRITIQUE_SYSTEM},
-                               {"role": "user", "content": review}])
+                               {"role": "user", "content": review}], max_tokens=ANSWER_MAX_TOKENS)
         return second, {k: u1[k] + u2[k] for k in u1}
     if pipeline == "cgr":
         msgs = [{"role": "system", "content": prompts.CGR_SYSTEM},
                 {"role": "user", "content": prompts.user_prompt(name, question_text, context)}]
-        return llm.chat(msgs)
+        return llm.chat(msgs, max_tokens=ANSWER_MAX_TOKENS)
     raise ValueError(pipeline)
 
 
@@ -82,6 +91,11 @@ def main(argv=None, llm=None):
     if other_models:
         raise SystemExit(f"{out_path} already holds answers from {sorted(other_models)}; move it away "
                          f"before running with {llm.model} so that one run never mixes two models.")
+    index = "none" if args.pipeline == "baseline" else context_index()
+    other_index = {r.get("index", "unknown") for r in existing} - {index}
+    if other_index:
+        raise SystemExit(f"{out_path} already holds answers retrieved from {sorted(other_index)}, but the current "
+                         f"contexts come from '{index}'. Use a separate EXPERIMENT folder so runs never mix.")
     done = {r["idx"] for r in existing if not r.get("error")}
     wanted = set(load_sample(args.sample)) if args.sample else set(range(len(questions)))
     todo = [i for i in range(len(questions)) if i in wanted and i not in done
@@ -94,7 +108,7 @@ def main(argv=None, llm=None):
         item = questions[idx]
         qtype = detect_question_type(item)
         option_map = option_order(item, idx, args.shuffle_seed) if item.get("Choices") else None
-        record = {"idx": idx, "run": run, "pipeline": args.pipeline, "model": llm.model,
+        record = {"idx": idx, "run": run, "pipeline": args.pipeline, "model": llm.model, "index": index,
                   "type": qtype, "shuffle_seed": args.shuffle_seed, "option_map": option_map}
         try:
             text, usage = answer(args.pipeline, llm, qtype, format_question(item, option_map), contexts.get(idx))

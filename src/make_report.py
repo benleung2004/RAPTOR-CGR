@@ -192,6 +192,16 @@ def paired_bootstrap(a, b, n_boot=10_000, seed=0):
     return float(diff.mean()), float(np.percentile(boots, 2.5)), float(np.percentile(boots, 97.5)), min(1.0, float(p))
 
 
+def holm(pvalues):
+    """Holm-Bonferroni adjusted p-values (same order as the input)."""
+    order = sorted(range(len(pvalues)), key=lambda i: pvalues[i])
+    adjusted, running = [0.0] * len(pvalues), 0.0
+    for rank, i in enumerate(order):
+        running = max(running, min(1.0, (len(pvalues) - rank) * pvalues[i]))
+        adjusted[i] = running
+    return adjusted
+
+
 def significance(judged):
     """Is pipeline X really better than Y? Paired over the same questions, so question difficulty cancels."""
     rows = []
@@ -206,7 +216,17 @@ def significance(judged):
             d, lo, hi, p = paired_bootstrap([a[i][metric] for i in idx], [b[i][metric] for i in idx])
             rows.append({"Comparison": f"{run_label(x)} − {run_label(y)}", "Metric": metric,
                          "Questions": len(idx), "Difference": d, "95% CI low": lo, "95% CI high": hi,
-                         "p-value": p, "Significant (p<0.05)": "yes" if p < 0.05 else "no"})
+                         "p-value": p})
+    # Holm correction within each family: comparisons inside one condition, and the thinking effect
+    families = {}
+    for r in rows:
+        key = "thinking effect" if r["Comparison"].count("thinking on") == 1 else (
+            "thinking on" if "thinking on" in r["Comparison"] else "main")
+        families.setdefault(key, []).append(r)
+    for fam in families.values():
+        for r, adj in zip(fam, holm([r["p-value"] for r in fam])):
+            r["Holm p"] = adj
+            r["Significant (Holm, 0.05)"] = "yes" if adj < 0.05 else "no"
     return rows
 
 

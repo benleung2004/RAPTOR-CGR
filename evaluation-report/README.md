@@ -1,6 +1,6 @@
 # Evaluation report: textbook retrieval and CGR on 300 GraphRAG-Bench questions
 
-*Run 19 Nov 2026 · answering model `deepseek-flash` · judge `deepseek-v4-pro` · total API cost US$1.18*
+*Run 19 Nov 2026 · answering model `deepseek-flash` · judge `deepseek-v4-pro` · total API cost US$1.39*
 
 ## Abstract
 
@@ -26,10 +26,10 @@ explained by the leakage, not by the method.
 | Answering model | DeepSeek `deepseek-flash`, temperature 0, **thinking mode off** (main condition) |
 | Retrieval corpus | 20 GraphRAG-Bench textbooks, 55,539 chunks, `multilingual-e5-small`, top 6 passages. **No RAPTOR summary trees** (budget), so the RAG pipelines are named Textbook-RAG, not RAPTOR |
 | Prompts | One shared output format; each pipeline adds exactly one ingredient ([prompts.py](../src/prompts.py)) |
-| Judge | DeepSeek `deepseek-v4-pro` (a larger model than the answering model), thinking off, JSON replies. Every judgment is stored ([results/judgments](../results/judgments)) |
+| Judge | DeepSeek `deepseek-v4-pro` (a larger model than the answering model), thinking off, JSON replies. Every judgment is stored ([results/web-300/judgments](../results/web-300/judgments)) |
 | Metrics | GraphRAG-Bench answer score, rationale score and AR score ([how an answer is checked](../README.md#how-an-answer-is-checked)) |
 | Statistics | Paired bootstrap (10,000 resamples) with 95% CIs; Holm correction within each family of 9 comparisons |
-| Leakage audit | Expert rationale found in the retrieved context for **1.0%** of questions (v1: 96.8%). These are sentences the textbooks themselves contain ([leakage.json](../results/leakage.json)) |
+| Leakage audit | Expert rationale found in the retrieved context for **1.0%** of questions (v1: 96.8%). These are sentences the textbooks themselves contain ([leakage.json](../results/web-300/leakage.json)) |
 
 Secondary condition: the same three pipelines with DeepSeek's **thinking mode on**. These answers were
 produced first, by mistake, because of a bug that dropped the "thinking off" option (fixed and covered
@@ -101,18 +101,22 @@ the answers are no longer retrievable.
 
 | Pipeline (thinking on) | Answer | Rationale | AR | Correct but wrong rationale | No `ANSWER:` tag |
 |---|---|---|---|---|---|
-| Baseline | 0.847 | 0.824 | 0.775 | 5.8% | 3 |
-| Textbook-RAG | 0.865 | 0.876 | 0.809 | 3.4% | 13 |
-| Textbook-RAG + CGR | 0.875 | 0.846 | 0.809 | 3.7% | 5 |
+| Baseline | 0.855 | 0.817 | 0.771 | 6.4% | 0 |
+| Textbook-RAG | 0.892 | 0.849 | 0.796 | 6.1% | 0 |
+| Textbook-RAG + CGR | 0.885 | 0.839 | 0.805 | 4.4% | 0 |
 
 ![Thinking on](figures/fig5_overall_thinking_on.png)
 
-With hidden reasoning, the baseline's visible rationale is weaker: its AR is 5.4 points below the
-thinking-off baseline (nominal p = 0.012, Holm 0.11). "Correct answer but wrong rationale" rises from
-1% to 6%. Retrieval then improves the rationale score by +5.3 (nominal p = 0.015, Holm 0.14). This
-suggests that textbook passages help most when the model's own reasoning is hidden, but the evidence is
-not conclusive. Thinking mode also broke the output format more often (up to 13 answers without an
-`ANSWER:` tag, which are scored as unanswered).
+With hidden reasoning, the baseline's visible rationale is weaker: its AR is 5.8 points below the
+thinking-off baseline (nominal p = 0.009, Holm 0.08). "Correct answer but wrong rationale" rises from
+about 1% to 4–6%. In this condition retrieval raises answer accuracy by +3.7 points (nominal
+p = 0.011, Holm 0.10), the largest effect in the study, but it is still not significant after correction.
+Textbook passages may help most when the model reasons privately; this deserves a dedicated test.
+
+*Correction (same day):* in thinking mode DeepSeek sometimes returned only the bare answer (e.g.
+`A, C, D`) without the `ANSWER:` tag. These 21 answers were first scored as unanswered. The parser now
+accepts a short one-line untagged reply as the answer, and they were re-judged. The main
+(thinking-off) results were not affected: none of their answers lacked a tag for this reason.
 
 ## 3. Discussion
 
@@ -142,6 +146,7 @@ not conclusive. Thinking mode also broke the output format more often (up to 13 
 ## 5. Reproduce
 
 ```bash
+export EXPERIMENT=web-300            # everything below reads/writes results/web-300/
 python src/make_sample.py --n 300 --seed 42
 python src/retrieval.py --index web && python src/check_leakage.py --index web
 for p in baseline pure cgr; do python src/run_pipeline.py --pipeline $p --sample data/samples/sample_300_seed42.json; done
@@ -149,8 +154,10 @@ JUDGE_MODEL=deepseek-v4-pro python src/evaluate.py
 python src/make_report.py --judge deepseek-v4-pro && python src/make_figures.py
 ```
 
-Raw answers: [`results/raw/`](../results/raw). Per-question judgments: [`results/judgments/`](../results/judgments).
-All tables (CSV and Excel): [`results/tables/`](../results/tables).
+Raw answers: [`results/web-300/raw/`](../results/web-300/raw). Per-question judgments:
+[`results/web-300/judgments/`](../results/web-300/judgments). All tables (CSV and Excel), with Holm-adjusted
+p-values: [`results/web-300/tables/`](../results/web-300/tables).
 
-**Cost:** US$1.18 in total (DeepSeek balance 1.97 → 0.79). That is answering US$0.53 (both conditions)
-+ judging US$0.43 + one invalid judging pass of US$0.22, discarded because of the bug described in §1.
+**Cost:** US$1.39 in total (DeepSeek balance 1.97 → 0.58, read after the usage page had caught up).
+The per-run token estimates in `token_usage.csv` add up to about US$1.13 for the kept runs; the rest is
+the invalid judging pass discarded because of the bug described in §1, plus the pilot.
