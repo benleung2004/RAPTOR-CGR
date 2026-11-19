@@ -91,7 +91,10 @@ cp .env.example .env              # add an API key (any OpenAI-compatible endpoi
 ```bash
 export EXPERIMENT=raptor-1018                      # each experiment gets its own results/<name>/ folder
 python src/download_data.py                        # 20 textbooks (~36 MB); verifies the 1,018 questions
-python src/build_tree.py                           # RAPTOR trees + index (resumable)
+python src/build_tree.py                           # RAPTOR trees + index (resumable, ~US$2)
+# or skip building: download the pre-built trees used in the final evaluation (verified checksums)
+#   gh release download raptor-trees-2026-11-19 -R benleung2004/RAPTOR-CGR && shasum -a 256 -c SHA256SUMS.txt
+#   tar -xzf raptor-index.tar.gz && tar -xzf raptor-trees.tar.gz
 python src/retrieval.py                            # retrieved context for every question
 python src/check_leakage.py                        # proves no answer key is retrievable
 python src/run_pipeline.py --pipeline baseline

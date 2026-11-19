@@ -51,7 +51,8 @@ RAPTOR-CGR/
 │   ├── textbooks/                the 20 textbooks (Markdown, from GraphRAG-Bench)
 │   ├── web_index/                55,539 chunks + embeddings used by the tutor and the budget evaluation
 │   ├── samples/                  question samples (e.g. sample_300_seed42.json)
-│   ├── trees/, index/            RAPTOR trees (469 MB) and flat index (235 MB): too large for git, kept locally
+│   ├── trees/, index/            RAPTOR trees (469 MB) and flat index (235 MB): too large for git;
+│   │                             backed up in GitHub Release raptor-trees-2026-11-19
 │
 ├── results/
 │   ├── web-300/                  the leak-free 300-question evaluation (EXPERIMENT=web-300)
