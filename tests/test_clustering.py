@@ -44,6 +44,29 @@ class SafeClustering(unittest.TestCase):
         self.assertGreater(len(safe), 2)                                          # recursion did happen
 
 
+class GmmFailures(unittest.TestCase):
+    def test_retry_then_success(self):
+        calls = {"n": 0}
+
+        def flaky(emb, dim, threshold):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                raise ValueError("Fitting the mixture model failed because some components have ill-defined covariance")
+            return [np.array([0]) for _ in range(len(emb))]
+        with mock.patch.object(cluster_utils, "perform_clustering", flaky):
+            groups = build_tree.SafeRAPTORClustering.perform_clustering(nodes(5, words=5), "EMB")
+        self.assertEqual((calls["n"], len(groups)), (2, 1))
+
+    def test_always_failing_falls_back_to_order(self):
+        def broken(emb, dim, threshold):
+            raise np.linalg.LinAlgError("not positive definite")
+        before = build_tree.SafeRAPTORClustering.FALLBACKS
+        with mock.patch.object(cluster_utils, "perform_clustering", broken):
+            groups = build_tree.SafeRAPTORClustering.perform_clustering(nodes(100), "EMB")
+        self.assertEqual([n.index for g in groups for n in g], list(range(100)))
+        self.assertEqual(build_tree.SafeRAPTORClustering.FALLBACKS, before + 1)
+
+
 class Duplicates(unittest.TestCase):
     def test_identical_clusters_are_kept_once(self):
         # every node gets labels 0..9, i.e. the same member set ten times

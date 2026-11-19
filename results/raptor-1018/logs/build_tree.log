@@ -16765,3 +16765,64 @@
 2026-11-19 19:52:54,135 - textbook15: clustering and summarising...
 2026-11-19 19:52:54,136 - Using Cluster TreeBuilder
 2026-11-19 19:52:54,136 - Constructing Layer 0
+2026-11-19 20:08:30,634 - No device provided, using mps
+2026-11-19 20:08:31,022 - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2 "HTTP/1.1 200 OK"
+2026-11-19 20:08:31,025 - Loading SentenceTransformer model from sentence-transformers/all-MiniLM-L6-v2.
+2026-11-19 20:08:31,339 - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-11-19 20:08:31,573 - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-11-19 20:08:31,837 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/2_Normalize/config.json "HTTP/1.1 404 Not Found"
+2026-11-19 20:08:31,837 - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-11-19 20:08:32,781 - Loading faiss.
+2026-11-19 20:08:32,817 - Successfully loaded faiss.
+2026-11-19 20:08:32,834 - textbook1: already built, skipped
+2026-11-19 20:08:32,834 - textbook2: already built, skipped
+2026-11-19 20:08:32,834 - textbook3: already built, skipped
+2026-11-19 20:08:32,834 - textbook4: already built, skipped
+2026-11-19 20:08:32,834 - textbook5: already built, skipped
+2026-11-19 20:08:32,834 - textbook6: already built, skipped
+2026-11-19 20:08:32,834 - textbook7: already built, skipped
+2026-11-19 20:08:32,834 - textbook8: already built, skipped
+2026-11-19 20:08:32,834 - textbook9: already built, skipped
+2026-11-19 20:08:32,834 - textbook10: already built, skipped
+2026-11-19 20:08:32,834 - textbook11: already built, skipped
+2026-11-19 20:08:32,834 - textbook12: already built, skipped
+2026-11-19 20:08:32,834 - textbook13: already built, skipped
+2026-11-19 20:08:32,834 - textbook14: already built, skipped
+2026-11-19 20:08:32,835 - Successfully initialized TreeBuilder with Config 
+        TreeBuilderConfig:
+            Tokenizer: <Encoding 'cl100k_base'>
+            Max Tokens: 100
+            Num Layers: 2
+            Threshold: 0.5
+            Top K: 5
+            Selection Mode: top_k
+            Summarization Length: 100
+            Summarization Model: <__main__.make_summarizer.<locals>.Summarizer object at 0x135ed2310>
+            Embedding Models: {'EMB': <__main__.make_embedder.<locals>.Embedder object at 0x1361bc210>}
+            Cluster Embedding Model: EMB
+        
+        Reduction Dimension: 10
+        Clustering Algorithm: SafeRAPTORClustering
+        Clustering Parameters: {}
+        
+2026-11-19 20:08:32,835 - Successfully initialized ClusterTreeBuilder with Config 
+        TreeBuilderConfig:
+            Tokenizer: <Encoding 'cl100k_base'>
+            Max Tokens: 100
+            Num Layers: 2
+            Threshold: 0.5
+            Top K: 5
+            Selection Mode: top_k
+            Summarization Length: 100
+            Summarization Model: <__main__.make_summarizer.<locals>.Summarizer object at 0x135ed2310>
+            Embedding Models: {'EMB': <__main__.make_embedder.<locals>.Embedder object at 0x1361bc210>}
+            Cluster Embedding Model: EMB
+        
+        Reduction Dimension: 10
+        Clustering Algorithm: SafeRAPTORClustering
+        Clustering Parameters: {}
+        
+2026-11-19 20:08:33,564 - textbook15: 11561 chunks, embedding...
+2026-11-19 20:08:45,638 - textbook15: clustering and summarising...
+2026-11-19 20:08:45,638 - Using Cluster TreeBuilder
+2026-11-19 20:08:45,638 - Constructing Layer 0

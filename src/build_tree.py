@@ -97,11 +97,14 @@ class SafeRAPTORClustering:
 
     Upstream RAPTOR reclusters any cluster longer than max_length_in_cluster by calling itself.
     When GMM cannot split a cluster (it comes back whole), that recursion never ends and crashes
-    with RecursionError - this happened on CLRS. Here such a cluster, or one still too long after
+    with RecursionError - this happened on CLRS. GMM can also fail outright on near-identical points
+    (ill-defined covariance); UMAP is random, so the step is retried, then grouped by order. Here such a cluster, or one still too long after
     MAX_DEPTH levels, is split into consecutive groups under the length limit instead, and clusters
     with exactly the same members are kept once.
     """
     MAX_DEPTH = 30
+    RETRIES = 3
+    FALLBACKS = 0
 
     @staticmethod
     def perform_clustering(nodes, embedding_model_name, max_length_in_cluster=3500, tokenizer=None,
@@ -110,7 +113,18 @@ class SafeRAPTORClustering:
         from raptor.cluster_utils import perform_clustering
         tokenizer = tokenizer or tiktoken.get_encoding("cl100k_base")
         embeddings = np.array([node.embeddings[embedding_model_name] for node in nodes])
-        clusters = perform_clustering(embeddings, dim=reduction_dimension, threshold=threshold)
+        clusters = None
+        for attempt in range(SafeRAPTORClustering.RETRIES):
+            try:
+                clusters = perform_clustering(embeddings, dim=reduction_dimension, threshold=threshold)
+                break
+            except (ValueError, np.linalg.LinAlgError) as e:
+                # GMM fails on collapsed (near-identical) points; UMAP is random, so a retry usually works
+                log.warning(f"clustering {len(nodes)} nodes failed (attempt {attempt + 1}): {str(e)[:80]}")
+        if clusters is None:
+            SafeRAPTORClustering.FALLBACKS += 1
+            log.warning(f"clustering {len(nodes)} nodes failed {SafeRAPTORClustering.RETRIES} times: grouped by order")
+            return split_by_length(nodes, max_length_in_cluster, tokenizer)
         node_clusters = []
         for label in np.unique(np.concatenate(clusters)):
             cluster_nodes = [nodes[i] for i, c in enumerate(clusters) if label in c]
@@ -222,7 +236,8 @@ def main(argv=None, llm=None):
         build(book)
 
     write_index(sorted(TREE_DIR.glob("textbook*.pkl"), key=lambda p: int(p.stem[8:])))
-    log.info(f"Summariser usage: {llm.usage_summary()} | fallback summaries: {summarizer.failures}")
+    log.info(f"Summariser usage: {llm.usage_summary()} | fallback summaries: {summarizer.failures} | "
+             f"clustering fallbacks: {SafeRAPTORClustering.FALLBACKS}")
 
 
 if __name__ == "__main__":
