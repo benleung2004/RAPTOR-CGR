@@ -1,0 +1,5 @@
+Run,Questions,Answer tokens in,Answer tokens out,Judge tokens in,Judge tokens out,Est. USD (off-peak),Est. USD (peak)
+baseline,1018,162998,135985,383355,8116,0.3751,0.7502
+pure,1018,1014066,123267,368411,8110,0.4853,0.9706
+cgr,1018,1118920,187437,432476,8112,0.5818,1.1636
+cgr-shuffle1,328,369552,47480,0,0,0.0839,0.1678

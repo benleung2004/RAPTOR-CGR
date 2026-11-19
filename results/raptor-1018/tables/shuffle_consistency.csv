@@ -1,0 +1,2 @@
+Pipeline,Shuffled run,MC+MS questions,Accuracy (original order),Accuracy (shuffled),Correct in both orders,Same choice in both orders
+RAPTOR-CGR,cgr-shuffle1,328,0.8719512195121951,0.8597560975609756,0.8048780487804879,0.9024390243902439

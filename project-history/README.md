@@ -152,14 +152,29 @@ question/prediction pairs.
 300 stratified questions, three pipelines (Baseline, Textbook-RAG, Textbook-RAG + CGR), judged by
 `deepseek-v4-pro`, US$1.39 in total. **No statistically significant difference** between the pipelines
 (answer accuracy 0.857 / 0.867 / 0.863). The v1 gain of +12.5 points disappears once the answers cannot
-be retrieved. Full write-up: [evaluation report](../evaluation-report/README.md).
+be retrieved. Full write-up: [budget study](../evaluation-report/web-300/README.md).
+
+## Stage 10 – Final RAPTOR evaluation on all 1,018 questions (19 Nov 2026)
+
+RAPTOR trees were built over the 20 textbooks (128,030 nodes). All 1,018 questions were answered by
+Baseline, RAPTOR-RAG and RAPTOR-CGR, re-asked with shuffled options, and judged by `deepseek-v4-pro`
+(US$3.62). **No significant overall difference** (answer 0.886 / 0.888 / 0.895). Retrieval significantly
+hurts open-ended answers (AR −7.6, Holm p = 0.012) and helps fill-in-blank and true/false questions.
+[Final report](../evaluation-report/raptor-1018/README.md).
+
+Two upstream RAPTOR failures surfaced on CLRS during this run:
+
+| # | Problem | Severity | Fix |
+|---|---|---|---|
+| W15 | RAPTOR's clustering recursed forever when GMM could not split a cluster (RecursionError), and GMM soft labels repeated one 116-node cluster 1,239 times (3,600 instead of about 800 summaries for one book). | 🔴 | Guarded clustering: identical to upstream normally (tested); unsplittable clusters are grouped by text order and duplicate clusters are kept once. |
+| W16 | GMM crashed on near-identical points ("ill-defined empirical covariance"); UMAP is random, so offline checks passed but the real run failed. | 🟠 | Retry clustering (new UMAP draw), then group by order; counted in the log (0 fallbacks needed in the final run). |
 
 ## Where the project stands
 
 | Part | Status |
 |---|---|
 | v1 (submitted) | Code and results reproducible (`results/v1/`, tag `v1-submitted`). The RAPTOR numbers are inflated by C1 and should not be read as a measure of reasoning ability. |
-| v2 experiment | Code complete and tested. Leak-free 300-question evaluation done (no significant gain from retrieval or CGR with `deepseek-flash`); RAPTOR-tree version not run yet (about US$2–4). |
+| v2 experiment | **Done.** Leak-free evaluation of all 1,018 questions with RAPTOR trees, plus a 300-question budget study. Retrieval and CGR give no significant overall gain over a strong 2026 baseline. |
 | Web tutor | Works locally with DeepSeek over the 20 textbooks: Chinese/English questions, fast mode (first words in about 0.7–1.8 s, typical answers in 3–11 s) and deep mode (about 45 s), with citations, maths, pseudocode and "open in textbook" links. |
 
 ## Lessons

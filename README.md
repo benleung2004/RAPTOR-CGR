@@ -4,7 +4,7 @@
 COMP4913 Capstone Project, Department of Computing, The Hong Kong Polytechnic University (2026)
 Leung Wai Kit (22094868D) · Supervisor: Dr HUANG Xiao
 
-📄 [Final report](docs/FYP_Final_Report_22094868D.pdf) · 🖥️ [Presentation](docs/FYP_Presentation.pdf) · 📝 [Summary](docs/FYP_Summary_22094868D.docx) · 🧭 [Project history: problems found and how they were fixed](project-history/README.md) · ⚖️ [Comparison with Perplexity](comparisons/README.md) · 🗺️ [Project structure and flowcharts](project-structure/README.md) · 📊 [Evaluation report (300 questions)](evaluation-report/README.md)
+📄 [Final report](docs/FYP_Final_Report_22094868D.pdf) · 🖥️ [Presentation](docs/FYP_Presentation.pdf) · 📝 [Summary](docs/FYP_Summary_22094868D.docx) · 🧭 [Project history: problems found and how they were fixed](project-history/README.md) · ⚖️ [Comparison with Perplexity](comparisons/README.md) · 🗺️ [Project structure and flowcharts](project-structure/README.md) · 📊 [Final evaluation (1,018 questions)](evaluation-report/raptor-1018/README.md)
 
 ---
 
@@ -12,18 +12,19 @@ LLMs often give fluent answers to university-level computer science questions wi
 [RAPTOR](https://arxiv.org/abs/2401.18059) hierarchical retrieval over CS textbooks with **chain-of-thought prompting** and
 **context grounding**. It is evaluated on all **1,018 questions** of [GraphRAG-Bench](https://arxiv.org/abs/2506.02404), which covers 16 CS topics and 5 question types.
 
-## Latest results (v2, leak-free, 300 questions)
+## Latest results (v2, leak-free, all 1,018 questions, RAPTOR trees)
 
 | Pipeline (DeepSeek `deepseek-flash`, judged by `deepseek-v4-pro`) | Answer accuracy | Rationale | AR |
 |---|---|---|---|
-| Baseline (no retrieval) | 0.857 | 0.863 | 0.829 |
-| Textbook-RAG | 0.867 | 0.863 | 0.814 |
-| Textbook-RAG + CGR | 0.863 | 0.839 | 0.814 |
+| Baseline (no retrieval) | 0.886 | 0.873 | 0.838 |
+| RAPTOR-RAG | 0.888 | 0.863 | 0.820 |
+| RAPTOR-CGR | 0.895 | 0.864 | 0.827 |
 
-With the answer leakage removed, **no difference is statistically significant** (paired bootstrap,
-Holm-corrected; the sample can detect effects of about 5 points). The large gains in the submitted
-report (+12.5 answer / +16.0 AR) came from the leakage. See the [evaluation report](evaluation-report/README.md)
-for the figures, per-type results, a thinking-mode experiment and threats to validity.
+With the answer leakage removed, **no overall difference is statistically significant** (paired
+bootstrap, Holm-corrected; detectable effect about 2.5–3 points). Retrieval helps fill-in-blank and
+true/false questions but significantly hurts open-ended answers, where the model drifts toward the
+retrieved passage. The large gains in the submitted report (+12.5 answer / +16.0 AR) came from the
+leakage. Full write-up with figures: [final evaluation report](evaluation-report/raptor-1018/README.md).
 
 ## Versions
 
@@ -236,10 +237,10 @@ python -m unittest discover tests
 
 These need money, a long-running server or more time, so they are not done yet:
 
-1. **Full v2 evaluation with RAPTOR trees:** a leak-free 300-question evaluation without RAPTOR summaries
-   is done ([report](evaluation-report/README.md)). Still to do: build the RAPTOR trees (about US$2–4,
-   one-off), rerun the same 300 questions (and ideally all 1,018) with `--index raptor`, add the shuffle
-   check, and add a second judge from another model family.
+1. **Evaluation follow-ups:** the full leak-free RAPTOR evaluation is done
+   ([report](evaluation-report/raptor-1018/README.md)). Still open: a second judge from another model
+   family, and *selective retrieval* (retrieve for factual/terminology questions only), which the
+   per-type results suggest.
 2. **RAPTOR answers in the web tutor:** add the RAPTOR cluster summaries to the web index, so that
    broad questions can use chapter-level summaries (≈ US$2 of summarisation, or about two weeks on free quotas).
 3. **Always-on hosting:** move from a Mac + Cloudflare Tunnel to a small VPS (about US$4–6/month)

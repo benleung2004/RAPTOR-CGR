@@ -1,0 +1,4 @@
+Pipeline,n,Answer accuracy,Rationale score,AR score,Unsupported correct
+LLM baseline (no retrieval),1018,0.8860510805500982,0.8725,0.83825,0.014
+RAPTOR-RAG,1018,0.888015717092338,0.8625,0.8195,0.017
+RAPTOR-CGR,1018,0.8953831041257367,0.8635,0.82725,0.013

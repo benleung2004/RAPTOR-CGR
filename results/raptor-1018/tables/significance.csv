@@ -1,0 +1,10 @@
+Comparison,Metric,Questions,Difference,95% CI low,95% CI high,p-value,Holm p,"Significant (Holm, 0.05)"
+RAPTOR-RAG − LLM baseline (no retrieval),answer_score,1018,0.0019646365422396855,-0.015225933202357564,0.019646365422396856,0.8528,1.0,no
+RAPTOR-RAG − LLM baseline (no retrieval),rationale_score,1000,-0.01,-0.02801249999999999,0.009,0.302,1.0,no
+RAPTOR-RAG − LLM baseline (no retrieval),ar_score,1000,-0.01875,-0.03975,0.003,0.0924,0.8316,no
+RAPTOR-CGR − LLM baseline (no retrieval),answer_score,1018,0.009332023575638507,-0.0073673870333988214,0.026522593320235755,0.297,1.0,no
+RAPTOR-CGR − LLM baseline (no retrieval),rationale_score,1000,-0.009,-0.0275,0.009,0.343,1.0,no
+RAPTOR-CGR − LLM baseline (no retrieval),ar_score,1000,-0.011,-0.03225,0.00975,0.2998,1.0,no
+RAPTOR-CGR − RAPTOR-RAG,answer_score,1018,0.0073673870333988214,-0.0054027504911591355,0.019646365422396856,0.2692,1.0,no
+RAPTOR-CGR − RAPTOR-RAG,rationale_score,1000,0.001,-0.0145,0.016,0.9428,1.0,no
+RAPTOR-CGR − RAPTOR-RAG,ar_score,1000,0.00775,-0.0085,0.02375,0.379,1.0,no

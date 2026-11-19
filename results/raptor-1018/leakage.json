@@ -1,0 +1,21 @@
+{
+  "questions": 1018,
+  "checked_rationales": 986,
+  "checked_questions": 1003,
+  "rationale_in_context": 8,
+  "rationale_in_corpus": 14,
+  "question_in_context": 220,
+  "rationale_in_context_rate": 0.0081,
+  "rationale_in_corpus_rate": 0.0142,
+  "question_in_context_rate": 0.2193,
+  "flagged_question_idx": [
+    12,
+    81,
+    85,
+    163,
+    427,
+    493,
+    794,
+    924
+  ]
+}

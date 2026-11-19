@@ -15,7 +15,7 @@ import numpy as np
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
-from common import JUDGE_DIR, QUESTION_TYPES, ROOT, judge_file, read_jsonl  # noqa: E402
+from common import EXPERIMENT, JUDGE_DIR, QUESTION_TYPES, ROOT, judge_file, read_jsonl  # noqa: E402
 
 # Validated categorical palette (slots 1-3, light surface); text never uses series colours.
 SERIES = ["#2a78d6", "#eb6834", "#1baf7a"]
@@ -173,7 +173,7 @@ def fig_v1_vs_v2(data, out):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--judge", default="deepseek-v4-pro")
-    parser.add_argument("--out", default=str(ROOT / "evaluation-report" / "figures"))
+    parser.add_argument("--out", default=str(ROOT / "evaluation-report" / EXPERIMENT / "figures" if EXPERIMENT else ROOT / "evaluation-report" / "figures"))
     args = parser.parse_args(argv)
     use_index_labels()
     out = Path(args.out)

@@ -32,7 +32,7 @@ RAPTOR-CGR/
 │   ├── run_pipeline.py           answer questions: baseline | pure | cgr | selfcritique (+ --sample, --shuffle-seed)
 │   ├── evaluate.py               LLM-judge every answer -> results/<experiment>/judgments/
 │   ├── make_report.py            scores, tables, significance, guessing checks, cost -> results/
-│   ├── make_figures.py           report figures (PNG) -> evaluation-report/figures/
+│   ├── make_figures.py           report figures (PNG) -> evaluation-report/<experiment>/figures/
 │   └── chat_engine.py            web tutor engine: search, grounded prompt, streaming, fallback, deep mode
 │
 ├── web/                          the CS Textbook Tutor website
@@ -51,7 +51,7 @@ RAPTOR-CGR/
 │   ├── textbooks/                the 20 textbooks (Markdown, from GraphRAG-Bench)
 │   ├── web_index/                55,539 chunks + embeddings used by the tutor and the budget evaluation
 │   ├── samples/                  question samples (e.g. sample_300_seed42.json)
-│   ├── trees/, index/            RAPTOR trees and flat index (built by build_tree.py; not committed)
+│   ├── trees/, index/            RAPTOR trees (469 MB) and flat index (235 MB): too large for git, kept locally
 │
 ├── results/
 │   ├── web-300/                  the leak-free 300-question evaluation (EXPERIMENT=web-300)
@@ -60,6 +60,7 @@ RAPTOR-CGR/
 │   │   ├── raw/                  answers (thinking off; *-think = thinking on)
 │   │   ├── judgments/            per-question scores from the deepseek-v4-pro judge
 │   │   └── tables/, scores.json  all result tables (CSV, Excel, summary.md) with Holm p-values
+│   ├── raptor-1018/              FINAL experiment: same layout (contexts, raw, judgments, tables)
 │   ├── <experiment>/             any new run: EXPERIMENT=<name> python src/... (never mixes with others)
 │   └── v1/                       everything from the submitted version (tag v1-submitted)
 │       ├── raw/                  model outputs of the 4 v1 pipelines
@@ -67,7 +68,7 @@ RAPTOR-CGR/
 │       ├── scores.json, tables/  the numbers in the final report
 │       └── question_tree.pkl     v1 RAPTOR tree (built from benchmark items: the leakage)
 │
-├── tests/                        76 offline tests (no API key needed)
+├── tests/                        86 offline tests (no API key needed)
 │   ├── test_scoring.py           parsing, normalisation, MS partial credit, shuffles, AR
 │   ├── test_cleaning.py          cleaning keeps every textbook; chunking keeps text; PDF artifacts
 │   ├── test_retrieval.py         fast retriever == RAPTOR's own retriever
@@ -79,7 +80,9 @@ RAPTOR-CGR/
 ├── comparisons/                  tutor vs other AI assistants
 │   └── shortest-paths/           vs Perplexity (Claude Sonnet 5.5 reasoning), with verify.py
 │
-├── evaluation-report/            leak-free 300-question evaluation: academic write-up + figures
+├── evaluation-report/            academic write-ups + figures
+│   ├── raptor-1018/              FINAL: RAPTOR trees, all 1,018 questions
+│   └── web-300/                  budget study: textbook chunks, 300 questions
 ├── project-history/              every stage, problem, severity and fix (proposal -> v2)
 ├── project-structure/            this page
 └── docs/                         final report, presentation, summary
