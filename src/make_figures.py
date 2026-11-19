@@ -98,7 +98,9 @@ def fig_differences(data, out):
         ax.yaxis.grid(False)
         ax.xaxis.grid(True, color=GRID, linewidth=0.8)
         ax.axvline(0, color=MUTED, linewidth=1)
-        for c, (suffix, cond) in enumerate([("", "thinking off"), ("-think", "thinking on")]):
+        conditions = [(sfx, name) for sfx, name in [("", "thinking off"), ("-think", "thinking on")]
+                      if all(r + sfx in data for r in RUNS)]
+        for c, (suffix, cond) in enumerate(conditions):
             for p, (x, y, _) in enumerate(pairs):
                 a, b = data[x + suffix], data[y + suffix]
                 idx = [i for i in a if a[i].get(metric) is not None and b.get(i, {}).get(metric) is not None]
@@ -113,7 +115,8 @@ def fig_differences(data, out):
     axes[0].set_yticks(range(3), [p[2] for p in pairs], color=INK, fontsize=9)
     axes[0].invert_yaxis()
     fig.legend(frameon=False, fontsize=9, loc="upper right", labelcolor=INK, ncol=2)
-    fig.suptitle("Paired differences on the same 300 questions (95% bootstrap CI; crossing 0 = not significant)",
+    n = len(data["baseline"])
+    fig.suptitle(f"Paired differences on the same {n} questions (95% bootstrap CI; crossing 0 = not significant)",
                  color=INK, fontsize=10.5, x=0.02, ha="left", y=1.04)
     save(fig, out)
 
@@ -152,7 +155,7 @@ def fig_v1_vs_v2(data, out):
     style(ax)
     width = 0.34
     for k, (label, gains) in enumerate([("v1: corpus = benchmark items (answers leaked)", v1_gain),
-                                        ("v2: corpus = 20 textbooks (no leakage)", v2_gain)]):
+                                        (f"v2: corpus = 20 textbooks, no leakage ({len(data['baseline'])} questions)", v2_gain)]):
         for m_i, (m, _) in enumerate(METRICS):
             x = m_i + (k - 0.5) * (width + 0.03)
             ax.bar(x, gains[m] * 100, width, color=SERIES[k], label=label if m_i == 0 else None, zorder=2)
@@ -177,12 +180,17 @@ def main(argv=None):
     out.mkdir(parents=True, exist_ok=True)
     data = {r: load(r, args.judge) for r in [x + s for s in ("", "-think") for x in RUNS]
             if judge_file(r, args.judge).exists()}
-    fig_overall(data, out / "fig1_overall.png", "", "Overall scores, 300 questions (thinking off, 95% bootstrap CI)")
+    missing = [r for r in RUNS if r not in data]
+    if missing:
+        raise SystemExit(f"No judgments for {missing} with judge {args.judge} - run src/evaluate.py first.")
+    n = len(data["baseline"])
+    fig_overall(data, out / "fig1_overall.png", "", f"Overall scores, {n} questions (thinking off, 95% bootstrap CI)")
     fig_differences(data, out / "fig2_paired_differences.png")
     fig_by_type(data, out / "fig3_ar_by_type.png")
     fig_v1_vs_v2(data, out / "fig4_v1_vs_v2_gain.png")
-    fig_overall(data, out / "fig5_overall_thinking_on.png", "-think",
-                "Overall scores, 300 questions (thinking on, 95% bootstrap CI)")
+    if all(r + "-think" in data for r in RUNS):
+        fig_overall(data, out / "fig5_overall_thinking_on.png", "-think",
+                    f"Overall scores, {n} questions (thinking on, 95% bootstrap CI)")
 
 
 if __name__ == "__main__":
