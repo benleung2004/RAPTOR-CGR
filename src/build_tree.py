@@ -77,6 +77,67 @@ def make_embedder(model):
     return Embedder()
 
 
+def split_by_length(nodes, max_tokens, tokenizer):
+    """Consecutive groups of nodes, each at most max_tokens of text (at least one node per group)."""
+    groups, current, size = [], [], 0
+    for node in nodes:
+        n = len(tokenizer.encode(node.text))
+        if current and size + n > max_tokens:
+            groups.append(current)
+            current, size = [], 0
+        current.append(node)
+        size += n
+    if current:
+        groups.append(current)
+    return groups
+
+
+class SafeRAPTORClustering:
+    """RAPTOR_Clustering with a termination guard (otherwise identical).
+
+    Upstream RAPTOR reclusters any cluster longer than max_length_in_cluster by calling itself.
+    When GMM cannot split a cluster (it comes back whole), that recursion never ends and crashes
+    with RecursionError - this happened on CLRS. Here such a cluster, or one still too long after
+    MAX_DEPTH levels, is split into consecutive groups under the length limit instead, and clusters
+    with exactly the same members are kept once.
+    """
+    MAX_DEPTH = 30
+
+    @staticmethod
+    def perform_clustering(nodes, embedding_model_name, max_length_in_cluster=3500, tokenizer=None,
+                           reduction_dimension=10, threshold=0.1, verbose=False, _depth=0):
+        import tiktoken
+        from raptor.cluster_utils import perform_clustering
+        tokenizer = tokenizer or tiktoken.get_encoding("cl100k_base")
+        embeddings = np.array([node.embeddings[embedding_model_name] for node in nodes])
+        clusters = perform_clustering(embeddings, dim=reduction_dimension, threshold=threshold)
+        node_clusters = []
+        for label in np.unique(np.concatenate(clusters)):
+            cluster_nodes = [nodes[i] for i, c in enumerate(clusters) if label in c]
+            if len(cluster_nodes) == 1:
+                node_clusters.append(cluster_nodes)
+                continue
+            total = sum(len(tokenizer.encode(n.text)) for n in cluster_nodes)
+            if total <= max_length_in_cluster:
+                node_clusters.append(cluster_nodes)
+            elif len(cluster_nodes) >= len(nodes) or _depth >= SafeRAPTORClustering.MAX_DEPTH:
+                log.info(f"cluster of {len(cluster_nodes)} nodes cannot be split further: grouped by order")
+                node_clusters.extend(split_by_length(cluster_nodes, max_length_in_cluster, tokenizer))
+            else:
+                node_clusters.extend(SafeRAPTORClustering.perform_clustering(
+                    cluster_nodes, embedding_model_name, max_length_in_cluster, tokenizer,
+                    _depth=_depth + 1))      # upstream also recurses with the default dim/threshold
+        # GMM soft assignment can yield the same member set under many labels (CLRS: one 116-node
+        # cluster 1,239 times), which would summarise identical text again and again. Keep one copy.
+        unique, seen = [], set()
+        for group in node_clusters:
+            key = tuple(sorted(n.index for n in group))
+            if key not in seen:
+                seen.add(key)
+                unique.append(group)
+        return unique
+
+
 def build_book_tree(book_path, embedder, summarizer, max_chunks=None):
     """RAPTOR tree for one textbook, using the unmodified RAPTOR ClusterTreeBuilder."""
     import tiktoken
@@ -87,7 +148,7 @@ def build_book_tree(book_path, embedder, summarizer, max_chunks=None):
         tokenizer=tiktoken.get_encoding("cl100k_base"), max_tokens=CHUNK_TOKENS,
         num_layers=TREE_LAYERS, threshold=CLUSTER_THRESHOLD, summarization_length=SUMMARY_TOKENS,
         summarization_model=summarizer, embedding_models={EMB_KEY: make_embedder(embedder)},
-        cluster_embedding_model=EMB_KEY)
+        cluster_embedding_model=EMB_KEY, clustering_algorithm=SafeRAPTORClustering)
     builder = ClusterTreeBuilder(config)
 
     chunks = split_chunks(clean_markdown(book_path.read_text(encoding="utf-8")), config.tokenizer, CHUNK_TOKENS)
