@@ -76,8 +76,7 @@ RAPTOR-CGR/
 │   └── test_end_to_end.py        whole v2 workflow with a fake LLM
 │
 ├── comparisons/                  tutor vs other AI assistants
-│   ├── shortest-paths/           vs Perplexity (Claude Sonnet 5.5 reasoning), with verify.py
-│   └── deepseek-web/             10 questions to ask DeepSeek's free web chat by hand
+│   └── shortest-paths/           vs Perplexity (Claude Sonnet 5.5 reasoning), with verify.py
 │
 ├── evaluation-report/            leak-free 300-question evaluation: academic write-up + figures
 ├── project-history/              every stage, problem, severity and fix (proposal -> v2)
@@ -189,5 +188,4 @@ flowchart LR
     RW --> C[run cgr]
     B & P & C --> EV[evaluate.py]
     EV --> RP[make_report.py<br/>accuracy table + significance + cost]
-    RP --> CMP[comparisons/deepseek-web<br/>10 questions vs DeepSeek web chat]
 ```
